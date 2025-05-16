@@ -8,7 +8,7 @@ export const AppNavItem = ({ Icon, label, to, className, ...props }) => {
     <li>
       <button
         className={clsx(
-          "flex items-center p-[5px] gap-[10px] w-[100%]",
+          "flex items-center p-[5px] gap-[10px] transition duration-100 ease-in-out active:scale-[95%]",
           className
         )}
         {...props}
