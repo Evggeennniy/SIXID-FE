@@ -17,7 +17,7 @@ export const AppNavItem = ({ Icon, label, to, className, ...props }) => {
         }}
       >
         {Icon && <Icon />}
-        <h5 className="capitalize">{label}</h5>
+        <h5 className="capitalize hidden lg:block">{label}</h5>
       </button>
     </li>
   );

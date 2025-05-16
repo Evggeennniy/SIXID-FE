@@ -1,5 +1,6 @@
 import { AppNavList } from "./ui/AppNavList";
 import { AppNavItem } from "./ui/AppNavItem";
+import { AppNavTitle } from "./ui/AppNavTitle";
 
 import Logotype from "@assets/svg/logotype.svg?react";
 import HomeIcon from "@assets/svg/home-icon.svg?react";
@@ -13,10 +14,10 @@ import DialogueIcon from "@assets/svg/dialogue-icon.svg?react";
 
 export const AppNav = () => {
   return (
-    <section className="shadow-block flex-1/5 p-[20px]">
+    <section className="shadow-block p-[20px] lg:flex-1/5 hidden sm:block">
       <div className="flex items-center gap-[10px] mb-[15px]">
         <Logotype className="h-[35px] w-[35px]" />
-        <h4 className="uppercase tracking-[1px]">sixid</h4>
+        <h4 className="uppercase tracking-[1px] hidden lg:block">sixid</h4>
       </div>
       <hr className="line border-gray-300 mb-[15px]" />
       <div>
@@ -25,7 +26,7 @@ export const AppNav = () => {
         </AppNavList>
       </div>
       <div>
-        <p className="text-gray-400 capitalize mb-[10px]">категории</p>
+        <AppNavTitle label="инструменты" />
         <AppNavList>
           <AppNavItem Icon={ToDoIcon} label="задачи" to="/todos" />
           <AppNavItem Icon={NoteIcon} label="заметки" to="/notes" />
@@ -37,7 +38,7 @@ export const AppNav = () => {
         </AppNavList>
       </div>
       <div>
-        <p className="text-gray-400 capitalize mb-[10px]">в разработке</p>
+        <AppNavTitle label="в разработке" />
         <AppNavList className="opacity-50">
           <AppNavItem Icon={PuzzleIcon} label="стратегии" to="/strategies" />
           <AppNavItem Icon={BooksIcon} label="библиотека" to="/library" />
