@@ -1,3 +1,4 @@
+import { NavSection } from "@shared/NavSection";
 import { AppNavList } from "./ui/AppNavList";
 import { AppNavItem } from "./ui/AppNavItem";
 import { AppNavTitle } from "./ui/AppNavTitle";
@@ -11,10 +12,11 @@ import PuzzleIcon from "@assets/svg/puzzle-icon.svg?react";
 import BooksIcon from "@assets/svg/books-icon.svg?react";
 import GraphIcon from "@assets/svg/graph-icon.svg?react";
 import DialogueIcon from "@assets/svg/dialogue-icon.svg?react";
+import BudgetIcon from "@assets/svg/money-icon.svg?react";
 
 export const AppNav = () => {
   return (
-    <section className="shadow-block p-[20px] lg:flex-1/5 hidden sm:block">
+    <NavSection>
       <div className="flex items-center gap-[10px] mb-[15px]">
         <Logotype className="h-[35px] w-[35px]" />
         <h4 className="uppercase tracking-[1px] hidden lg:block">sixid</h4>
@@ -40,6 +42,7 @@ export const AppNav = () => {
       <div>
         <AppNavTitle label="в разработке" />
         <AppNavList className="opacity-50">
+          <AppNavItem Icon={BudgetIcon} label="бюджет" to="/budget" />
           <AppNavItem Icon={PuzzleIcon} label="стратегии" to="/strategies" />
           <AppNavItem Icon={BooksIcon} label="библиотека" to="/library" />
           <AppNavItem Icon={GraphIcon} label="тестирование" to="/tests" />
@@ -51,6 +54,6 @@ export const AppNav = () => {
           <AppNavItem Icon={DialogueIcon} label="обсуждения" to="/threads" />
         </AppNavList>
       </div>
-    </section>
+    </NavSection>
   );
 };

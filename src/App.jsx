@@ -1,6 +1,7 @@
 import { BrowserRouter } from "react-router-dom";
-import { AppNav } from "@widgets/AppNav";
 import { AppRoutes } from "@routes";
+import { AppNav } from "@widgets/AppNav";
+
 import "./tailstyle.css";
 import "./App.css";
 
