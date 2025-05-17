@@ -7,6 +7,7 @@ import { StrategiesPage } from "@pages/StrategiesPage";
 import { LibraryPage } from "@pages/LibraryPage";
 import { TestsPage } from "@pages/TestsPage";
 import { ThreadsPage } from "@pages/ThreadsPage";
+import { BudgetPage } from "@pages/BudgetPage";
 
 export const AppRoutes = () => {
   return (
@@ -19,6 +20,7 @@ export const AppRoutes = () => {
       <Route path="/library" element={<LibraryPage />} />
       <Route path="/tests" element={<TestsPage />} />
       <Route path="/threads" element={<ThreadsPage />} />
+      <Route path="/budget" element={<BudgetPage />} />
     </Routes>
   );
 };
