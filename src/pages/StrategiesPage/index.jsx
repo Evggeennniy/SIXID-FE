@@ -1,10 +1,11 @@
-import { OptionsNav } from "@widgets/OptionsNav";
+import { MainSection } from "@shared/MainSection";
+import { OptionsSection } from "@shared/OptionsSection";
 
 export const StrategiesPage = () => {
   return (
     <>
-      <section className="flex-1/2 p-[20px]">Стратегии</section>
-      <OptionsNav></OptionsNav>
+      <MainSection>Стратегии</MainSection>
+      <OptionsSection>Опции</OptionsSection>
     </>
   );
 };
