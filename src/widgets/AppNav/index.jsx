@@ -1,3 +1,5 @@
+import { useUIStore } from "@shared/store/ui-store";
+
 import { NavSection } from "@shared/NavSection";
 import { AppNavList } from "./ui/AppNavList";
 import { AppNavItem } from "./ui/AppNavItem";
@@ -15,11 +17,13 @@ import DialogueIcon from "@assets/svg/dialogue-icon.svg?react";
 import BudgetIcon from "@assets/svg/money-icon.svg?react";
 
 export const AppNav = () => {
+  const isNavOpen = useUIStore((state) => state.isNavOpen);
+
   return (
-    <NavSection>
+    <NavSection className={isNavOpen ? "left-0" : "left-[-100vw]"}>
       <div className="flex items-center gap-[10px] mb-[15px]">
         <Logotype className="h-[35px] w-[35px]" />
-        <h4 className="uppercase tracking-[1px] hidden lg:block">sixid</h4>
+        <h4 className="uppercase tracking-[1px] sm:hidden lg:block">sixid</h4>
       </div>
       <hr className="line border-gray-300 mb-[15px]" />
       <div>
