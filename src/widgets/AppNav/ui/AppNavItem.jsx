@@ -1,8 +1,12 @@
 import clsx from "clsx";
+
 import { useNavigate } from "react-router-dom";
+import { useUIStore } from "@shared/store/ui-store";
 
 export const AppNavItem = ({ Icon, label, to, className, ...props }) => {
   const navigate = useNavigate();
+  const isNavOpen = useUIStore((state) => state.isNavOpen);
+  const toggleNav = useUIStore((state) => state.toggleNav);
 
   return (
     <li>
@@ -14,10 +18,11 @@ export const AppNavItem = ({ Icon, label, to, className, ...props }) => {
         {...props}
         onClick={() => {
           navigate(to);
+          isNavOpen && toggleNav();
         }}
       >
         {Icon && <Icon />}
-        <h5 className="capitalize hidden lg:block">{label}</h5>
+        <h5 className="capitalize sm:hidden lg:block">{label}</h5>
       </button>
     </li>
   );
