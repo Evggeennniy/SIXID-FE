@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export const AppNavTitle = ({ label, className, ...props }) => {
+export const SideNavTitle = ({ label, className, ...props }) => {
   return (
     <p
       className={clsx(

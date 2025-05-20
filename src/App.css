@@ -1,7 +1,17 @@
 @import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap");
+/* MIXINS */
 /* MAIN */
 * {
   text-align: start;
+}
+
+h2 {
+  font-size: 30px;
+}
+@media (max-width: 640px) {
+  h2 {
+    font-size: 21px;
+  }
 }
 
 h4 {

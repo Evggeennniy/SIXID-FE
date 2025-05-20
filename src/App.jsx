@@ -1,6 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { AppRoutes } from "@routes";
-import { AppNav } from "@widgets/AppNav";
+import { SideNav } from "@widgets/SideNav";
 
 import "./tailstyle.css";
 import "./App.css";
@@ -10,7 +10,7 @@ function App() {
     <BrowserRouter basename="/SIXID-FE">
       <div className="container h-[100vh] p-[10px] lg:p-[30px] text-center">
         <div className="relative h-[100%] flex gap-[10px]">
-          <AppNav />
+          <SideNav />
           <AppRoutes />
         </div>
       </div>

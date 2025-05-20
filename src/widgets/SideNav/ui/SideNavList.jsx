@@ -1,6 +1,6 @@
 import clsx from "clsx";
 
-export const AppNavList = ({ children, className, ...props }) => {
+export const SideNavList = ({ children, className, ...props }) => {
   return (
     <ul
       className={clsx(

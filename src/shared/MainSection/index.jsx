@@ -1,5 +1,7 @@
 import clsx from "clsx";
 
+import { MainHeader } from "@widgets/MainHeader";
+
 export const MainSection = ({ children, className, ...props }) => {
   return (
     <section
@@ -9,6 +11,7 @@ export const MainSection = ({ children, className, ...props }) => {
       )}
       {...props}
     >
+      <MainHeader />
       {children}
     </section>
   );
