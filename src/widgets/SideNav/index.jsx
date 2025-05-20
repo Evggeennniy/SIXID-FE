@@ -1,9 +1,9 @@
 import { useUIStore } from "@shared/store/ui-store";
 
 import { NavSection } from "@shared/NavSection";
-import { AppNavList } from "./ui/AppNavList";
-import { AppNavItem } from "./ui/AppNavItem";
-import { AppNavTitle } from "./ui/AppNavTitle";
+import { SideNavList } from "./ui/SideNavList";
+import { SideNavItem } from "./ui/SideNavItem";
+import { SideNavTitle } from "./ui/SideNavTitle";
 
 import Logotype from "@assets/svg/logotype.svg?react";
 import HomeIcon from "@assets/svg/home-icon.svg?react";
@@ -15,8 +15,9 @@ import BooksIcon from "@assets/svg/books-icon.svg?react";
 import GraphIcon from "@assets/svg/graph-icon.svg?react";
 import DialogueIcon from "@assets/svg/dialogue-icon.svg?react";
 import BudgetIcon from "@assets/svg/money-icon.svg?react";
+import CalendarIcon from "@assets/svg/calendar-icon.svg?react";
 
-export const AppNav = () => {
+export const SideNav = () => {
   const isNavOpen = useUIStore((state) => state.isNavOpen);
 
   return (
@@ -27,36 +28,37 @@ export const AppNav = () => {
       </div>
       <hr className="line border-gray-300 mb-[15px]" />
       <div>
-        <AppNavList>
-          <AppNavItem Icon={HomeIcon} label="главная" to="/" />
-        </AppNavList>
+        <SideNavList>
+          <SideNavItem Icon={HomeIcon} label="главная" to="/" />
+        </SideNavList>
       </div>
       <div>
-        <AppNavTitle label="инструменты" />
-        <AppNavList>
-          <AppNavItem Icon={ToDoIcon} label="задачи" to="/todos" />
-          <AppNavItem Icon={NoteIcon} label="заметки" to="/notes" />
-          <AppNavItem
+        <SideNavTitle label="инструменты" />
+        <SideNavList>
+          <SideNavItem Icon={ToDoIcon} label="задачи" to="/todos" />
+          <SideNavItem Icon={CalendarIcon} label="календарь" to="/calendar" />
+          <SideNavItem Icon={NoteIcon} label="заметки" to="/notes" />
+          <SideNavItem
             Icon={LightningIcon}
             label="продуктивность"
             to="/productivity"
           />
-        </AppNavList>
+        </SideNavList>
       </div>
       <div>
-        <AppNavTitle label="в разработке" />
-        <AppNavList className="opacity-50">
-          <AppNavItem Icon={BudgetIcon} label="бюджет" to="/budget" />
-          <AppNavItem Icon={PuzzleIcon} label="стратегии" to="/strategies" />
-          <AppNavItem Icon={BooksIcon} label="библиотека" to="/library" />
-          <AppNavItem Icon={GraphIcon} label="тестирование" to="/tests" />
-        </AppNavList>
+        <SideNavTitle label="в разработке" />
+        <SideNavList className="opacity-50">
+          <SideNavItem Icon={BudgetIcon} label="бюджет" to="/budget" />
+          <SideNavItem Icon={PuzzleIcon} label="стратегии" to="/strategies" />
+          <SideNavItem Icon={BooksIcon} label="библиотека" to="/library" />
+          <SideNavItem Icon={GraphIcon} label="тестирование" to="/tests" />
+        </SideNavList>
       </div>
       <hr className="line border-gray-300 mb-[15px]" />
       <div>
-        <AppNavList className="opacity-50">
-          <AppNavItem Icon={DialogueIcon} label="обсуждения" to="/threads" />
-        </AppNavList>
+        <SideNavList className="opacity-50">
+          <SideNavItem Icon={DialogueIcon} label="обсуждения" to="/threads" />
+        </SideNavList>
       </div>
     </NavSection>
   );

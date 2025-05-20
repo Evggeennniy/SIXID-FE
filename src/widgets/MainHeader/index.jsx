@@ -4,11 +4,11 @@ import Logotype from "@assets/svg/logotype.svg?react";
 import MenuIcon from "@assets/svg/menu-icon.svg?react";
 import SearchIcon from "@assets/svg/search-icon.svg?react";
 
-export const Search = () => {
+export const MainHeader = () => {
   const toggleNav = useUIStore((state) => state.toggleNav);
 
   return (
-    <div className="flex content-between items-center gap-[20px]">
+    <div className="flex content-between items-center gap-[20px] mb-[30px]">
       <Logotype className="w-[30px] h-[30px] block sm:hidden " />
       <div className="flex content-between items-center flex-1 border-[2px] border-[#dad8d8] rounded-[12px] p-[7px_15px] ">
         <input

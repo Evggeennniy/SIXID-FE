@@ -1,8 +1,23 @@
 @import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap");
 
+/* MIXINS */
+@mixin mobile {
+  @media (max-width: 640px) {
+    @content;
+  }
+}
+
 /* MAIN */
 * {
   text-align: start;
+}
+
+h2 {
+  font-size: 30px;
+
+  @include mobile {
+    font-size: 21px;
+  }
 }
 
 h4 {
