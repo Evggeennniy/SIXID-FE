@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap");
+
 /* MIXINS */
 /* MAIN */
 * {
@@ -8,6 +9,7 @@
 h2 {
   font-size: 30px;
 }
+
 @media (max-width: 640px) {
   h2 {
     font-size: 21px;
@@ -49,4 +51,12 @@ button {
   max-width: 1900px;
 }
 
-/* BLOCKS *//*# sourceMappingURL=App.css.map */
+
+
+/* BLOCKS */
+/*# sourceMappingURL=App.css.map */
+/* DROPDOWN */
+
+.dropdown-animation {
+  transition: transform 250ms ease-in-out, opacity 100ms ease-in-out;
+}

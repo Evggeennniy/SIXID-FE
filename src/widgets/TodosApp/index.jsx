@@ -2,7 +2,6 @@ import { useState } from "react";
 
 import { TodosInput } from "./ui/TodosInput";
 import { TodosList } from "./ui/TodosList";
-import { TodosItem } from "./ui/TodosItem";
 
 export const TodosApp = () => {
   const [input, setInput] = useState("");
