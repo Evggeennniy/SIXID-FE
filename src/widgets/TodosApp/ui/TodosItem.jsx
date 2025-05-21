@@ -13,7 +13,7 @@ export const TodosItem = ({
     <>
       {!isComplete && (
         <li
-          className={`grid grid-cols-6 items-start text-[#5E5E5E] gap-[.9375rem] p-[.8125rem]
+          className={`grid grid-cols-6 w-full items-start text-[#5E5E5E] gap-[.9375rem] p-[.8125rem]
           ${isActive ? "bg-white" : "bg-transparent"}
           hover:bg-white cursor-pointer transition-colors duration-200`}
           onClick={onClick}
@@ -28,7 +28,7 @@ export const TodosItem = ({
       )}
       {isComplete && (
         <li
-          className={`grid grid-cols-6 items-start text-[#A4A4A4]  gap-[.9375rem] p-[.8125rem]
+          className={`grid grid-cols-6 w-full items-start text-[#A4A4A4]  gap-[.9375rem] p-[.8125rem]
           ${isActive ? "bg-white" : "bg-transparent"}
           hover:bg-white cursor-pointer transition-colors duration-200`}
           onClick={onClick}
