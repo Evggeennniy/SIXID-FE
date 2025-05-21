@@ -1,4 +1,3 @@
-import React from "react";
 import { addZero, formatFullDate } from "../../../util/timeFormatter.js";
 
 function TodosItemDeadLine({ deadline }) {
