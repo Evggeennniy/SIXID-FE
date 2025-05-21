@@ -9,19 +9,14 @@ export const TodosApp = () => {
 
   return (
     <div>
-      <h2 className="capitalize mb-[30px]">список задач</h2>
+      <h2 className='capitalize mb-[30px]'>список задач</h2>
       <TodosInput
         value={input}
         onChange={(e) => {
           setInput(e.target.value);
         }}
       />
-      <TodosList>
-        <TodosItem title={"Протестировать работу списка заданий на SIXID"} />
-        <TodosItem title={"Протестировать работу списка заданий на SIXID"} />
-        <TodosItem title={"Протестировать работу списка заданий на SIXID"} />
-        <TodosItem title={"Протестировать работу списка заданий на SIXID"} />
-      </TodosList>
+      <TodosList />
     </div>
   );
 };
