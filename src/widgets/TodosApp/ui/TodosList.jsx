@@ -43,7 +43,7 @@ export const TodosList = () => {
 
   return (
     <>
-      <div className='max-w-4xl mx-auto text-[#A4A4A4] p-4'>
+      <div className='w-full mx-auto text-[#A4A4A4] p-2'>
         {/* Заголовоки таблицы */}
         <div className='grid grid-cols-6 gap-4 capitalize  text-[#A4A4A4] pb-2 mb-2'>
           <h5 className={"col-span-4"}>Назва</h5>
@@ -67,7 +67,7 @@ export const TodosList = () => {
               ))}
           </div>
           <Dropdown btnText={"Выполненые"}>
-            <div className='text-[#5E5E5E] cursor-pointer transition-colors '>
+            <div className='text-[#5E5E5E] cursor-pointer transition-colors w-full '>
               {todos
                 .filter((item) => item.status !== "active")
                 .map((todo) => (
