@@ -4,6 +4,7 @@ import { TodosInput } from "./ui/TodosInput";
 import { TodosList } from "./ui/TodosList";
 import { TodosItem } from "./ui/TodosItem";
 import Dropdown from "../../shared/dropdown/Dropdown";
+import { MainSection } from "../../shared/MainSection";
 export const todos = [
   {
     title: "Протестировать работу списка заданий на SIXID",
@@ -45,7 +46,7 @@ export const TodosApp = () => {
   };
 
   return (
-    <div>
+    <MainSection>
       <h2 className='capitalize mb-[30px]'>список задач</h2>
       <TodosInput
         value={input}
@@ -89,6 +90,6 @@ export const TodosApp = () => {
           </Dropdown>
         </div>
       </TodosList>
-    </div>
+    </MainSection>
   );
 };
