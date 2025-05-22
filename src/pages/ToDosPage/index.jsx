@@ -5,9 +5,7 @@ import { OptionsSection } from "@shared/OptionsSection";
 export const ToDosPage = () => {
   return (
     <>
-      <MainSection>
-        <TodosApp />
-      </MainSection>
+      <TodosApp />
       <OptionsSection>Опции</OptionsSection>
     </>
   );
