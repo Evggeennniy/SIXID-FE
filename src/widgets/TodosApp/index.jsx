@@ -5,12 +5,30 @@ import { TodosList } from "./ui/TodosList";
 import { TodosItem } from "./ui/TodosItem";
 import Dropdown from "../../shared/dropdown/Dropdown";
 import { MainSection } from "../../shared/MainSection";
+import { useUIStore } from "../../shared/store/ui-store";
 export const todos = [
   {
     title: "Протестировать работу списка заданий на SIXID",
     deadline: "2025-05-25T17:00:00Z",
     statusOfImportant: "срочно", // urgently
     status: "active",
+    subtasks: [
+      {
+        id: 1,
+        title: "Открыть страницу списка заданий",
+        is_done: false,
+      },
+      {
+        id: 2,
+        title: "Проверить отображение активных задач",
+        is_done: false,
+      },
+      {
+        id: 3,
+        title: "Проверить фильтрацию по статусу",
+        is_done: true,
+      },
+    ],
   },
   {
     title: "Написать юнит-тесты для новых компонентов",
@@ -40,9 +58,15 @@ export const todos = [
 export const TodosApp = () => {
   const [input, setInput] = useState("");
   const [activeTitle, setActiveTitle] = useState(null);
-
+  const toggleOptions = useUIStore((state) => state.toggleOptions);
   const onActive = (title) => {
+    if (activeTitle === title) {
+      setActiveTitle(null);
+      toggleOptions(false);
+      return;
+    }
     setActiveTitle(title);
+    toggleOptions(true);
   };
 
   return (

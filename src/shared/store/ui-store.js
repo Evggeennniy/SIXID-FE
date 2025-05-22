@@ -5,7 +5,7 @@ export const useUIStore = create((set) => ({
   isOptionsOpen: false,
 
   toggleNav: () => set((state) => ({ isNavOpen: !state.isNavOpen })),
-  toggleOptions: () =>
-    set((state) => ({ isOptionsOpen: !state.isOptionsOpen })),
+  toggleOptions: (boolean) =>
+    set((state) => ({ isOptionsOpen: boolean })),
   closeAll: () => set({ isNavOpen: false, isOptionsOpen: false }),
 }));
