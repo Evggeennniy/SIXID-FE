@@ -1,5 +1,3 @@
-import TodosItemDeadLine from "@widgets/TodosApp/ui/TodosItemDeadLine.jsx";
-import TodosItemStatusOfImportance from "./TodosItemStatusOfImportance";
 import { addZero, formatFullDate } from "../../../util/timeFormatter";
 
 export const TodosItem = ({
