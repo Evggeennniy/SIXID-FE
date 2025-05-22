@@ -1,5 +1,6 @@
 import TodosItemDeadLine from "@widgets/TodosApp/ui/TodosItemDeadLine.jsx";
 import TodosItemStatusOfImportance from "./TodosItemStatusOfImportance";
+import { addZero, formatFullDate } from "../../../util/timeFormatter";
 
 export const TodosItem = ({
   title,
@@ -9,6 +10,18 @@ export const TodosItem = ({
   onClick,
   isComplete,
 }) => {
+  let сircleColor;
+
+  const deadlineArray = formatFullDate(deadline);
+
+  if (statusOfImportant === "важно") {
+    сircleColor = "rgba(50, 195, 104, 1)";
+  } else if (statusOfImportant === "срочно") {
+    сircleColor = "rgba(255, 0, 0, 1)";
+  } else {
+    сircleColor = "rgba(150, 227, 255, 1)";
+  }
+
   return (
     <>
       {!isComplete && (
@@ -22,8 +35,27 @@ export const TodosItem = ({
             <input type='checkbox' name='is_done' />
             <h5 className='leading-normal'>{title}</h5>
           </div>
-          <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
-          <TodosItemDeadLine deadline={deadline} />
+          <div className='xl:pl-4  flex gap-2 flex-shrink-0 items-center'>
+            <div
+              style={{ background: сircleColor }}
+              className={`w-5 h-5 rounded-full`}
+            ></div>
+            <p className='capitalize'> {statusOfImportant}</p>
+          </div>
+
+          <div className={"flex gap-1 pl-4"}>
+            {deadlineArray.map((item, i) =>
+              i === 0 ? (
+                <p className='min-w-5' key={i}>
+                  {addZero(item)}
+                </p>
+              ) : (
+                <p className='flex-1 basis-0' key={i}>
+                  {item}
+                </p>
+              )
+            )}
+          </div>
         </li>
       )}
       {isComplete && (
@@ -42,8 +74,27 @@ export const TodosItem = ({
             />
             <h5 className='leading-normal '>{title}</h5>
           </div>
-          <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
-          <TodosItemDeadLine deadline={deadline} />
+          <div className='xl:pl-4  flex gap-2 flex-shrink-0 items-center'>
+            <div
+              style={{ background: сircleColor }}
+              className={`w-5 h-5 rounded-full`}
+            ></div>
+            <p className='capitalize'> {statusOfImportant}</p>
+          </div>
+
+          <div className={"flex gap-1 pl-4"}>
+            {deadlineArray.map((item, i) =>
+              i === 0 ? (
+                <p className='min-w-5' key={i}>
+                  {addZero(item)}
+                </p>
+              ) : (
+                <p className='flex-1 basis-0' key={i}>
+                  {item}
+                </p>
+              )
+            )}
+          </div>
         </li>
       )}
     </>
