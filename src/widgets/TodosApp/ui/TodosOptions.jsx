@@ -3,25 +3,53 @@ import { OptionsSection } from "../../../shared/OptionsSection";
 import { useInput } from "../../../hooks/useInput";
 import { isNotEmpty } from "../../../util/validation";
 import PlusIcon from "@assets/svg/plus-icon.svg?react";
-import { useUIStore } from "../../../shared/store/ui-store";
 import clsx from "clsx";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addNewOptionItem,
+  selectActiveTodoItem,
+  selectIsOpenTodosOptions,
+  selectTodosOptionItems,
+  setTodosItemIsComplete,
+} from "../../../redux/slice/todos/todosSlice";
+import TodosOptionItem from "./TodosOptionItem";
 function TodosOptions() {
   const {
     value: messageValue,
     handleInputBlur: handleMessageBlur,
     handleInputChange: handleMessageChange,
     hasError: messageHasError,
+    setEntredValue,
   } = useInput("", (value) => isNotEmpty(value));
 
+  const isOptionsOpen = useSelector(selectIsOpenTodosOptions);
+  const { active, optionItems } = useSelector((state) => {
+    const active = selectActiveTodoItem(state);
+    const optionItems = selectTodosOptionItems(state, active);
+    return { active, optionItems };
+  });
+
+  const dispatch = useDispatch();
   function onSubmit(e) {
     e.preventDefault();
     if (!isNotEmpty(messageValue)) {
       handleMessageBlur();
       return;
     }
+    const fd = new FormData(e.currentTarget);
+    const data = Object.fromEntries(fd.entries());
+
+    dispatch(addNewOptionItem(data.subtask_title));
+    setEntredValue({
+      value: "",
+      didEdit: false,
+    });
   }
-  const isOptionsOpen = useUIStore((state) => state.isOptionsOpen);
-  console.log(isOptionsOpen);
+
+  function onChange() {
+    dispatch(setTodosItemIsComplete(active));
+  }
+
   return (
     <OptionsSection
       className={clsx(
@@ -32,27 +60,27 @@ function TodosOptions() {
     >
       <section className='flex flex-col justify-center  w-full gap-5'>
         <div className='flex gap-4 border border-[#A4A4A4] p-4 rounded-xl shadow'>
-          <input type='checkbox' name='is_done' />
-          <h5 className='leading-normal'></h5>
+          <input
+            type='checkbox'
+            name='is_done'
+            className='accent-[#A8A5FF]'
+            onChange={onChange}
+          />
+          <h5 className='leading-normal'>{active}</h5>
         </div>
 
         <div className='flex flex-col text-[#5E5E5E] '>
           <h5 className={"text-[#A4A4A4] mb-2"}>Подзадачи</h5>
+
           <div className='flex flex-col justify-start   border border-[#A4A4A4] p-2 rounded-xl shadow'>
             {/* list of subtasks */}
-            <ul className='flex flex-col gap-1 p-1'>
-              <li className='flex gap-2 '>
-                <label className='inline-flex items-center cursor-pointer'>
-                  <input
-                    type='checkbox'
-                    name='is_done'
-                    className='appearance-none w-4 h-4 border-2 border-[#A4A4A4] rounded-full checked:bg-[#5E5E5E] checked:border-[#A8A5FF] transition-all duration-200'
-                  />
-                </label>
-                <h5 className='leading-normal'></h5>
-              </li>
+            <ul className='flex flex-col gap-2 p-1'>
+              {optionItems?.map((item) => (
+                <TodosOptionItem title={item.title} />
+              ))}
             </ul>
 
+            {/* form to add subtasks */}
             <form
               onSubmit={onSubmit}
               className='flex justify-start items-center'
@@ -65,7 +93,7 @@ function TodosOptions() {
               </button>
               <input
                 type='text'
-                name='is_done'
+                name='subtask_title'
                 placeholder='Добавить подзадачу'
                 className={`focus:outline-none focus:ring-0`}
                 value={messageValue}
@@ -74,6 +102,8 @@ function TodosOptions() {
               />
             </form>
           </div>
+
+          {/* erro hints for user */}
           <p
             className={`${
               messageHasError ? "opacity-100" : "opacity-0"

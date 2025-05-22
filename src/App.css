@@ -60,3 +60,20 @@ button {
 .dropdown-animation {
   transition: transform 250ms ease-in-out, opacity 100ms ease-in-out;
 }
+
+/* Animations */
+@keyframes fadeSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-item {
+  animation: fadeSlideIn 0.3s ease forwards;
+}
