@@ -11,6 +11,7 @@ function Dropdown({
   plusIcon,
   className = "",
   children,
+  isInlineContent = false,
   ...restProps // catch all other props
 }) {
   const [open, setOpen] = useState(false);
@@ -30,7 +31,9 @@ function Dropdown({
       >
         {btnText}
       </DropdownBtn>
-      <DropdownContent open={open}>{children}</DropdownContent>
+      <DropdownContent open={open} isInline={isInlineContent}>
+        {children}
+      </DropdownContent>
     </div>
   );
 }
