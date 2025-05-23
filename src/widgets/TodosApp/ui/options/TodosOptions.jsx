@@ -1,8 +1,10 @@
-import React from "react";
-import { OptionsSection } from "../../../shared/OptionsSection";
-import { useInput } from "../../../hooks/useInput";
-import { isNotEmpty } from "../../../util/validation";
+import { OptionsSection } from "../../../../shared/OptionsSection";
+import { useInput } from "../../../../hooks/useInput";
+import { isNotEmpty } from "../../../../util/validation";
 import PlusIcon from "@assets/svg/plus-icon.svg?react";
+import ImportanceIcon from "@assets/svg/importance-todo-icon.svg?react";
+import CalendarIcon from "@assets/svg/option-calendar-icon.svg?react";
+
 import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -11,8 +13,10 @@ import {
   selectIsOpenTodosOptions,
   selectTodosOptionItems,
   setTodosItemIsComplete,
-} from "../../../redux/slice/todos/todosSlice";
+} from "../../../../redux/slice/todos/todosSlice";
 import TodosOptionItem from "./TodosOptionItem";
+import OptionsWrapDropdown from "./OptionsWrapDropdown";
+
 function TodosOptions() {
   const {
     value: messageValue,
@@ -113,6 +117,22 @@ function TodosOptions() {
           </p>
           <h5 className='leading-normal'></h5>
         </div>
+      </section>
+      <section>
+        <OptionsWrapDropdown
+          icon={<ImportanceIcon />}
+          text={"Важность"}
+          haveDorder={true}
+        ></OptionsWrapDropdown>
+        <OptionsWrapDropdown
+          icon={<CalendarIcon />}
+          text={"Срок выполнения"}
+          haveDorder={true}
+        ></OptionsWrapDropdown>
+        <OptionsWrapDropdown
+          icon={<ImportanceIcon />}
+          text={"Напомнить"}
+        ></OptionsWrapDropdown>
       </section>
     </OptionsSection>
   );

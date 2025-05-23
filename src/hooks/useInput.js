@@ -1,31 +1,35 @@
 import { useState } from "react";
 
 export function useInput(defaultValue, validationFn) {
-  const [entredValue, setEntredValue] = useState({
+  const [inputState, setInputState] = useState({
     value: defaultValue,
-    didEdit: false,
+    didBlur: false,
+    wasValidOnBlur: true,
   });
 
-  const valueIsValid = validationFn(entredValue.value);
-  // const [didEdit, setDidEdit] = useState(false);
   function handleInputChange(e) {
-    setEntredValue({
+    setInputState({
       value: e.target.value,
-      didEdit: false,
+      didBlur: false,
+      wasValidOnBlur: true, // assume valid until next blur
     });
   }
+
   function handleInputBlur() {
-    setEntredValue((prevEntredValue) => ({
-      ...prevEntredValue,
-      didEdit: true,
+    setInputState((prev) => ({
+      ...prev,
+      didBlur: true,
+      wasValidOnBlur: validationFn(prev.value),
     }));
   }
 
+  const hasError = inputState.didBlur && !inputState.wasValidOnBlur;
+
   return {
-    value: entredValue.value,
-    hasError: entredValue.didEdit && !valueIsValid,
-    handleInputBlur,
+    value: inputState.value,
+    hasError,
     handleInputChange,
-    setEntredValue
+    handleInputBlur,
+    setInputState,
   };
 }
