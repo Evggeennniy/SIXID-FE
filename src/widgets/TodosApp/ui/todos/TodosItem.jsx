@@ -1,10 +1,10 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addZero, formatFullDate } from "../../../util/timeFormatter";
+import { addZero, formatFullDate } from "../../../../util/timeFormatter";
 import {
   selectActiveTodoItem,
   setActiveTodoItem,
   setTodosItemIsComplete,
-} from "../../../redux/slice/todos/todosSlice";
+} from "../../../../redux/slice/todos/todosSlice";
 
 export const TodosItem = ({
   title,
@@ -46,7 +46,7 @@ export const TodosItem = ({
               type='checkbox'
               name='is_done'
               onChange={onChange}
-              // onClick={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
             />
 
             <h5 className='leading-normal'>{title}</h5>
@@ -88,7 +88,7 @@ export const TodosItem = ({
               name='is_done'
               onChange={onChange}
               className='accent-[#A8A5FF]'
-              // onClick={(e) => e.stopPropagation()}
+              onClick={(e) => e.stopPropagation()}
             />
             <h5 className='leading-normal '>{title}</h5>
           </div>

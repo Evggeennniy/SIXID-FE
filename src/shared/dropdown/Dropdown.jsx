@@ -1,17 +1,35 @@
-"use client";
-
 import { useState } from "react";
-
 import DropdownContent from "./DropdownContent";
 import DropdownBtn from "./DropdownBtn";
 
-function Dropdown({ btnText, children }) {
+function Dropdown({
+  btnText,
+  icon,
+  rightIcon,
+  rightIconPosition = "right",
+  usePlusIcon = false,
+  plusIcon,
+  className = "",
+  children,
+  ...restProps // catch all other props
+}) {
   const [open, setOpen] = useState(false);
   const toggleDropdown = () => setOpen((prev) => !prev);
 
   return (
-    <div className='relative'>
-      <DropdownBtn btnText={btnText} open={open} toggle={toggleDropdown} />
+    <div className={`relative ${className}`} {...restProps}>
+      <DropdownBtn
+        open={open}
+        toggle={toggleDropdown}
+        icon={icon}
+        rightIcon={rightIcon}
+        rightIconPosition={rightIconPosition}
+        usePlusIcon={usePlusIcon}
+        plusIcon={plusIcon}
+        className={className}
+      >
+        {btnText}
+      </DropdownBtn>
       <DropdownContent open={open}>{children}</DropdownContent>
     </div>
   );

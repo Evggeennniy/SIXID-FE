@@ -86,6 +86,11 @@ const todosSlice = createSlice({
         is_done: false,
       });
     },
+    addNewTodoItem(state, action) {
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      state.todosList.push({ title: action.payload, status: 'active', deadline: tomorrow, subtasks: [], statusOfImportant: 'обычно' })
+    },
     setTodosItemIsComplete(state, action) {
       const todoItem = state.todosList.find(
         (item) => item.title === action.payload
@@ -101,7 +106,7 @@ const todosSlice = createSlice({
     },
   }
 })
-export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete } = todosSlice.actions
+export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete, addNewTodoItem } = todosSlice.actions
 export default todosSlice.reducer
 
 export const selectTodosActiveItems = ((state) => state.todos.todosList.filter(item => item.status === 'active'));
