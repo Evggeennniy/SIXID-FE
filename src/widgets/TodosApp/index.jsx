@@ -1,7 +1,7 @@
 import { TodosInput } from "./ui/todos/TodosInput";
 import { TodosList } from "./ui/todos/TodosList";
 import { TodosItem } from "./ui/todos/TodosItem";
-import Dropdown from "../../shared/dropdown/Dropdown";
+import Dropdown from "../../shared/ui/dropdown/Dropdown";
 import { MainSection } from "../../shared/MainSection";
 import { useDispatch, useSelector } from "react-redux";
 import {

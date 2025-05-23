@@ -5,6 +5,7 @@ import {
   setActiveTodoItem,
   setTodosItemIsComplete,
 } from "../../../../redux/slice/todos/todosSlice";
+import TodosItemStatusOfImportance from "./TodosItemStatusOfImportance";
 
 export const TodosItem = ({
   title,
@@ -12,19 +13,9 @@ export const TodosItem = ({
   statusOfImportant,
   isComplete,
 }) => {
-  let сircleColor;
-
   const deadlineArray = formatFullDate(deadline);
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveTodoItem);
-
-  if (statusOfImportant === "важно") {
-    сircleColor = "rgba(50, 195, 104, 1)";
-  } else if (statusOfImportant === "срочно") {
-    сircleColor = "rgba(255, 0, 0, 1)";
-  } else {
-    сircleColor = "rgba(150, 227, 255, 1)";
-  }
 
   function onClickHandler() {
     dispatch(setActiveTodoItem(title));
@@ -49,15 +40,9 @@ export const TodosItem = ({
               onClick={(e) => e.stopPropagation()}
             />
 
-            <h5 className='leading-normal'>{title}</h5>
+            <h5 className='leading-normal w-full'>{title}</h5>
           </div>
-          <div className='xl:pl-4  flex gap-2 flex-shrink-0 items-center'>
-            <div
-              style={{ background: сircleColor }}
-              className={`w-5 h-5 rounded-full`}
-            ></div>
-            <p className='capitalize'> {statusOfImportant}</p>
-          </div>
+          <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
 
           <div className={"flex gap-1 pl-4"}>
             {deadlineArray.map((item, i) =>
@@ -81,7 +66,7 @@ export const TodosItem = ({
           hover:bg-white cursor-pointer transition-colors duration-200`}
           onClick={onClickHandler}
         >
-          <div className='col-span-4 flex gap-4'>
+          <div className='col-span-4 flex gap-4 '>
             <input
               type='checkbox'
               checked={true}
@@ -92,13 +77,7 @@ export const TodosItem = ({
             />
             <h5 className='leading-normal '>{title}</h5>
           </div>
-          <div className='xl:pl-4  flex gap-2 flex-shrink-0 items-center'>
-            <div
-              style={{ background: сircleColor }}
-              className={`w-5 h-5 rounded-full`}
-            ></div>
-            <p className='capitalize'> {statusOfImportant}</p>
-          </div>
+          <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
 
           <div className={"flex gap-1 pl-4"}>
             {deadlineArray.map((item, i) =>

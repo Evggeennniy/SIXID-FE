@@ -16,7 +16,12 @@ import {
 } from "../../../../redux/slice/todos/todosSlice";
 import TodosOptionItem from "./TodosOptionItem";
 import OptionsWrapDropdown from "./OptionsWrapDropdown";
-
+import SingleSelectOptions from "./SingleSelectOptionOfImportance";
+const importanceOptions = [
+  { value: "срочно", label: "Срочно" },
+  { value: "важно", label: "Важно" },
+  { value: "обычно", label: "Обычно" },
+];
 function TodosOptions() {
   const {
     value: messageValue,
@@ -59,82 +64,90 @@ function TodosOptions() {
     <OptionsSection
       className={clsx(
         isOptionsOpen
-          ? "opacity-100 max-w-[400px] translate-x-0 pointer-events-auto"
+          ? "opacity-100 max-w-[25rem] translate-x-0 pointer-events-auto"
           : "opacity-0 max-w-0 translate-x-0 pointer-events-none"
       )}
     >
-      <section className='flex flex-col justify-center  w-full gap-5'>
-        <div className='flex gap-4 border border-[#A4A4A4] p-4 rounded-xl shadow'>
-          <input
-            type='checkbox'
-            name='is_done'
-            className='accent-[#A8A5FF]'
-            onChange={onChange}
-          />
-          <h5 className='leading-normal'>{active}</h5>
-        </div>
-
-        <div className='flex flex-col text-[#5E5E5E] '>
-          <h5 className={"text-[#A4A4A4] mb-2"}>Подзадачи</h5>
-
-          <div className='flex flex-col justify-start   border border-[#A4A4A4] p-2 rounded-xl shadow'>
-            {/* list of subtasks */}
-            <ul className='flex flex-col gap-2 p-1'>
-              {optionItems?.map((item) => (
-                <TodosOptionItem title={item.title} />
-              ))}
-            </ul>
-
-            {/* form to add subtasks */}
-            <form
-              onSubmit={onSubmit}
-              className='flex justify-start items-center'
-            >
-              <button
-                type='submit'
-                className='flex justify-center items-center p-1 '
-              >
-                <PlusIcon className='w-[1.0625rem] h-[1.0625rem]' />
-              </button>
-              <input
-                type='text'
-                name='subtask_title'
-                placeholder='Добавить подзадачу'
-                className={`focus:outline-none focus:ring-0`}
-                value={messageValue}
-                onBlur={handleMessageBlur}
-                onChange={handleMessageChange}
-              />
-            </form>
+      <div className='flex flex-col  w-full '>
+        <section className='flex flex-col justify-center  w-full gap-5'>
+          <div className='flex flex-col sm:flex-row sm:items-center md:gap-2 xl:gap-4 border border-[#A4A4A4] p-4 rounded-xl shadow w-full max-w-md mx-auto min-w-0'>
+            <input
+              type='checkbox'
+              name='is_done'
+              className='accent-[#A8A5FF] self-start sm:self-auto'
+              onChange={onChange}
+            />
+            <h5 className='leading-normal w-full break-words min-w-0'>
+              {active}
+            </h5>
           </div>
 
-          {/* erro hints for user */}
-          <p
-            className={`${
-              messageHasError ? "opacity-100" : "opacity-0"
-            } text-red-400 pl-3 `}
+          <div className='flex flex-col text-[#5E5E5E] '>
+            <h5 className={"text-[#A4A4A4] mb-2"}>Подзадачи</h5>
+
+            <div className='flex flex-col justify-start   border border-[#A4A4A4] p-2 rounded-xl shadow'>
+              {/* list of subtasks */}
+              <ul className='flex flex-col gap-2 p-1'>
+                {optionItems?.map((item) => (
+                  <TodosOptionItem title={item.title} />
+                ))}
+              </ul>
+
+              {/* form to add subtasks */}
+              <form
+                onSubmit={onSubmit}
+                className='flex justify-start items-center w-full'
+              >
+                <button
+                  type='submit'
+                  className='flex justify-center items-center p-1 '
+                >
+                  <PlusIcon className='w-[17px] h-[17px]' />
+                </button>
+                <input
+                  type='text'
+                  name='subtask_title'
+                  placeholder='Добавить подзадачу'
+                  className={`focus:outline-none focus:ring-0 w-full`}
+                  value={messageValue}
+                  onBlur={handleMessageBlur}
+                  onChange={handleMessageChange}
+                />
+              </form>
+            </div>
+
+            {/* erro hints for user */}
+            <p
+              className={`${
+                messageHasError ? "opacity-100" : "opacity-0"
+              } text-red-400 pl-3 `}
+            >
+              Поле должно быть не пустым.
+            </p>
+            <h5 className='leading-normal'></h5>
+          </div>
+        </section>
+        <section>
+          <OptionsWrapDropdown
+            icon={<ImportanceIcon />}
+            text={"Важность"}
+            haveDorder={true}
           >
-            Поле должно быть не пустым.
-          </p>
-          <h5 className='leading-normal'></h5>
-        </div>
-      </section>
-      <section>
-        <OptionsWrapDropdown
-          icon={<ImportanceIcon />}
-          text={"Важность"}
-          haveDorder={true}
-        ></OptionsWrapDropdown>
-        <OptionsWrapDropdown
-          icon={<CalendarIcon />}
-          text={"Срок выполнения"}
-          haveDorder={true}
-        ></OptionsWrapDropdown>
-        <OptionsWrapDropdown
-          icon={<ImportanceIcon />}
-          text={"Напомнить"}
-        ></OptionsWrapDropdown>
-      </section>
+            <ul className='flex flex-col gap-2 pl-3'>
+              <SingleSelectOptions options={importanceOptions} />
+            </ul>
+          </OptionsWrapDropdown>
+          <OptionsWrapDropdown
+            icon={<CalendarIcon />}
+            text={"Срок выполнения"}
+            haveDorder={true}
+          ></OptionsWrapDropdown>
+          <OptionsWrapDropdown
+            icon={<ImportanceIcon />}
+            text={"Напомнить"}
+          ></OptionsWrapDropdown>
+        </section>
+      </div>
     </OptionsSection>
   );
 }

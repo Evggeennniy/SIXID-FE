@@ -1,4 +1,4 @@
-import Dropdown from "../../../../shared/dropdown/Dropdown";
+import Dropdown from "../../../../shared/ui/dropdown/Dropdown";
 import OptionsDropdownIcon from "./OptionsDropdownIcon";
 
 function OptionsWrapDropdown({ children, icon, text, haveDorder = false }) {
@@ -8,6 +8,7 @@ function OptionsWrapDropdown({ children, icon, text, haveDorder = false }) {
         btnText={<OptionsDropdownIcon icon={icon} text={text} />}
         className='text-[#A4A4A4]'
         usePlusIcon={true}
+        isInlineContent={true}
       >
         <div className='text-[#5E5E5E] cursor-pointer transition-colors w-full '>
           {" "}
