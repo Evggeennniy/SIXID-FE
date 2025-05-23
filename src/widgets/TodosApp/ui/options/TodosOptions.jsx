@@ -23,7 +23,7 @@ function TodosOptions() {
     handleInputBlur: handleMessageBlur,
     handleInputChange: handleMessageChange,
     hasError: messageHasError,
-    setEntredValue,
+    setInputState,
   } = useInput("", (value) => isNotEmpty(value));
 
   const isOptionsOpen = useSelector(selectIsOpenTodosOptions);
@@ -44,9 +44,10 @@ function TodosOptions() {
     const data = Object.fromEntries(fd.entries());
 
     dispatch(addNewOptionItem(data.subtask_title));
-    setEntredValue({
+    setInputState({
       value: "",
-      didEdit: false,
+      didBlur: false,
+      wasValidOnBlur: false,
     });
   }
 
