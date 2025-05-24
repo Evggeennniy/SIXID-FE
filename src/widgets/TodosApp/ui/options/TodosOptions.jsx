@@ -17,6 +17,7 @@ import {
 import TodosOptionItem from "./TodosOptionItem";
 import OptionsWrapDropdown from "./OptionsWrapDropdown";
 import SingleSelectOptions from "./SingleSelectOptionOfImportance";
+import OptionsCalendar from "./calendar/OptionsCalendar";
 const importanceOptions = [
   { value: "срочно", label: "Срочно" },
   { value: "важно", label: "Важно" },
@@ -27,7 +28,6 @@ function TodosOptions() {
     value: messageValue,
     handleInputBlur: handleMessageBlur,
     handleInputChange: handleMessageChange,
-    hasError: messageHasError,
     setInputState,
   } = useInput("", (value) => isNotEmpty(value));
 
@@ -64,13 +64,13 @@ function TodosOptions() {
     <OptionsSection
       className={clsx(
         isOptionsOpen
-          ? "opacity-100 max-w-[25rem] translate-x-0 pointer-events-auto"
-          : "opacity-0 max-w-0 translate-x-0 pointer-events-none"
+          ? "opacity-100 max-w-[25rem] translate-x-0 pointer-events-auto   "
+          : "opacity-0 max-w-0 translate-x-0 p-0 pointer-events-none"
       )}
     >
-      <div className='flex flex-col  w-full '>
+      <div className='flex flex-col gap-6 w-full '>
         <section className='flex flex-col justify-center  w-full gap-5'>
-          <div className='flex flex-col sm:flex-row sm:items-center md:gap-2 xl:gap-4 border border-[#A4A4A4] p-4 rounded-xl shadow w-full max-w-md mx-auto min-w-0'>
+          <div className='flex flex-col sm:flex-row sm:items-center md:gap-2 xl:gap-4 border border-[#E0E4FF] p-4 rounded-xl shadow w-full max-w-md mx-auto min-w-0'>
             <input
               type='checkbox'
               name='is_done'
@@ -85,7 +85,7 @@ function TodosOptions() {
           <div className='flex flex-col text-[#5E5E5E] '>
             <h5 className={"text-[#A4A4A4] mb-2"}>Подзадачи</h5>
 
-            <div className='flex flex-col justify-start   border border-[#A4A4A4] p-2 rounded-xl shadow'>
+            <div className='flex flex-col justify-start   border border-[#E0E4FF] p-2 rounded-xl shadow'>
               {/* list of subtasks */}
               <ul className='flex flex-col gap-2 p-1'>
                 {optionItems?.map((item) => (
@@ -117,13 +117,13 @@ function TodosOptions() {
             </div>
 
             {/* erro hints for user */}
-            <p
+            {/* <p
               className={`${
                 messageHasError ? "opacity-100" : "opacity-0"
               } text-red-400 pl-3 `}
             >
               Поле должно быть не пустым.
-            </p>
+            </p> */}
             <h5 className='leading-normal'></h5>
           </div>
         </section>
@@ -133,7 +133,7 @@ function TodosOptions() {
             text={"Важность"}
             haveDorder={true}
           >
-            <ul className='flex flex-col gap-2 pl-3'>
+            <ul className='flex flex-col w-full gap-2 pl-3'>
               <SingleSelectOptions options={importanceOptions} />
             </ul>
           </OptionsWrapDropdown>
@@ -141,7 +141,9 @@ function TodosOptions() {
             icon={<CalendarIcon />}
             text={"Срок выполнения"}
             haveDorder={true}
-          ></OptionsWrapDropdown>
+          >
+            <OptionsCalendar />
+          </OptionsWrapDropdown>
           <OptionsWrapDropdown
             icon={<ImportanceIcon />}
             text={"Напомнить"}

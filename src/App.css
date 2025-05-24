@@ -48,12 +48,106 @@ button {
 /* CONTAINERS */
 .container {
   margin: 0 auto;
-  max-width: 1900px;
+  max-width: 2100px;
 }
 
 
 
 /* BLOCKS */
+
+/* Make calendar overall smaller */
+.fc {
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%; /* adapt to viewport width */
+  font-size: 14px; /* base font size */
+}
+
+/* Smaller buttons */
+.fc-button {
+  padding: 4px 8px !important;
+  font-size: 0.75rem !important;
+  border-radius: 4px !important;
+  min-width: 60px !important;
+}
+
+/* Change button background color */
+.fc-button-primary {
+  background-color: #EFF7FF !important;  /* example: soft blue */
+  border-color: ##E0E4FF !important;
+  color: #5E5E5E !important;
+}
+
+.fc-button-primary:hover {
+  opacity: 0.5
+}
+
+/* Change header title font size */
+.fc-toolbar-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #5E5E5E;
+}
+.fc .fc-daygrid-day {
+  max-height: 20px; /* reduce cell height */
+  padding: 4px;
+  font-size: 12px; /* smaller font */
+}
+
+/* Smaller header */
+.fc .fc-col-header-cell-cushion {
+  font-size: 12px;
+}
+/* Change day numbers color */
+.fc-daygrid-day-number {
+  color: #5E5E5E;
+}
+
+/* Optional: Change event color */
+.fc-event {
+  background-color: #f56a79 !important; /* soft red */
+  border-color: #d94c56 !important;
+  color: white !important;
+  font-size: 0.75rem;
+  padding: 2px 4px !important;
+  border-radius: 3px !important;
+}
+
+@media (max-width: 1300px) {
+  /* Target FullCalendar toolbar buttons */
+  .fc-toolbar button {
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+    min-width: 30px !important;
+  }
+
+  /* Optional: adjust button icon sizes */
+  .fc .fc-icon {
+    font-size: 14px !important;
+  }
+}
+@media (min-width: 1026px) and  (max-width: 1300px){
+  .fc {
+    font-size: 12px; /* smaller font on small screens */
+  }
+
+  .fc .fc-daygrid-day {
+    min-height: 40px; /* smaller day cells */
+  }
+  /* Smaller buttons */
+  .fc-toolbar-chunk > button {
+    padding: 4px 8px !important;
+    font-size: 12px !important;
+  }
+
+  /* Smaller title */
+  .fc-toolbar-title {
+    font-size: 1rem !important;
+  }
+}
+
+
+
 /*# sourceMappingURL=App.css.map */
 /* DROPDOWN */
 
