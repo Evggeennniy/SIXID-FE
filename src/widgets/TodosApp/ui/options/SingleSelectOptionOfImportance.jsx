@@ -13,14 +13,14 @@ function SingleSelectOptions({ options, onSelect }) {
     <ul className='flex flex-col gap-2 pl-1'>
       {options.map((option) => (
         <li key={option.value}>
-          <label className='flex items-center cursor-pointer '>
+          <label className='flex items-center gap-1 cursor-pointer '>
             <input
               type='radio'
               name='single-select'
               value={option.value}
               checked={selected === option.value}
               onChange={() => handleSelect(option.value)}
-              className='appearance-none w-4 h-4 border-2 border-[#A4A4A4] rounded-full checked:bg-[#5E5E5E] checked:border-[#A8A5FF] transition-all duration-200'
+              className='appearance-none w-4 h-4 border-2 border-[#A4A4A4]  rounded-full checked:bg-[#5E5E5E] checked:border-[#A8A5FF] transition-all duration-200'
             />
             <span>
               <TodosItemStatusOfImportance statusOfImportant={option.value} />

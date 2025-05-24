@@ -12,6 +12,12 @@
     "deploy": "gh-pages -d dist -m \"Deploy React app to GitHub Pages\" -r https://github.com/Evggeennniy/SIXID-FE"
   },
   "dependencies": {
+    "@fullcalendar/common": "^5.11.5",
+    "@fullcalendar/core": "^6.1.17",
+    "@fullcalendar/daygrid": "^6.1.17",
+    "@fullcalendar/interaction": "^6.1.17",
+    "@fullcalendar/react": "^6.1.17",
+    "@fullcalendar/timegrid": "^6.1.17",
     "@reduxjs/toolkit": "^2.8.2",
     "@tailwindcss/vite": "^4.1.5",
     "clsx": "^2.1.1",

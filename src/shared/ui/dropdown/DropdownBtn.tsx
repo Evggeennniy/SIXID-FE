@@ -63,7 +63,7 @@ function DropdownBtn({
       {icon && <span className='flex items-center'>{icon}</span>}
 
       {/* Text and right icon inline if rightIconPosition is "inline" */}
-      <span className='flex-1 text-left flex items-center gap-1'>
+      <span className='flex-1 text-left w-full flex items-center gap-1'>
         {children}
         {rightIconPosition === "inline" && (
           <span

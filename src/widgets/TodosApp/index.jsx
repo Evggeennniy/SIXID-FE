@@ -52,7 +52,7 @@ export const TodosApp = () => {
         onChange={handleMessageChange}
         onSubmit={onSubmit}
         name='todo_title'
-        messageHasError={messageHasError}
+        // messageHasError={messageHasError}
       />
 
       <TodosList>
