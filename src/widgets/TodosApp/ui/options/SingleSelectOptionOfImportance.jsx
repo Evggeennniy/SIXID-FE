@@ -1,12 +1,28 @@
-import { useState } from "react";
 import TodosItemStatusOfImportance from "../todos/TodosItemStatusOfImportance";
+import {
+  selectActiveTodoItem,
+  setTodoItemStatusOfImportantce,
+} from "../../../../redux/slice/todos/todosSlice";
+import { useDispatch, useSelector } from "react-redux";
 
-function SingleSelectOptions({ options, onSelect }) {
-  const [selected, setSelected] = useState(null);
+function SingleSelectOptions({ options }) {
+  const { activeTodo } = useSelector((state) => {
+    const activeTodo = state.todos.todosList.find(
+      (todo) => todo.id === selectActiveTodoItem(state)
+    );
+
+    return { activeTodo };
+  });
+  const dispatch = useDispatch();
+  console.log(activeTodo);
 
   const handleSelect = (value) => {
-    setSelected(value);
-    if (onSelect) onSelect(value);
+    dispatch(
+      setTodoItemStatusOfImportantce({
+        id: activeTodo?.id,
+        statusOfImportant: value,
+      })
+    );
   };
 
   return (
@@ -18,9 +34,9 @@ function SingleSelectOptions({ options, onSelect }) {
               type='radio'
               name='single-select'
               value={option.value}
-              checked={selected === option.value}
+              checked={activeTodo?.statusOfImportant === option.value}
               onChange={() => handleSelect(option.value)}
-              className='appearance-none w-4 h-4 border-2 border-[#A4A4A4]  rounded-full checked:bg-[#5E5E5E] checked:border-[#A8A5FF] transition-all duration-200'
+              className='appearance-none w-4 h-4 border-2 border-[#A4A4A4]  rounded-full checked:bg-[#5E5E5E] checked:border-[#A8A5FF] transition-all duration-200 cursor-pointer'
             />
             <span>
               <TodosItemStatusOfImportance statusOfImportant={option.value} />

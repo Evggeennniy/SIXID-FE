@@ -8,6 +8,7 @@ import {
 import TodosItemStatusOfImportance from "./TodosItemStatusOfImportance";
 
 export const TodosItem = ({
+  id,
   title,
   deadline,
   statusOfImportant,
@@ -18,21 +19,22 @@ export const TodosItem = ({
   const activeItem = useSelector(selectActiveTodoItem);
 
   function onClickHandler() {
-    dispatch(setActiveTodoItem(title));
+    dispatch(setActiveTodoItem(id));
   }
+
   function onChange() {
-    dispatch(setTodosItemIsComplete(title));
+    dispatch(setTodosItemIsComplete(id));
   }
   return (
     <>
       {!isComplete && (
         <li
           className={`grid grid-cols-6 w-full items-start animate-item   text-[#5E5E5E] gap-[.9375rem] p-[.8125rem]
-          ${activeItem === title ? "bg-white" : "bg-transparent"}
+            ${activeItem === id ? "bg-white" : "bg-transparent"}
           hover:bg-white cursor-pointer transition-colors duration-200`}
           onClick={onClickHandler}
         >
-          <div className='col-span-4 flex gap-4'>
+          <div className='col-span-4 flex w-full gap-4'>
             <input
               type='checkbox'
               name='is_done'
@@ -44,7 +46,7 @@ export const TodosItem = ({
           </div>
           <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
 
-          <div className={"flex gap-1 pl-4"}>
+          <div className={"flex shrink-0 gap-1 w-full pl-4"}>
             {deadlineArray.map((item, i) =>
               i === 0 ? (
                 <p className='min-w-5' key={i}>
@@ -62,11 +64,11 @@ export const TodosItem = ({
       {isComplete && (
         <li
           className={`grid grid-cols-6 w-full animate-item items-start text-[#A4A4A4]  gap-[.9375rem] p-[.8125rem]
-          ${activeItem === title ? "bg-white" : "bg-transparent"}
+            ${activeItem === id ? "bg-white" : "bg-transparent"}
           hover:bg-white cursor-pointer transition-colors duration-200`}
           onClick={onClickHandler}
         >
-          <div className='col-span-4 flex gap-4 '>
+          <div className='col-span-4 w-full flex gap-4 '>
             <input
               type='checkbox'
               checked={true}
@@ -79,7 +81,7 @@ export const TodosItem = ({
           </div>
           <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
 
-          <div className={"flex gap-1 pl-4"}>
+          <div className={"flex w-full gap-1 pl-4"}>
             {deadlineArray.map((item, i) =>
               i === 0 ? (
                 <p className='min-w-5' key={i}>
