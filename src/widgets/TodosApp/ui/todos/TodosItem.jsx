@@ -32,7 +32,7 @@ export const TodosItem = ({
           hover:bg-white cursor-pointer transition-colors duration-200`}
           onClick={onClickHandler}
         >
-          <div className='col-span-4 flex gap-4'>
+          <div className='col-span-4 flex w-full gap-4'>
             <input
               type='checkbox'
               name='is_done'
@@ -44,7 +44,7 @@ export const TodosItem = ({
           </div>
           <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
 
-          <div className={"flex gap-1 pl-4"}>
+          <div className={"flex shrink-0 gap-1 w-full pl-4"}>
             {deadlineArray.map((item, i) =>
               i === 0 ? (
                 <p className='min-w-5' key={i}>
@@ -66,7 +66,7 @@ export const TodosItem = ({
           hover:bg-white cursor-pointer transition-colors duration-200`}
           onClick={onClickHandler}
         >
-          <div className='col-span-4 flex gap-4 '>
+          <div className='col-span-4 w-full flex gap-4 '>
             <input
               type='checkbox'
               checked={true}
@@ -79,7 +79,7 @@ export const TodosItem = ({
           </div>
           <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
 
-          <div className={"flex gap-1 pl-4"}>
+          <div className={"flex w-full gap-1 pl-4"}>
             {deadlineArray.map((item, i) =>
               i === 0 ? (
                 <p className='min-w-5' key={i}>

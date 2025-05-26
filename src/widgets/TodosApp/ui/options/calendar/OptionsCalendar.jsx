@@ -57,10 +57,7 @@ export default function OptionsCalendar() {
         >
           &lt;
         </button>
-        <h5
-          className=' flex justify-center items-center  font-semibold '
-          // aria-live='polite'
-        >
+        <h5 className='flex justify-center items-center font-semibold'>
           {new Date(currentYear, currentMonth).toLocaleDateString("ru-RU", {
             month: "long",
             year: "numeric",
@@ -77,13 +74,13 @@ export default function OptionsCalendar() {
       </div>
 
       {/* Дни недели */}
-      <div className='grid grid-cols-7 text-center text-xs md:text-sm font-medium text-[#5E5E5E] select-none '>
+      <div className='grid grid-cols-7 text-center text-xs md:text-sm font-medium text-[#5E5E5E] select-none'>
         {daysOfWeek.map((day, index) => (
           <div
             key={day}
             className={`py-1 flex justify-center items-center ${
               (index + 1) % 7 !== 0 ? "border-r border-[#DBDAF0]" : ""
-            }  border-b border-[#DBDAF0]  `}
+            } border-b border-[#DBDAF0]`}
           >
             {day}
           </div>
@@ -96,9 +93,18 @@ export default function OptionsCalendar() {
           const todayClass = isToday(date)
             ? "bg-[#A4A4A4] text-[#EFF7FF] font-bold"
             : "";
-          const otherMonthClass = isCurrent
-            ? "text-[#5E5E5E]"
-            : " text-[#A4A4A4] opacity-60";
+
+          const isPastDayInCurrentMonth =
+            isCurrent &&
+            date < today &&
+            date.getMonth() === today.getMonth() &&
+            date.getFullYear() === today.getFullYear();
+
+          const otherMonthClass = !isCurrent
+            ? "text-[#A4A4A4] opacity-60"
+            : isPastDayInCurrentMonth
+            ? "text-[#989898]"
+            : "text-[#5E5E5E]";
 
           return (
             <button
