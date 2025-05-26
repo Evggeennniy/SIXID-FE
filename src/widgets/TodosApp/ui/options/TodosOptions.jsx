@@ -62,10 +62,11 @@ function TodosOptions() {
 
   return (
     <OptionsSection
+      open={isOptionsOpen}
       className={clsx(
         isOptionsOpen
           ? "opacity-100 max-w-[25rem] translate-x-0 pointer-events-auto   "
-          : "opacity-0 max-w-0 translate-x-0 p-0 pointer-events-none"
+          : "opacity-0 max-w-0 translate-x-0 pointer-events-none"
       )}
     >
       <div className='flex flex-col gap-6 w-full '>
