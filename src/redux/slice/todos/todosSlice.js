@@ -79,20 +79,10 @@ const todosSlice = createSlice({
         state.isOpenTodosOptions = true; // open
       }
     },
-
-    addNewOptionItem(state, action) {
-      const { todoId, title } = action.payload;
-
-      const todoItem = state.todosList.find(item => item.id === todoId);
-      if (!todoItem) return;
-
-      todoItem.subtasks.push({
-        id: Date.now(), // unique ID
-        title,
-        is_done: false,
-      });
+    deleteTodoItem(state, action) {
+      state.todosList = state.todosList.filter(item => item.id !== action.payload);
+      state.isOpenTodosOptions = false
     },
-
     addNewTodoItem(state, action) {
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
@@ -106,16 +96,39 @@ const todosSlice = createSlice({
         statusOfImportant: "обычно",
       });
     },
-
     setTodosItemIsComplete(state, action) {
       const todoItem = state.todosList.find(item => item.id === action.payload);
       if (!todoItem) return;
 
       todoItem.status = todoItem.status === "complete" ? "active" : "complete";
     },
+    closeTodoOptions(state) {
+      state.activeTodoItem = null;
+      state.isOpenTodosOptions = false
+    },
+    addNewOptionItem(state, action) {
+      const { todoId, title } = action.payload;
+
+      const todoItem = state.todosList.find(item => item.id === todoId);
+      if (!todoItem) return;
+
+      todoItem.subtasks.push({
+        id: Date.now(), // unique ID
+        title,
+        is_done: false,
+      });
+    },
+
+
+
+
+
+
+
+
   }
 })
-export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete, addNewTodoItem } = todosSlice.actions
+export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete, addNewTodoItem, deleteTodoItem, closeTodoOptions } = todosSlice.actions
 export default todosSlice.reducer
 
 export const selectTodosActiveItems = ((state) => state.todos.todosList.filter(item => item.status === 'active'));
