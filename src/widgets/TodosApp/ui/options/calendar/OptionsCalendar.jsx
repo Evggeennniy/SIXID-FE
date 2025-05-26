@@ -1,14 +1,38 @@
 import { useState } from "react";
 import getMonthDays from "../../../../../util/getMonthDays";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectActiveTodoItem,
+  setTodosItemDeadline,
+} from "../../../../../redux/slice/todos/todosSlice";
 
 const daysOfWeek = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
 
 export default function OptionsCalendar() {
+  const dispatch = useDispatch();
   const today = new Date();
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(today.getMonth());
 
   const days = getMonthDays(currentYear, currentMonth);
+
+  const { activeTodo } = useSelector((state) => {
+    const activeTodo = state.todos.todosList.find(
+      (todo) => todo.id === selectActiveTodoItem(state)
+    );
+    return { activeTodo };
+  });
+  let deadlineColor;
+  if (activeTodo?.statusOfImportant === "важно") {
+    deadlineColor = "rgba(50, 195, 104, 1)";
+  } else if (activeTodo?.statusOfImportant === "срочно") {
+    deadlineColor = "rgba(255, 0, 0, 1)";
+  } else {
+    deadlineColor = "rgba(150, 227, 255, 1)";
+  }
+  const deadlineDate = activeTodo?.deadline
+    ? new Date(activeTodo.deadline)
+    : today;
 
   const isToday = (date) => {
     return (
@@ -18,8 +42,17 @@ export default function OptionsCalendar() {
     );
   };
 
+  const isDeadline = (date) => {
+    if (!deadlineDate) return false;
+    return (
+      date.getFullYear() === deadlineDate.getFullYear() &&
+      date.getMonth() === deadlineDate.getMonth() &&
+      date.getDate() === deadlineDate.getDate()
+    );
+  };
+
   const handleDateClick = (date) => {
-    alert("Вы выбрали дату: " + date.toLocaleDateString("ru-RU"));
+    dispatch(setTodosItemDeadline({ id: activeTodo?.id, deadline: date }));
   };
 
   const prevMonth = () => {
@@ -94,6 +127,10 @@ export default function OptionsCalendar() {
             ? "bg-[#A4A4A4] text-[#EFF7FF] font-bold"
             : "";
 
+          const deadlineClass = isDeadline(date)
+            ? `"bg-[#FFA500] text-white font-bold"`
+            : "";
+
           const isPastDayInCurrentMonth =
             isCurrent &&
             date < today &&
@@ -113,10 +150,13 @@ export default function OptionsCalendar() {
               className={`py-1 rounded text-xs md:text-sm focus:outline-none
                 flex items-center justify-center
                 hover:bg-[#DBDAF0]
-                ${todayClass} ${otherMonthClass}`}
+                ${todayClass} ${deadlineClass} ${otherMonthClass}`}
+              style={{
+                background: deadlineClass ? deadlineColor : "",
+              }}
               aria-label={`День ${dayNumber}${
                 isToday(date) ? " (Сегодня)" : ""
-              }`}
+              }${isDeadline(date) ? " (Срок выполнения)" : ""}`}
               type='button'
               tabIndex={0}
             >

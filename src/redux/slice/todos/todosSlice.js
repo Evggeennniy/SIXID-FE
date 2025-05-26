@@ -102,6 +102,12 @@ const todosSlice = createSlice({
 
       todoItem.status = todoItem.status === "complete" ? "active" : "complete";
     },
+    setTodosItemDeadline(state, action) {
+      const todoItem = state.todosList.find(item => item.id === action.payload.id);
+      if (!todoItem) return;
+
+      todoItem.deadline = action.payload.deadline
+    },
     closeTodoOptions(state) {
       state.activeTodoItem = null;
       state.isOpenTodosOptions = false
@@ -118,17 +124,16 @@ const todosSlice = createSlice({
         is_done: false,
       });
     },
-
-
-
-
-
-
-
+    setTodoItemStatusOfImportantce(state, action) {
+      const item = state.todosList.find(item => item.id === action.payload.id)
+      if (item) {
+        item.statusOfImportant = action.payload.statusOfImportant
+      }
+    }
 
   }
 })
-export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete, addNewTodoItem, deleteTodoItem, closeTodoOptions } = todosSlice.actions
+export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete, addNewTodoItem, deleteTodoItem, closeTodoOptions, setTodoItemStatusOfImportantce, setTodosItemDeadline } = todosSlice.actions
 export default todosSlice.reducer
 
 export const selectTodosActiveItems = ((state) => state.todos.todosList.filter(item => item.status === 'active'));
