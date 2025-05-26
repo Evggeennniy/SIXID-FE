@@ -9,6 +9,8 @@ import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewOptionItem,
+  closeTodoOptions,
+  deleteTodoItem,
   selectActiveTodoItem,
   selectIsOpenTodosOptions,
   selectTodosOptionItems,
@@ -37,7 +39,7 @@ function TodosOptions() {
     const activeTodo = state.todos.todosList.find(
       (todo) => todo.id === selectActiveTodoItem(state)
     );
-    const subtasks = selectTodosOptionItems(state, activeTodo.id);
+    const subtasks = selectTodosOptionItems(state, activeTodo?.id);
     return { activeTodo, optionItems: subtasks };
   });
 
@@ -63,7 +65,12 @@ function TodosOptions() {
     if (!activeTodo) return;
     dispatch(setTodosItemIsComplete(activeTodo.id));
   }
-
+  function onDeleteTodoItem() {
+    dispatch(deleteTodoItem(activeTodo?.id));
+  }
+  function onCloseOptions() {
+    dispatch(closeTodoOptions());
+  }
   return (
     <OptionsSection
       open={isOptionsOpen}
@@ -84,7 +91,7 @@ function TodosOptions() {
                 onChange={onChange}
               />
               <h5 className='leading-normal w-full break-words min-w-0'>
-                {activeTodo.title}
+                {activeTodo?.title}
               </h5>
             </div>
 
@@ -157,10 +164,11 @@ function TodosOptions() {
           </section>
         </div>
         <div className='mt-auto flex gap-2'>
-          <Button text='Закрыть' classname={"w-1/2"} />
+          <Button text='Закрыть' classname={"w-1/2"} onClick={onCloseOptions} />
           <Button
             text={<BacketIcon />}
             classname={"border border-[#CDCDCD] w-1/2"}
+            onClick={onDeleteTodoItem}
           />
         </div>
       </div>
