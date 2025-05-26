@@ -4,6 +4,7 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
   todosList: [
     {
+      id: 1,
       title: "Протестировать работу списка заданий на SIXID",
       deadline: "2025-05-25T17:00:00Z",
       statusOfImportant: "срочно", // urgently
@@ -27,34 +28,39 @@ const initialState = {
       ],
     },
     {
+      id: 2,
       title: "Написать юнит-тесты для новых компонентов",
       deadline: "2025-06-01",
       statusOfImportant: "важно", // importent
       status: "complete",
-      subtasks: []
+      subtasks: [],
     },
     {
+      id: 3,
       title: "Проверить дизайн-макеты",
       deadline: "2025-06-10",
       statusOfImportant: "обычно", // simple
       status: "active",
-      subtasks: []
+      subtasks: [],
     },
     {
+      id: 4,
       title: "Подготовить слайды презентации",
       deadline: "2025-05-30T12:00:00Z",
       statusOfImportant: "срочно", // urgently
       status: "complete",
-      subtasks: []
+      subtasks: [],
     },
     {
+      id: 5,
       title: "Рефакторинг старого кода",
       deadline: "2025-06-15",
       statusOfImportant: "важно", // importent
       status: "active",
-      subtasks: []
+      subtasks: [],
     },
   ],
+
   activeTodoItem: null,
   isOpenTodosOptions: false
 }
@@ -73,40 +79,61 @@ const todosSlice = createSlice({
         state.isOpenTodosOptions = true; // open
       }
     },
-    addNewOptionItem(state, action) {
-      const todoItem = state.todosList.find(
-        (item) => item.title === state.activeTodoItem
-      );
-
-      if (!todoItem) return;
-
-      todoItem.subtasks.push({
-        title: action.payload,
-        id: todoItem.subtasks.length,
-        is_done: false,
-      });
+    deleteTodoItem(state, action) {
+      state.todosList = state.todosList.filter(item => item.id !== action.payload);
+      state.isOpenTodosOptions = false
     },
     addNewTodoItem(state, action) {
       const tomorrow = new Date();
       tomorrow.setDate(tomorrow.getDate() + 1);
-      state.todosList.push({ title: action.payload, status: 'active', deadline: tomorrow, subtasks: [], statusOfImportant: 'обычно' })
+
+      state.todosList.push({
+        id: Date.now(), // unique ID
+        title: action.payload,
+        status: "active",
+        deadline: tomorrow.toISOString(),
+        subtasks: [],
+        statusOfImportant: "обычно",
+      });
     },
     setTodosItemIsComplete(state, action) {
-      const todoItem = state.todosList.find(
-        (item) => item.title === action.payload
-      );
-
+      const todoItem = state.todosList.find(item => item.id === action.payload);
       if (!todoItem) return;
-      if (todoItem.status === 'complete') {
-        todoItem.status = 'active'
-      } else {
-        todoItem.status = 'complete'
-      }
 
+      todoItem.status = todoItem.status === "complete" ? "active" : "complete";
     },
+    setTodosItemDeadline(state, action) {
+      const todoItem = state.todosList.find(item => item.id === action.payload.id);
+      if (!todoItem) return;
+
+      todoItem.deadline = action.payload.deadline
+    },
+    closeTodoOptions(state) {
+      state.activeTodoItem = null;
+      state.isOpenTodosOptions = false
+    },
+    addNewOptionItem(state, action) {
+      const { todoId, title } = action.payload;
+
+      const todoItem = state.todosList.find(item => item.id === todoId);
+      if (!todoItem) return;
+
+      todoItem.subtasks.push({
+        id: Date.now(), // unique ID
+        title,
+        is_done: false,
+      });
+    },
+    setTodoItemStatusOfImportantce(state, action) {
+      const item = state.todosList.find(item => item.id === action.payload.id)
+      if (item) {
+        item.statusOfImportant = action.payload.statusOfImportant
+      }
+    }
+
   }
 })
-export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete, addNewTodoItem } = todosSlice.actions
+export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete, addNewTodoItem, deleteTodoItem, closeTodoOptions, setTodoItemStatusOfImportantce, setTodosItemDeadline } = todosSlice.actions
 export default todosSlice.reducer
 
 export const selectTodosActiveItems = ((state) => state.todos.todosList.filter(item => item.status === 'active'));
@@ -114,4 +141,4 @@ export const selectTodosCompletedItems = ((state) => state.todos.todosList.filte
 export const selectIsOpenTodosOptions = ((state) => state.todos.isOpenTodosOptions);
 export const selectActiveTodoItem = ((state) => state.todos.activeTodoItem);
 export const selectTodosOptionItems = (state, activeTodoItem) =>
-  state.todos.todosList.find((item) => item.title === activeTodoItem)?.subtasks || [];
+  state.todos.todosList.find((item) => item.id === activeTodoItem)?.subtasks || [];

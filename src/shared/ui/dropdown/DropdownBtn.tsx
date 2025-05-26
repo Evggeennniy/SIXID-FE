@@ -58,7 +58,7 @@ function DropdownBtn({
   return (
     <button
       onClick={toggle}
-      className={`flex items-center w-full rounded-2xl bg-btn-color shadow-dropdown-btn-shadow transition-shadow duration-300 ease-in-out cursor-pointer px-2 py-2 gap-2 z-40 relative ${className}`}
+      className={`flex items-center w-full rounded-2xl bg-btn-color shadow-dropdown-btn-shadow transition-shadow duration-300 ease-in-out cursor-pointer  py-2 gap-2 z-40 relative ${className}`}
     >
       {icon && <span className='flex items-center'>{icon}</span>}
 

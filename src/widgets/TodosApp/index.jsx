@@ -22,7 +22,7 @@ export const TodosApp = () => {
     value: messageValue,
     handleInputBlur: handleMessageBlur,
     handleInputChange: handleMessageChange,
-    hasError: messageHasError,
+
     setInputState,
   } = useInput("", (value) => isNotEmpty(value));
 
@@ -52,7 +52,6 @@ export const TodosApp = () => {
         onChange={handleMessageChange}
         onSubmit={onSubmit}
         name='todo_title'
-        // messageHasError={messageHasError}
       />
 
       <TodosList>
@@ -60,7 +59,8 @@ export const TodosApp = () => {
           <div className='cursor-pointer transition-colors '>
             {activeTodos.map((todo) => (
               <TodosItem
-                key={todo.title}
+                key={todo.id}
+                id={todo.id}
                 title={todo.title}
                 statusOfImportant={todo.statusOfImportant}
                 deadline={todo.deadline}
@@ -85,7 +85,8 @@ export const TodosApp = () => {
             <div className='text-[#5E5E5E] cursor-pointer transition-colors w-full '>
               {completedTodos.map((todo) => (
                 <TodosItem
-                  key={todo.title}
+                  key={todo.id}
+                  id={todo.id}
                   title={todo.title}
                   statusOfImportant={todo.statusOfImportant}
                   deadline={todo.deadline}

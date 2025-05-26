@@ -2,7 +2,7 @@ import PlusIcon from "@assets/svg/plus-icon.svg?react";
 import AiIcon from "@assets/svg/ai-icon.svg?react";
 import { useRef } from "react";
 
-export const TodosInput = ({ onSubmit, messageHasError, ...props }) => {
+export const TodosInput = ({ onSubmit, ...props }) => {
   const inputRef = useRef(null);
 
   function handleSubmit(e) {
