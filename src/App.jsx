@@ -11,8 +11,8 @@ function App() {
   return (
     <Provider store={store}>
       <BrowserRouter basename='/SIXID-FE'>
-        <div className='container h-[100vh] p-[10px] lg:p-[30px] text-center'>
-          <div className='relative h-[100%] flex gap-[10px]'>
+        <div className='container h-[100vh] p-[10px] xl:p-[30px] text-center'>
+          <div className='relative h-[100%] flex gap-[10px] '>
             <SideNav />
             <AppRoutes />
           </div>

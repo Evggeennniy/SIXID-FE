@@ -53,7 +53,9 @@ function TodosOptions() {
     const fd = new FormData(e.currentTarget);
     const data = Object.fromEntries(fd.entries());
 
-    dispatch(addNewOptionItem(data.subtask_title));
+    dispatch(
+      addNewOptionItem({ todoId: activeTodo?.id, title: data.subtask_title })
+    );
     setInputState({
       value: "",
       didBlur: false,
