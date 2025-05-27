@@ -8,7 +8,7 @@ export const OptionsSection = ({ children, className, open, ...props }) => {
         open
           ? " sm:p-[20px] max-h-[100vh] overflow-y-auto"
           : "p-0 max-h-0 overflow-hidden",
-        "lg:flex-[1_1_20%]",
+        "md:flex-[1_1_30%] lg:flex-[1_1_20%]",
         className
       )}
       {...props}
