@@ -10,16 +10,16 @@ export const TodosList = ({ children }) => {
               className='truncate whitespace-nowrap text-base font-medium'
               title='Назва'
             >
-              Назва
+              Название
             </div>
           </div>
 
           {/* These will not shrink or truncate */}
           <div className=' col-span-1 text-base font-medium min-w-full'>
-            <div className='whitespace-nowrap'>Важливість</div>
+            <div className='whitespace-nowrap'>Важность</div>
           </div>
           <div className='col-span-1 text-base font-medium min-w-full'>
-            <div className='whitespace-nowrap'>Дата</div>
+            <div className='whitespace-nowrap'>Дедлайн</div>
           </div>
         </div>
 

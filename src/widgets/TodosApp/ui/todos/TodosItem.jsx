@@ -34,19 +34,23 @@ export const TodosItem = ({
 
   return (
     <li
-      className={`${baseStyles} ${textColor} ${bgColor} hover:bg-white`}
+      className={`${baseStyles} ${textColor} ${bgColor} hover:bg-white flex  `}
       onClick={onClickHandler}
     >
       <div className='col-span-2 lg:col-span-4 flex w-full gap-4'>
-        <input
-          type='checkbox'
-          name='is_done'
-          checked={isComplete}
-          onChange={onChange}
-          onClick={(e) => e.stopPropagation()}
-          className={isComplete ? "accent-[#A8A5FF]" : ""}
-        />
-        <h5 className='leading-normal w-full'>{title}</h5>
+        <label className='flex items-center gap-2 p-2 cursor-pointer'>
+          <input
+            type='checkbox'
+            name='is_done'
+            checked={isComplete}
+            onChange={onChange}
+            onClick={(e) => e.stopPropagation()}
+            className={` ${isComplete ? "accent-[#A8A5FF]" : ""}`}
+          />
+        </label>
+        <h5 className='w-full line-clamp-2 text-ellipsis overflow-hidden break-words'>
+          {title}
+        </h5>
       </div>
 
       <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />

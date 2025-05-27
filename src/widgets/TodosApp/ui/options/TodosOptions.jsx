@@ -78,20 +78,23 @@ function TodosOptions() {
       open={isOptionsOpen}
       className={clsx(
         isOptionsOpen
-          ? "opacity-100 max-w-[25rem] translate-x-0 pointer-events-auto   "
+          ? "opacity-100 max-w-[400px] translate-x-0 pointer-events-auto   "
           : "opacity-0 max-w-0 translate-x-0 pointer-events-none"
       )}
     >
       <div className='flex flex-col gap-6 w-full h-full  min-h-fit    '>
         <section className='flex flex-col justify-center  w-full gap-5'>
-          <div className='flex flex-col sm:flex-row sm:items-center md:gap-2 xl:gap-4 border border-[#E0E4FF] p-4 rounded-xl shadow w-full max-w-md mx-auto min-w-0'>
-            <input
-              type='checkbox'
-              name='is_done'
-              className='accent-[#A8A5FF] self-start sm:self-auto'
-              onChange={onChange}
-            />
-            <h5 className='leading-normal w-full break-words min-w-0'>
+          <div className='flex flex-col sm:flex-row sm:items-center gap-2  border border-[#E0E4FF] p-2 rounded-xl shadow w-full max-w-md mx-auto min-w-0'>
+            <label className='flex items-center py-3 px-2 cursor-pointer '>
+              <input
+                type='checkbox'
+                name='is_done'
+                className='accent-[#A8A5FF] self-start sm:self-auto'
+                onChange={onChange}
+              />
+            </label>
+
+            <h5 className='break-words min-w-0 leading-normal w-full truncate whitespace-nowrap overflow-hidden'>
               {activeTodo?.title}
             </h5>
           </div>
@@ -116,7 +119,7 @@ function TodosOptions() {
                   type='submit'
                   className='flex justify-center items-center p-1 '
                 >
-                  <PlusIcon className='w-[17px] h-[17px]' />
+                  <PlusIcon className='w-[1.0625rem] h-[1.0625rem]' />
                 </button>
                 <input
                   type='text'
