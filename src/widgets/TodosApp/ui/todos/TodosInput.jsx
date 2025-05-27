@@ -24,7 +24,7 @@ export const TodosInput = ({ onSubmit, ...props }) => {
             <input
               type='text'
               placeholder='Добавить задачу'
-              className='focus:outline-none'
+              className='focus:outline-none w-full'
               ref={inputRef}
               {...props}
             />
