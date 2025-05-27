@@ -18,84 +18,52 @@ export const TodosItem = ({
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveTodoItem);
 
-  function onClickHandler() {
+  const onClickHandler = () => {
     dispatch(setActiveTodoItem(id));
-  }
+  };
 
-  function onChange() {
+  const onChange = () => {
     dispatch(setTodosItemIsComplete(id));
-  }
+  };
+
+  const baseStyles =
+    "grid grid-cols-4 lg:grid-cols-6 w-full items-start animate-item gap-[.9375rem] p-[.8125rem] transition-colors duration-200 cursor-pointer";
+
+  const textColor = isComplete ? "text-[#A4A4A4]" : "text-[#5E5E5E]";
+  const bgColor = activeItem === id ? "bg-white" : "bg-transparent";
+
   return (
-    <>
-      {!isComplete && (
-        <li
-          className={`grid grid-cols-6 w-full items-start animate-item   text-[#5E5E5E] gap-[.9375rem] p-[.8125rem]
-            ${activeItem === id ? "bg-white" : "bg-transparent"}
-          hover:bg-white cursor-pointer transition-colors duration-200`}
-          onClick={onClickHandler}
-        >
-          <div className='col-span-4 flex w-full gap-4'>
-            <input
-              type='checkbox'
-              name='is_done'
-              onChange={onChange}
-              onClick={(e) => e.stopPropagation()}
-            />
+    <li
+      className={`${baseStyles} ${textColor} ${bgColor} hover:bg-white`}
+      onClick={onClickHandler}
+    >
+      <div className='col-span-2 lg:col-span-4 flex w-full gap-4'>
+        <input
+          type='checkbox'
+          name='is_done'
+          checked={isComplete}
+          onChange={onChange}
+          onClick={(e) => e.stopPropagation()}
+          className={isComplete ? "accent-[#A8A5FF]" : ""}
+        />
+        <h5 className='leading-normal w-full'>{title}</h5>
+      </div>
 
-            <h5 className='leading-normal w-full'>{title}</h5>
-          </div>
-          <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
+      <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
 
-          <div className={"flex shrink-0 gap-1 w-full pl-4"}>
-            {deadlineArray.map((item, i) =>
-              i === 0 ? (
-                <p className='min-w-5' key={i}>
-                  {addZero(item)}
-                </p>
-              ) : (
-                <p className='flex-1 basis-0' key={i}>
-                  {item}
-                </p>
-              )
-            )}
-          </div>
-        </li>
-      )}
-      {isComplete && (
-        <li
-          className={`grid grid-cols-6 w-full animate-item items-start text-[#A4A4A4]  gap-[.9375rem] p-[.8125rem]
-            ${activeItem === id ? "bg-white" : "bg-transparent"}
-          hover:bg-white cursor-pointer transition-colors duration-200`}
-          onClick={onClickHandler}
-        >
-          <div className='col-span-4 w-full flex gap-4 '>
-            <input
-              type='checkbox'
-              checked={true}
-              name='is_done'
-              onChange={onChange}
-              className='accent-[#A8A5FF]'
-              onClick={(e) => e.stopPropagation()}
-            />
-            <h5 className='leading-normal '>{title}</h5>
-          </div>
-          <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
-
-          <div className={"flex w-full gap-1 pl-4"}>
-            {deadlineArray.map((item, i) =>
-              i === 0 ? (
-                <p className='min-w-5' key={i}>
-                  {addZero(item)}
-                </p>
-              ) : (
-                <p className='flex-1 basis-0' key={i}>
-                  {item}
-                </p>
-              )
-            )}
-          </div>
-        </li>
-      )}
-    </>
+      <div className='flex shrink-0 gap-1 w-full pl-2 xl:pl-4'>
+        {deadlineArray.map((item, i) =>
+          i === 0 ? (
+            <p className='min-w-5' key={i}>
+              {addZero(item)}
+            </p>
+          ) : (
+            <p className='flex-1 basis-0' key={i}>
+              {item}
+            </p>
+          )
+        )}
+      </div>
+    </li>
   );
 };
