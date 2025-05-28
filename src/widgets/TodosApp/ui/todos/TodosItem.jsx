@@ -48,7 +48,10 @@ export const TodosItem = ({
             className={` ${isComplete ? "accent-[#A8A5FF]" : ""}`}
           />
         </label>
-        <h5 className='w-full line-clamp-2 text-ellipsis overflow-hidden break-words'>
+        <h5
+          className='w-full line-clamp-2 text-ellipsis overflow-hidden break-words'
+          title={title}
+        >
           {title}
         </h5>
       </div>
