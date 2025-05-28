@@ -76,27 +76,36 @@ function TodosOptions() {
   return (
     <OptionsSection
       open={isOptionsOpen}
+      onClose={onCloseOptions}
       className={clsx(
         isOptionsOpen
-          ? "opacity-100 max-w-[400px] translate-x-0 pointer-events-auto   "
+          ? "opacity-100 w-full md:max-w-[400px] translate-x-0 pointer-events-auto   "
           : "opacity-0 max-w-0 translate-x-0 pointer-events-none"
       )}
     >
-      <div className='flex flex-col gap-6 w-full h-full  min-h-fit    '>
+      <div className='flex flex-col gap-6 w-full h-full px-12 pb-5 md:p-5  min-h-fit    '>
         <section className='flex flex-col justify-center  w-full gap-5'>
-          <div className='flex flex-col sm:flex-row sm:items-center gap-2  border border-[#E0E4FF] p-2 rounded-xl shadow w-full max-w-md mx-auto min-w-0'>
-            <label className='flex items-center py-3 px-2 cursor-pointer '>
-              <input
-                type='checkbox'
-                name='is_done'
-                className='accent-[#A8A5FF] self-start sm:self-auto'
-                onChange={onChange}
-              />
-            </label>
+          <div className='flex flex-col text-[#5E5E5E] '>
+            <h5 className={"text-[#A4A4A4] mb-2"}>Главая задача</h5>
 
-            <h5 className='break-words min-w-0 leading-normal w-full truncate whitespace-nowrap overflow-hidden'>
-              {activeTodo?.title}
-            </h5>
+            <div className='flex flex-col justify-center sm:flex-row sm:items-center gap-2  border border-[#E0E4FF] p-2 rounded-xl shadow w-full   min-w-0'>
+              <div className='flex items-center w-full'>
+                <label className='flex  items-center gap-1 py-3 px-2 cursor-pointer  '>
+                  <input
+                    type='checkbox'
+                    name='is_done'
+                    className='accent-[#A8A5FF] self-start sm:self-auto'
+                    onChange={onChange}
+                  />
+                </label>
+                <h5
+                  className='break-words min-w-0 leading-normal w-full truncate whitespace-nowrap overflow-hidden'
+                  title={activeTodo?.title}
+                >
+                  {activeTodo?.title}
+                </h5>
+              </div>
+            </div>
           </div>
 
           <div className='flex flex-col text-[#5E5E5E] '>

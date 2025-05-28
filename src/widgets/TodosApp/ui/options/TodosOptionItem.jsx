@@ -10,7 +10,10 @@ function TodosOptionItem({ title }) {
           className='appearance-none  w-4 h-4 border-2 border-[#A4A4A4] rounded-full checked:bg-[#5E5E5E] checked:border-[#A8A5FF] transition-all duration-200'
         />
       </label>
-      <h5 className='leading-normal line-clamp-2 text-ellipsis overflow-hidden break-words w-full'>
+      <h5
+        className='leading-normal line-clamp-2 text-ellipsis overflow-hidden break-words w-full'
+        title={title}
+      >
         {title}
       </h5>
     </li>

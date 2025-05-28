@@ -24,7 +24,7 @@ export const MainHeader = () => {
           <SearchIcon className='transition duration-100 ease-in-out active:scale-[90%] cursor-pointer w-[25px] h-[25px]' />
         </div>
 
-        <div className='flex items-center gap-2 px-3 py-1.5 rounded-md shadow  w-fit'>
+        <div className=' hidden  sm:flex items-center gap-2 px-3 py-1.5 rounded-md shadow  w-fit'>
           <div className='flex flex-col justify-center'>
             <div className='flex items-center gap-2'>
               <div className=' flex flex-col '>

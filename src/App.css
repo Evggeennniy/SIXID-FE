@@ -180,3 +180,9 @@ button {
 .animate-item {
   animation: fadeSlideIn 0.3s ease forwards;
 }
+
+@media(min-width: 768px) {
+  .options-section {
+    transform-origin: right center;
+  }
+}
