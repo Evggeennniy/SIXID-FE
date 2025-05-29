@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addZero, formatFullDate } from "../../../../util/timeFormatter";
+import {
+  addZero,
+  formatFullDate,
+  formatShortDate,
+} from "../../../../util/timeFormatter";
 import {
   selectActiveTodoItem,
   setActiveTodoItem,
@@ -27,7 +31,7 @@ export const TodosItem = ({
   };
 
   const baseStyles =
-    "grid grid-cols-4 lg:grid-cols-6 w-full items-start animate-item gap-[.9375rem] p-[.8125rem] transition-colors duration-200 cursor-pointer";
+    "grid  grid-cols-[minmax(9.375rem,450px)_20px_20%] w-full sm:grid-cols-6 w-full items-start animate-item gap-[15px] pr-2 py-2 sm:p-[13px] transition-colors duration-200 cursor-pointer";
 
   const textColor = isComplete ? "text-[#A4A4A4]" : "text-[#5E5E5E]";
   const bgColor = activeItem === id ? "bg-white" : "bg-transparent";
@@ -37,7 +41,7 @@ export const TodosItem = ({
       className={`${baseStyles} ${textColor} ${bgColor} hover:bg-white flex  `}
       onClick={onClickHandler}
     >
-      <div className='col-span-2 lg:col-span-4 flex w-full gap-4'>
+      <div className='col-span-1 sm:col-span-4 flex w-full gap-2 sm:gap-4'>
         <label className='flex items-center gap-2 p-2 cursor-pointer'>
           <input
             type='checkbox'
@@ -49,7 +53,7 @@ export const TodosItem = ({
           />
         </label>
         <h5
-          className='w-full line-clamp-2 text-ellipsis overflow-hidden break-words'
+          className='sm:w-full line-clamp-2 text-ellipsis overflow-hidden break-words'
           title={title}
         >
           {title}
@@ -58,18 +62,15 @@ export const TodosItem = ({
 
       <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
 
-      <div className='flex shrink-0 gap-1 w-full pl-2 xl:pl-4'>
-        {deadlineArray.map((item, i) =>
-          i === 0 ? (
-            <p className='min-w-5' key={i}>
-              {addZero(item)}
-            </p>
-          ) : (
-            <p className='flex-1 basis-0' key={i}>
-              {item}
-            </p>
-          )
-        )}
+      <div className='flex sm:shrink-0  gap-1 w-full pl-1 xl:pl-4'>
+        <p className='hidden sm:block  flex-1 basis-0'>
+          {formatFullDate(deadline)}
+        </p>
+
+        {/* Short date (MM.YYYY), shown only on small screens */}
+        <p className='block sm:hidden flex-1 pl-2 basis-0'>
+          {formatShortDate(deadline)}
+        </p>
       </div>
     </li>
   );
