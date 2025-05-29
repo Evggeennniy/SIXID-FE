@@ -14,35 +14,31 @@ export const TodosInput = ({ onSubmit, ...props }) => {
   }
   return (
     <>
-      <form onSubmit={handleSubmit} className='mb-[1.875rem] '>
-        <div className='flex justify-between w-full items-center relative px-3  rounded-[.3125rem] bg-[#ECF7FF] shadow-[0rem_.125rem_.625rem_rgba(0,0,0,0.1)]'>
-          <div className='flex items-center w-full gap-[.9375rem]'>
+      <form
+        onSubmit={handleSubmit}
+        className='mb-[30px] sm:mb-0 sm:static fixed bottom-0 left-0 right-0 z-50  px-2 py-2'
+      >
+        <div className='flex justify-between w-full items-center relative px-3 rounded-[5px] bg-[#ECF7FF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)]'>
+          <div className='flex items-center w-full gap-[15px]'>
             <button className='flex justify-center items-center' type='submit'>
-              <PlusIcon className='w-[1.0625rem] h-[1.0625rem]' />
+              <PlusIcon className='w-[17px] h-[17px]' />
             </button>
             <label className='flex items-center gap-2 py-3 cursor-pointer w-full'>
               <input
                 type='text'
                 placeholder='Добавить задачу'
-                className='focus:outline-none w-full'
+                className='focus:outline-none w-full bg-transparent'
                 ref={inputRef}
                 {...props}
               />
             </label>
           </div>
 
-          <button className='flex items-center rounded-[.3125rem] p-[0_.75rem] gap-[.3125rem] bg-[#000] absolute right-[.25rem] top-[.25rem] bottom-[.25rem]'>
+          <button className='flex items-center rounded-[5px] p-[0_12px] gap-[5px] bg-[#000] absolute right-[4px] top-[4px] bottom-[4px]'>
             <AiIcon />
             <h5 className='text-[#E6FF26] uppercase'>ai</h5>
           </button>
         </div>
-        {/* <p
-          className={`${
-            messageHasError ? "opacity-100" : "opacity-0"
-          } text-red-400 pl-3 `}
-        >
-          Поле должно быть не пустым.
-        </p> */}
       </form>
     </>
   );

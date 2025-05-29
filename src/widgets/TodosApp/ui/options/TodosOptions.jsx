@@ -86,7 +86,7 @@ function TodosOptions() {
       <div className='flex flex-col gap-6 w-full h-full px-12 pb-5 md:p-5  min-h-fit    '>
         <section className='flex flex-col justify-center  w-full gap-5'>
           <div className='flex flex-col text-[#5E5E5E] '>
-            <h5 className={"text-[#A4A4A4] mb-2"}>Главая задача</h5>
+            <h5 className={"text-[#A4A4A4] mb-2 md:hidden"}>Главая задача</h5>
 
             <div className='flex flex-col justify-center sm:flex-row sm:items-center gap-2  border border-[#E0E4FF] p-2 rounded-xl shadow w-full   min-w-0'>
               <div className='flex items-center w-full'>
@@ -175,7 +175,7 @@ function TodosOptions() {
             text={"Напомнить"}
           ></OptionsWrapDropdown>
         </section>
-        <div className='flex mt-auto gap-2 pb-2 '>
+        <div className='flex mt-[10%] md:mt-auto gap-2 pb-2 '>
           <Button text='Закрыть' classname={"w-1/2"} onClick={onCloseOptions} />
           <Button
             text={<BacketIcon />}

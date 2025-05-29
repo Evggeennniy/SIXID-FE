@@ -1,18 +1,19 @@
 export function formatFullDate(dateStr) {
 	const date = new Date(dateStr);
 
-	const options = {
-		day: 'numeric',
-		month: 'long',
-		year: 'numeric',
-	};
+	const day = addZero(date.getDate());
+	const month = addZero(date.getMonth() + 1); // Months are 0-based
+	const year = date.getFullYear();
 
-
-	const formatted = date.toLocaleDateString('ru-RU', options).replace(/\s?г\.?$/, '');
-
-
-	return formatted.split(' ');
+	return `${day}.${month}.${year}`;
 }
+
 export function addZero(num) {
 	return num < 10 ? '0' + num : num.toString();
+}
+export function formatShortDate(dateStr) {
+	const date = new Date(dateStr);
+	const month = (date.getMonth() + 1).toString().padStart(2, "0");
+	const year = date.getFullYear();
+	return `${month}.${year}`;
 }

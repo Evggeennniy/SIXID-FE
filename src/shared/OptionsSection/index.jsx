@@ -13,7 +13,7 @@ export const OptionsSection = ({
   const [isDragging, setIsDragging] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
 
-  const defaultHeight = 700;
+  const defaultHeight = 600;
 
   // Detect if screen is mobile
   useEffect(() => {
@@ -63,19 +63,19 @@ export const OptionsSection = ({
       ? `${defaultHeight}px`
       : open && isDragging
       ? `${Math.max(defaultHeight - dragY, 60)}px`
-      : "0px";
+      : "0rem";
   return (
     <section
       className={clsx(
-        "rounded-[20px] shadow-[0_0_10px_0_#dbdaf0] overflow-hidden bg-white select-none",
+        "rounded-[1.25rem] shadow-[0_0_.625rem_0_#dbdaf0] overflow-hidden bg-white select-none",
 
         // Анимация на max-height, padding и opacity
         "transition-[max-height,padding,opacity] duration-500",
         "ease-[cubic-bezier(0.4, 0, 0.2, 1)]",
 
         // Позиционирование и размеры
-        "fixed bottom-0 left-0 w-full z-50 rounded-t-[20px]",
-        "md:static md:bg-transparent md:rounded-[20px]",
+        "fixed bottom-0 left-0 w-full z-50 rounded-t-[1.25rem]",
+        "md:static md:bg-transparent md:rounded-[1.25rem]",
         "md:flex-[1_1_30%] lg:flex-[1_1_20%]",
 
         // Открытое/закрытое состояние
@@ -96,7 +96,7 @@ export const OptionsSection = ({
       {...props}
     >
       <div
-        className='w-full p-4 reletive '
+        className='w-full p-4 reletive md:hidden'
         onMouseDown={handleStart}
         onMouseMove={handleMove}
         onMouseUp={handleEnd}
@@ -122,11 +122,11 @@ export const OptionsSection = ({
 //   return (
 //     <section
 //       className={clsx(
-//         "bg-white shadow-[0_0_10px_0_#dbdaf0] transition-all duration-300 ease-in-out",
+//         "bg-white shadow-[0_0_.625rem_0_#dbdaf0] transition-all duration-300 ease-in-out",
 
-//         "fixed bottom-0 left-0 w-full z-50 rounded-t-[20px]",
+//         "fixed bottom-0 left-0 w-full z-50 rounded-t-[1.25rem]",
 
-//         "md:static md:rounded-[20px] md:bg-transparent md:h-auto md:w-auto",
+//         "md:static md:rounded-[1.25rem] md:bg-transparent md:h-auto md:w-auto",
 
 //         "md:origin-right",
 
@@ -156,7 +156,7 @@ export const OptionsSection = ({
 //         className={clsx(
 //           "transition-all duration-300",
 //           open
-//             ? "p-[20px] max-h-[100vh] h-full overflow-y-auto"
+//             ? "p-[1.25rem] max-h-[100vh] h-full overflow-y-auto"
 //             : "p-0 max-h-0 overflow-hidden"
 //         )}
 //       >

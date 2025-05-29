@@ -186,3 +186,13 @@ button {
     transform-origin: right center;
   }
 }
+
+.scrollbar-left {
+  direction: rtl;
+  /* Reverse scroll direction */
+}
+
+.scrollbar-left>* {
+  direction: ltr;
+  /* Restore normal content flow */
+}

@@ -10,12 +10,12 @@ function TodosItemStatusOfImportance({ statusOfImportant }) {
     сircleColor = "rgba(150, 227, 255, 1)";
   }
   return (
-    <div className='xl:pl-3 shrink-0 flex gap-2  items-center w-full'>
+    <div className='xl:pl-3 shrink-0 flex gap-2  items-center  sm:w-full'>
       <div
         style={{ background: сircleColor }}
         className={`w-5 flex-shrink-0 h-5 rounded-full`}
       ></div>
-      <p className='capitalize'> {statusOfImportant}</p>
+      <p className='capitalize hidden sm:block'> {statusOfImportant}</p>
     </div>
   );
 }
