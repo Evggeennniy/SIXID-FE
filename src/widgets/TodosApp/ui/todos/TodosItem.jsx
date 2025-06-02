@@ -1,6 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addZero,
   formatFullDate,
   formatShortDate,
 } from "../../../../util/timeFormatter";
@@ -18,7 +17,6 @@ export const TodosItem = ({
   statusOfImportant,
   isComplete,
 }) => {
-  const deadlineArray = formatFullDate(deadline);
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveTodoItem);
 
@@ -53,7 +51,7 @@ export const TodosItem = ({
           />
         </label>
         <h5
-          className='sm:w-full line-clamp-2 text-ellipsis overflow-hidden break-words'
+          className='sm:w-full overflow-hidden whitespace-nowrap text-ellipsis'
           title={title}
         >
           {title}
