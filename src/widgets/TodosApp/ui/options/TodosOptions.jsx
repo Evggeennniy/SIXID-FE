@@ -98,10 +98,7 @@ function TodosOptions() {
                     onChange={onChange}
                   />
                 </label>
-                <h5
-                  className='break-words min-w-0 leading-normal w-full truncate whitespace-nowrap overflow-hidden'
-                  title={activeTodo?.title}
-                >
+                <h5 className='break-words min-w-0 leading-normal w-full '>
                   {activeTodo?.title}
                 </h5>
               </div>

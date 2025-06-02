@@ -135,7 +135,7 @@ const todosSlice = createSlice({
 })
 export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete, addNewTodoItem, deleteTodoItem, closeTodoOptions, setTodoItemStatusOfImportantce, setTodosItemDeadline } = todosSlice.actions
 export default todosSlice.reducer
-
+export const selectTodosAllItems = ((state) => state.todos.todosList);
 export const selectTodosActiveItems = ((state) => state.todos.todosList.filter(item => item.status === 'active'));
 export const selectTodosCompletedItems = ((state) => state.todos.todosList.filter(item => item.status === 'complete'))
 export const selectIsOpenTodosOptions = ((state) => state.todos.isOpenTodosOptions);
