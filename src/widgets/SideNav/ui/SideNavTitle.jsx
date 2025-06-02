@@ -4,7 +4,7 @@ export const SideNavTitle = ({ label, className, ...props }) => {
   return (
     <p
       className={clsx(
-        "text-gray-400 capitalize mb-[10px] hidden lg:block",
+        "text-gray-400 capitalize mb-[10px] hidden xl:block",
         className
       )}
       {...props}
