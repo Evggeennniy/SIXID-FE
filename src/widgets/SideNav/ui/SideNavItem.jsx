@@ -22,7 +22,7 @@ export const SideNavItem = ({ Icon, label, to, className, ...props }) => {
         }}
       >
         {Icon && <Icon />}
-        <h5 className="capitalize sm:hidden lg:block">{label}</h5>
+        <h5 className='capitalize sm:hidden xl:block'>{label}</h5>
       </button>
     </li>
   );

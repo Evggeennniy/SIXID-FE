@@ -1,5 +1,9 @@
 import { useDispatch, useSelector } from "react-redux";
-import { addZero, formatFullDate } from "../../../../util/timeFormatter";
+import {
+  addZero,
+  formatFullDate,
+  formatShortDate,
+} from "../../../../util/timeFormatter";
 import {
   selectActiveTodoItem,
   setActiveTodoItem,
@@ -18,84 +22,56 @@ export const TodosItem = ({
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveTodoItem);
 
-  function onClickHandler() {
+  const onClickHandler = () => {
     dispatch(setActiveTodoItem(id));
-  }
+  };
 
-  function onChange() {
+  const onChange = () => {
     dispatch(setTodosItemIsComplete(id));
-  }
+  };
+
+  const baseStyles =
+    "grid  grid-cols-[minmax(9.375rem,450px)_20px_20%] w-full sm:grid-cols-6 w-full items-start animate-item gap-[15px] pr-2 py-2 sm:p-[13px] transition-colors duration-200 cursor-pointer";
+
+  const textColor = isComplete ? "text-[#A4A4A4]" : "text-[#5E5E5E]";
+  const bgColor = activeItem === id ? "bg-white" : "bg-transparent";
+
   return (
-    <>
-      {!isComplete && (
-        <li
-          className={`grid grid-cols-6 w-full items-start animate-item   text-[#5E5E5E] gap-[.9375rem] p-[.8125rem]
-            ${activeItem === id ? "bg-white" : "bg-transparent"}
-          hover:bg-white cursor-pointer transition-colors duration-200`}
-          onClick={onClickHandler}
+    <li
+      className={`${baseStyles} ${textColor} ${bgColor} hover:bg-white flex  `}
+      onClick={onClickHandler}
+    >
+      <div className='col-span-1 sm:col-span-4 flex w-full gap-2 sm:gap-4'>
+        <label className='flex items-center gap-2 p-2 cursor-pointer'>
+          <input
+            type='checkbox'
+            name='is_done'
+            checked={isComplete}
+            onChange={onChange}
+            onClick={(e) => e.stopPropagation()}
+            className={` ${isComplete ? "accent-[#A8A5FF]" : ""}`}
+          />
+        </label>
+        <h5
+          className='sm:w-full line-clamp-2 text-ellipsis overflow-hidden break-words'
+          title={title}
         >
-          <div className='col-span-4 flex w-full gap-4'>
-            <input
-              type='checkbox'
-              name='is_done'
-              onChange={onChange}
-              onClick={(e) => e.stopPropagation()}
-            />
+          {title}
+        </h5>
+      </div>
 
-            <h5 className='leading-normal w-full'>{title}</h5>
-          </div>
-          <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
+      <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
 
-          <div className={"flex shrink-0 gap-1 w-full pl-4"}>
-            {deadlineArray.map((item, i) =>
-              i === 0 ? (
-                <p className='min-w-5' key={i}>
-                  {addZero(item)}
-                </p>
-              ) : (
-                <p className='flex-1 basis-0' key={i}>
-                  {item}
-                </p>
-              )
-            )}
-          </div>
-        </li>
-      )}
-      {isComplete && (
-        <li
-          className={`grid grid-cols-6 w-full animate-item items-start text-[#A4A4A4]  gap-[.9375rem] p-[.8125rem]
-            ${activeItem === id ? "bg-white" : "bg-transparent"}
-          hover:bg-white cursor-pointer transition-colors duration-200`}
-          onClick={onClickHandler}
-        >
-          <div className='col-span-4 w-full flex gap-4 '>
-            <input
-              type='checkbox'
-              checked={true}
-              name='is_done'
-              onChange={onChange}
-              className='accent-[#A8A5FF]'
-              onClick={(e) => e.stopPropagation()}
-            />
-            <h5 className='leading-normal '>{title}</h5>
-          </div>
-          <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
+      <div className='flex sm:shrink-0  gap-1 w-full pl-1 xl:pl-4'>
+        <p className='hidden sm:block  flex-1 basis-0'>
+          {formatFullDate(deadline)}
+        </p>
 
-          <div className={"flex w-full gap-1 pl-4"}>
-            {deadlineArray.map((item, i) =>
-              i === 0 ? (
-                <p className='min-w-5' key={i}>
-                  {addZero(item)}
-                </p>
-              ) : (
-                <p className='flex-1 basis-0' key={i}>
-                  {item}
-                </p>
-              )
-            )}
-          </div>
-        </li>
-      )}
-    </>
+        {/* Short date (MM.YYYY), shown only on small screens */}
+        <p className='block sm:hidden flex-1 pl-2 basis-0'>
+          {formatShortDate(deadline)}
+        </p>
+      </div>
+    </li>
   );
 };

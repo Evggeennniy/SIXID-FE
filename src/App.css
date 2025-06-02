@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap');
 
 /* MIXINS */
 /* MAIN */
@@ -29,7 +29,7 @@ p {
 }
 
 body {
-  font-family: "Exo 2", sans-serif;
+  font-family: 'Exo 2', sans-serif;
 }
 
 #root,
@@ -49,10 +49,7 @@ button {
 .container {
   margin: 0 auto;
   max-width: 2100px;
-  
 }
-
-
 
 /* BLOCKS */
 
@@ -60,8 +57,10 @@ button {
 .fc {
   max-width: 400px;
   margin: 0 auto;
-  width: 100%; /* adapt to viewport width */
-  font-size: 14px; /* base font size */
+  width: 100%;
+  /* adapt to viewport width */
+  font-size: 14px;
+  /* base font size */
 }
 
 /* Smaller buttons */
@@ -74,39 +73,45 @@ button {
 
 /* Change button background color */
 .fc-button-primary {
-  background-color: #EFF7FF !important;  /* example: soft blue */
-  border-color: ##E0E4FF !important;
-  color: #5E5E5E !important;
+  background-color: #eff7ff !important;
+  /* example: soft blue */
+  border-color: ##e0e4ff !important;
+  color: #5e5e5e !important;
 }
 
 .fc-button-primary:hover {
-  opacity: 0.5
+  opacity: 0.5;
 }
 
 /* Change header title font size */
 .fc-toolbar-title {
   font-size: 1.2rem;
   font-weight: 600;
-  color: #5E5E5E;
+  color: #5e5e5e;
 }
+
 .fc .fc-daygrid-day {
-  max-height: 20px; /* reduce cell height */
+  max-height: 20px;
+  /* reduce cell height */
   padding: 4px;
-  font-size: 12px; /* smaller font */
+  font-size: 12px;
+  /* smaller font */
 }
 
 /* Smaller header */
 .fc .fc-col-header-cell-cushion {
   font-size: 12px;
 }
+
 /* Change day numbers color */
 .fc-daygrid-day-number {
-  color: #5E5E5E;
+  color: #5e5e5e;
 }
 
 /* Optional: Change event color */
 .fc-event {
-  background-color: #f56a79 !important; /* soft red */
+  background-color: #f56a79 !important;
+  /* soft red */
   border-color: #d94c56 !important;
   color: white !important;
   font-size: 0.75rem;
@@ -115,6 +120,7 @@ button {
 }
 
 @media (max-width: 1300px) {
+
   /* Target FullCalendar toolbar buttons */
   .fc-toolbar button {
     padding: 4px 8px !important;
@@ -127,16 +133,20 @@ button {
     font-size: 14px !important;
   }
 }
-@media (min-width: 1026px) and  (max-width: 1300px){
+
+@media (min-width: 1026px) and (max-width: 1300px) {
   .fc {
-    font-size: 12px; /* smaller font on small screens */
+    font-size: 12px;
+    /* smaller font on small screens */
   }
 
   .fc .fc-daygrid-day {
-    min-height: 40px; /* smaller day cells */
+    min-height: 40px;
+    /* smaller day cells */
   }
+
   /* Smaller buttons */
-  .fc-toolbar-chunk > button {
+  .fc-toolbar-chunk>button {
     padding: 4px 8px !important;
     font-size: 12px !important;
   }
@@ -146,8 +156,6 @@ button {
     font-size: 1rem !important;
   }
 }
-
-
 
 /*# sourceMappingURL=App.css.map */
 /* DROPDOWN */
@@ -171,4 +179,20 @@ button {
 
 .animate-item {
   animation: fadeSlideIn 0.3s ease forwards;
+}
+
+@media(min-width: 768px) {
+  .options-section {
+    transform-origin: right center;
+  }
+}
+
+.scrollbar-left {
+  direction: rtl;
+  /* Reverse scroll direction */
+}
+
+.scrollbar-left>* {
+  direction: ltr;
+  /* Restore normal content flow */
 }

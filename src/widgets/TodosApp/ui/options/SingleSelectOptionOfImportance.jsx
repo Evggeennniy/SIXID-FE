@@ -29,7 +29,7 @@ function SingleSelectOptions({ options }) {
     <ul className='flex flex-col gap-2 pl-1'>
       {options.map((option) => (
         <li key={option.value}>
-          <label className='flex items-center gap-1 cursor-pointer '>
+          <label className='flex items-center gap-1  cursor-pointer '>
             <input
               type='radio'
               name='single-select'
