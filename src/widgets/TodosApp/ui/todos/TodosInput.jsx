@@ -29,6 +29,7 @@ export const TodosInput = ({ onSubmit, ...props }) => {
                 placeholder='Добавить задачу'
                 className='focus:outline-none w-full bg-transparent'
                 ref={inputRef}
+                maxLength={100}
                 {...props}
               />
             </label>
