@@ -39,26 +39,42 @@ export const TodosItem = ({
       className={`${baseStyles} ${textColor} ${bgColor} hover:bg-white flex  `}
       onClick={onClickHandler}
     >
-      <div className='col-span-1 sm:col-span-4 flex w-full gap-2 sm:gap-4'>
-        <label className='flex items-center gap-2 p-2 cursor-pointer'>
+      <div className='col-span-1 sm:col-span-4 items-center flex w-full gap-2 sm:gap-4'>
+        <label className="relative flex items-center cursor-pointer p-2">
           <input
-            type='checkbox'
-            name='is_done'
-            checked={isComplete}
-            onChange={onChange}
-            onClick={(e) => e.stopPropagation()}
-            className={` ${isComplete ? "accent-[#A8A5FF]" : ""}`}
+              type="checkbox"
+              name="is_done"
+              checked={isComplete}
+              onChange={onChange}
+              onClick={(e) => e.stopPropagation()}
+              className="absolute w-6 h-6 opacity-0 cursor-pointer"
           />
+          <span
+              className={`w-[18px] h-[18px] rounded border border-gray-300 flex items-center justify-center
+      ${isComplete ? "bg-[#A8A5FF]" : "bg-[#ECF7FF]"}`}
+          >
+    {isComplete && (
+        <svg
+            className="w-4 h-4 text-white"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            viewBox="0 0 24 24"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
+        </svg>
+    )}
+  </span>
         </label>
         <h5
-          className='sm:w-full overflow-hidden whitespace-nowrap text-ellipsis'
-          title={title}
+            className="sm:w-full overflow-hidden whitespace-nowrap text-ellipsis"
+            title={title}
         >
           {title}
         </h5>
       </div>
 
-      <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
+      <TodosItemStatusOfImportance statusOfImportant={statusOfImportant}/>
 
       <div className='flex sm:shrink-0  gap-1 w-full pl-1 xl:pl-4'>
         <p className='hidden sm:block  flex-1 basis-0'>

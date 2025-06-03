@@ -1,14 +1,12 @@
-import { MainSection } from "@shared/MainSection";
-import { OptionsSection } from "@shared/OptionsSection";
+
 import CalendarApp from "../../widgets/CalendarApp";
+import CalendarOptions from "@widgets/CalendarApp/ui/options/CalendarOptions.jsx";
 
 export const CalendarPage = () => {
   return (
     <>
-      <MainSection>
         <CalendarApp />
-      </MainSection>
-      <OptionsSection>Опции</OptionsSection>
+         {/*<CalendarOptions/>*/}
     </>
   );
 };
