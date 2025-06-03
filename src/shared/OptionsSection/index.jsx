@@ -96,7 +96,7 @@ export const OptionsSection = ({
       {...props}
     >
       <div
-        className='w-full p-4 reletive md:hidden'
+        className='w-full p-6 reletive md:hidden'
         onMouseDown={handleStart}
         onMouseMove={handleMove}
         onMouseUp={handleEnd}
