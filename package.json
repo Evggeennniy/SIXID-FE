@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "homepage": "https://evggeennniy.github.io/SIXID-FE/",
+  "proxy": "http://127.0.0.1:8000",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
