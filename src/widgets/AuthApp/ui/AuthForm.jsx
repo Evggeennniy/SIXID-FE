@@ -13,29 +13,29 @@ export default function AuthForm() {
   const isLogin = location.pathname === "/auth/login";
   const navigate = useNavigate();
 
+  const dispatch = useDispatch();
   const {
+    isAuthenticated,
     isRegistered,
     error: errorRedux,
-    isAuthenticated,
   } = useSelector((state) => state.auth);
-  const dispatch = useDispatch();
 
   const {
     value: nameValue,
-    handleInputBlur: handleNameBlur,
     handleInputChange: handleNameChange,
+    handleInputBlur: handleNameBlur,
   } = useInput("", (value) => value.trim() !== "");
 
   const {
     value: passwordValue,
-    handleInputBlur: handlePasswordBlur,
     handleInputChange: handlePasswordChange,
+    handleInputBlur: handlePasswordBlur,
   } = useInput("", (value) => value.length >= 5);
 
   const {
     value: confirmPasswordValue,
-    handleInputBlur: handleConfirmPasswordBlur,
     handleInputChange: handleConfirmPasswordChange,
+    handleInputBlur: handleConfirmPasswordBlur,
   } = useInput("", () => true);
 
   const [error, setError] = useState("");
@@ -43,22 +43,16 @@ export default function AuthForm() {
   useEffect(() => {
     if (isAuthenticated) {
       navigate("/");
-      console.log("navigate");
     } else if (isRegistered) {
       navigate("/auth/login");
     }
-  }, [isRegistered, isAuthenticated, navigate]);
+  }, [isAuthenticated, isRegistered, navigate]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    setError(""); // clear local error on submit
+    setError("");
 
     if (!isLogin) {
-      if (passwordValue !== confirmPasswordValue) {
-        setError("Пароли не совпадают");
-        return;
-      }
       if (nameValue.trim() === "") {
         setError("Введите имя");
         return;
@@ -67,11 +61,15 @@ export default function AuthForm() {
         setError("Пароль должен быть минимум 5 символов");
         return;
       }
+      if (passwordValue !== confirmPasswordValue) {
+        setError("Пароли не совпадают");
+        return;
+      }
       dispatch(
         registerUserAction({
           username: nameValue,
           password: passwordValue,
-          password_confirm: passwordValue,
+          password_confirm: confirmPasswordValue,
         })
       );
     } else {
@@ -79,9 +77,11 @@ export default function AuthForm() {
         setError("Пароль должен быть минимум 5 символов");
         return;
       }
-      // TODO: dispatch login action here
       dispatch(
-        loginUserAction({ username: nameValue, password: passwordValue })
+        loginUserAction({
+          username: nameValue,
+          password: passwordValue,
+        })
       );
     }
   };
@@ -95,7 +95,7 @@ export default function AuthForm() {
             {isLogin ? "Вход в Cixid" : "Регистрация в Cixid"}
           </h2>
           <form onSubmit={handleSubmit}>
-            {/* Имя - только для регистрации */}
+            {/* Имя */}
             <input
               type='text'
               placeholder='Имя'
@@ -115,7 +115,7 @@ export default function AuthForm() {
               onBlur={handlePasswordBlur}
             />
 
-            {/* Подтверждение пароля - только при регистрации */}
+            {/* Подтвердить пароль */}
             {!isLogin && (
               <input
                 type='password'
@@ -139,7 +139,7 @@ export default function AuthForm() {
 
             <button
               type='submit'
-              className='w-full bg-[#1976D2] text-center! hover:bg-blue-700 text-white py-2 rounded font-medium transition'
+              className='w-full bg-[#1976D2] hover:bg-blue-700 text-center! text-white py-2 rounded font-medium transition'
             >
               {isLogin ? "Войти" : "Зарегистрироваться"}
             </button>
@@ -155,7 +155,7 @@ export default function AuthForm() {
           </p>
         </div>
 
-        {/* Right Side - Visual */}
+        {/* Right Side */}
         <div className='w-1/2 bg-indigo-300 text-white flex flex-col items-center justify-center p-6 relative'>
           <h3 className='text-[32px] font-semibold text-center mb-2'>
             Реализуй свои <br />

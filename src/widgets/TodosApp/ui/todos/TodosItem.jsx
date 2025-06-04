@@ -10,13 +10,7 @@ import {
 } from "../../../../redux/slice/todos/todosSlice";
 import TodosItemStatusOfImportance from "./TodosItemStatusOfImportance";
 
-export const TodosItem = ({
-  id,
-  title,
-  deadline,
-  statusOfImportant,
-  isComplete,
-}) => {
+export const TodosItem = ({ id, title, deadline, priority, isComplete }) => {
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveTodoItem);
 
@@ -78,7 +72,7 @@ export const TodosItem = ({
         </h5>
       </div>
 
-      <TodosItemStatusOfImportance statusOfImportant={statusOfImportant} />
+      <TodosItemStatusOfImportance statusOfImportant={priority} />
 
       <div className='flex sm:shrink-0  gap-1 w-full pl-1 xl:pl-4'>
         <p className='hidden sm:block text-center  flex-1 basis-0'>
