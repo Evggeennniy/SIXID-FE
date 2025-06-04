@@ -6,11 +6,13 @@ import { MainSection } from "../../shared/MainSection";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewTodoItem,
+  getTodosAction,
   selectTodosActiveItems,
   selectTodosCompletedItems,
 } from "../../redux/slice/todos/todosSlice";
 import { useInput } from "../../hooks/useInput";
 import { isNotEmpty } from "../../util/validation";
+import { useEffect } from "react";
 
 export const TodosApp = () => {
   const dispatch = useDispatch();
@@ -43,6 +45,10 @@ export const TodosApp = () => {
       wasValidOnBlur: false,
     });
   }
+
+  useEffect(() => {
+    dispatch(getTodosAction());
+  }, []);
   return (
     <MainSection>
       <h2 className='capitalize mb-[30px]'>список задач</h2>
@@ -62,7 +68,7 @@ export const TodosApp = () => {
                 key={todo.id}
                 id={todo.id}
                 title={todo.title}
-                statusOfImportant={todo.statusOfImportant}
+                statusOfImportant={todo.priority}
                 deadline={todo.deadline}
                 isComplete={false}
               />
