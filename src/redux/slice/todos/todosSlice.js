@@ -84,14 +84,11 @@ const todosSlice = createSlice({
       state.isOpenTodosOptions = false
     },
     addNewTodoItem(state, action) {
-      const tomorrow = new Date();
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
       state.todosList.push({
-        id: Date.now(), // unique ID
-        title: action.payload,
+        id: Date.now(),
+        title: action.payload.title,
         status: "active",
-        deadline: tomorrow.toISOString(),
+        deadline: action.payload?.date || null,
         subtasks: [],
         statusOfImportant: "обычно",
       });

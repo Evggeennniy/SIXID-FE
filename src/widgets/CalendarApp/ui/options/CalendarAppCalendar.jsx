@@ -1,12 +1,13 @@
+import { useSelector, useDispatch } from "react-redux";
+
+import BaseCalendar from "../../../../shared/BaseCalendar/BaseCalendar";
+
 import {
   selectActiveTodoItem,
   setTodosItemDeadline,
-} from "../../../../../redux/slice/todos/todosSlice";
+} from "../../../../redux/slice/todos/todosSlice";
 
-import { useSelector, useDispatch } from "react-redux";
-import BaseCalendar from "../../../../../shared/BaseCalendar/BaseCalendar";
-
-export default function OptionsCalendar() {
+export default function CalendarAppCalendar() {
   const dispatch = useDispatch();
 
   const today = new Date();

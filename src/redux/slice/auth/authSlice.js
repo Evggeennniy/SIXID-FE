@@ -11,6 +11,7 @@ export const registerUserAction = createAsyncThunk(
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					"withCredentials": true,
 				},
 				body: JSON.stringify(payload),
 			};

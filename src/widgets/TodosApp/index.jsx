@@ -36,7 +36,7 @@ export const TodosApp = () => {
     const fd = new FormData(e.currentTarget);
     const data = Object.fromEntries(fd.entries());
 
-    dispatch(addNewTodoItem(data.todo_title));
+    dispatch(addNewTodoItem({ title: data.todo_title, date: null }));
     setInputState({
       value: "",
       didBlur: false,
