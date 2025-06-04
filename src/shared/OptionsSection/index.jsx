@@ -113,7 +113,6 @@ export const OptionsSection = ({
   );
 };
 
-//   children,
 //   className,
 //   open,
 //   onClose,

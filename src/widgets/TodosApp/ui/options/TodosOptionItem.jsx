@@ -1,6 +1,6 @@
 import React from "react";
 
-function TodosOptionItem({ title }) {
+function TodosOptionItem({ title, mainTodoId }) {
   return (
     <li className='flex justify-start items-center w-full '>
       <label className='inline-flex items-center px-2 py-1 gap-2 cursor-pointer'>

@@ -1,15 +1,11 @@
-
-
-
-import { useSelector}  from "react-redux";
-import {selectTodosAllItems} from "../../redux/slice/todos/todosSlice.js";
+import { useSelector } from "react-redux";
+import { selectTodosAllItems } from "../../redux/slice/todos/todosSlice.js";
 import CalendarGrid from "@widgets/CalendarApp/ui/calendar/CalendarGrid.jsx";
 import CalendarHeader from "@widgets/CalendarApp/ui/calendar/CalendarHeader.jsx";
 import WeekDaysHeader from "@widgets/CalendarApp/ui/calendar/WeekDaysHeader.jsx";
 import getMonthDays from "../../util/getMonthDays.js";
-import React, {useState} from "react";
-import {MainSection} from "@shared/MainSection/index.jsx";
-
+import React, { useState } from "react";
+import { MainSection } from "@shared/MainSection/index.jsx";
 
 export default function CalendarApp() {
   const today = new Date();
@@ -24,7 +20,8 @@ export default function CalendarApp() {
 
   const deadlineMap = items.reduce((map, item) => {
     const dateStr = new Date(item.deadline).toDateString();
-    map[dateStr] = item.statusOfImportant;
+    if (!map[dateStr]) map[dateStr] = [];
+    map[dateStr].push(item.id);
     return map;
   }, {});
 
@@ -34,7 +31,7 @@ export default function CalendarApp() {
   }
 
   const currentWeekIndex = weeks.findIndex((week) =>
-      week.some((day) => day.date.toDateString() === currentDate.toDateString())
+    week.some((day) => day.date.toDateString() === currentDate.toDateString())
   );
   const currentWeek = weeks[currentWeekIndex] || [];
 
@@ -43,37 +40,37 @@ export default function CalendarApp() {
   const handlePrev = () => {
     const newDate = new Date(currentDate);
     viewMode === "month"
-        ? newDate.setMonth(month - 1)
-        : newDate.setDate(currentDate.getDate() - 7);
+      ? newDate.setMonth(month - 1)
+      : newDate.setDate(currentDate.getDate() - 7);
     setCurrentDate(newDate);
   };
 
   const handleNext = () => {
     const newDate = new Date(currentDate);
     viewMode === "month"
-        ? newDate.setMonth(month + 1)
-        : newDate.setDate(currentDate.getDate() + 7);
+      ? newDate.setMonth(month + 1)
+      : newDate.setDate(currentDate.getDate() + 7);
     setCurrentDate(newDate);
   };
 
   return (
-      <MainSection>
-        <div className='p-4 bg-transparent rounded-lg w-full text-[#4A4A4A]'>
-          <CalendarHeader
-              month={month}
-              year={year}
-              onPrev={handlePrev}
-              onNext={handleNext}
-              viewMode={viewMode}
-              setViewMode={setViewMode}
-          />
-          <WeekDaysHeader />
-          <CalendarGrid
-              days={visibleDays}
-              today={today}
-              deadlineMap={deadlineMap}
-          />
-        </div>
-      </MainSection>
+    <MainSection>
+      <div className='p-4 bg-transparent rounded-lg w-full text-[#4A4A4A]'>
+        <CalendarHeader
+          month={month}
+          year={year}
+          onPrev={handlePrev}
+          onNext={handleNext}
+          viewMode={viewMode}
+          setViewMode={setViewMode}
+        />
+        <WeekDaysHeader />
+        <CalendarGrid
+          days={visibleDays}
+          today={today}
+          deadlineMap={deadlineMap}
+        />
+      </div>
+    </MainSection>
   );
 }
