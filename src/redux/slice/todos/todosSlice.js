@@ -98,6 +98,41 @@ export const getTodosAction = createAsyncThunk(
     }
   }
 );
+export const changeTodosAction = createAsyncThunk(
+  "todos/change",
+  async ({ id, data }, { getState, dispatch, rejectWithValue }) => {
+    const state = getState();
+    const access = state.auth.accessToken;
+    const refresh = state.auth.refreshToken;
+
+    try {
+      const res = await fetchWithAuth(
+        `/api/todos/${id}/`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        },
+        access,
+        refresh,
+        (newAccess) => dispatch(setTokens({ access: newAccess })),
+        () => dispatch(logout())
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(errorData);
+      }
+
+      const updatedTodo = await res.json();
+      return updatedTodo;
+    } catch (error) {
+      return rejectWithValue(error.message || "Network error");
+    }
+  }
+);
 const todosSlice = createSlice({
   name: 'todos',
   initialState,
@@ -120,7 +155,7 @@ const todosSlice = createSlice({
       state.todosList.push({
         id: Date.now(),
         title: action.payload.title,
-        status: "active",
+        is_active: true,
         deadline: action.payload?.date || null,
         subtasks: [],
         priority: "обычно",
@@ -130,7 +165,7 @@ const todosSlice = createSlice({
       const todoItem = state.todosList.find(item => item.id === action.payload);
       if (!todoItem) return;
 
-      todoItem.status = todoItem.status === "complete" ? "active" : "complete";
+      todoItem.is_active = !todoItem.is_active;
     },
     setTodosItemDeadline(state, action) {
       const todoItem = state.todosList.find(item => item.id === action.payload.id);
@@ -180,6 +215,21 @@ const todosSlice = createSlice({
         state.error = action.payload || 'Get todos failed';
 
       })
+      .addCase(changeTodosAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(changeTodosAction.fulfilled, (state, action) => {
+        const updated = action.payload;
+        const index = state.todosList.findIndex(todo => todo.id === updated.id);
+        if (index !== -1) {
+          state.todosList[index] = updated;
+        }
+      })
+      .addCase(changeTodosAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Update todo failed";
+      });
 
   }
 })

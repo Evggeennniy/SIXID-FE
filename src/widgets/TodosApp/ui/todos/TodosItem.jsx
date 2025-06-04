@@ -4,28 +4,33 @@ import {
   formatShortDate,
 } from "../../../../util/timeFormatter";
 import {
+  changeTodosAction,
   selectActiveTodoItem,
   setActiveTodoItem,
   setTodosItemIsComplete,
 } from "../../../../redux/slice/todos/todosSlice";
 import TodosItemStatusOfImportance from "./TodosItemStatusOfImportance";
 
-export const TodosItem = ({ id, title, deadline, priority, isComplete }) => {
+export const TodosItem = ({ id, title, deadline, priority, is_active }) => {
   const dispatch = useDispatch();
   const activeItem = useSelector(selectActiveTodoItem);
 
   const onClickHandler = () => {
     dispatch(setActiveTodoItem(id));
   };
-
-  const onChange = () => {
+  const handleToggle = (todoId) => {
     dispatch(setTodosItemIsComplete(id));
+    dispatch(
+      changeTodosAction({
+        id: todoId,
+        data: { is_active: !is_active },
+      })
+    );
   };
-
   const baseStyles =
     "grid  grid-cols-[minmax(9.375rem,450px)_20px_20%] w-full sm:grid-cols-6 w-full items-start animate-item gap-[15px] pr-2 py-2 sm:p-[13px] transition-colors duration-200 cursor-pointer";
 
-  const textColor = isComplete ? "text-[#A4A4A4]" : "text-[#5E5E5E]";
+  const textColor = is_active ? "text-[#A4A4A4]" : "text-[#5E5E5E]";
   const bgColor = activeItem === id ? "bg-white" : "bg-transparent";
 
   return (
@@ -38,16 +43,16 @@ export const TodosItem = ({ id, title, deadline, priority, isComplete }) => {
           <input
             type='checkbox'
             name='is_done'
-            checked={isComplete}
-            onChange={onChange}
+            checked={is_active}
+            onChange={() => handleToggle(id, is_active)}
             onClick={(e) => e.stopPropagation()}
             className='absolute w-6 h-6 opacity-0 cursor-pointer'
           />
           <span
             className={`w-[18px] h-[18px] rounded border border-gray-300 flex items-center justify-center
-      ${isComplete ? "bg-[#A8A5FF]" : "bg-[#ECF7FF]"}`}
+      ${!is_active ? "bg-[#A8A5FF]" : "bg-[#ECF7FF]"}`}
           >
-            {isComplete && (
+            {!is_active && (
               <svg
                 className='w-4 h-4 text-white'
                 fill='none'
@@ -72,7 +77,7 @@ export const TodosItem = ({ id, title, deadline, priority, isComplete }) => {
         </h5>
       </div>
 
-      <TodosItemStatusOfImportance statusOfImportant={priority} />
+      <TodosItemStatusOfImportance priority={priority} />
 
       <div className='flex sm:shrink-0  gap-1 w-full pl-1 xl:pl-4'>
         <p className='hidden sm:block text-center  flex-1 basis-0'>
