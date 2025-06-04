@@ -68,9 +68,9 @@ export const TodosApp = () => {
                 key={todo.id}
                 id={todo.id}
                 title={todo.title}
-                statusOfImportant={todo.priority}
+                priority={todo.priority}
                 deadline={todo.deadline}
-                isComplete={false}
+                is_active={todo.is_active}
               />
             ))}
           </div>
@@ -94,9 +94,9 @@ export const TodosApp = () => {
                   key={todo.id}
                   id={todo.id}
                   title={todo.title}
-                  statusOfImportant={todo.statusOfImportant}
+                  priority={todo.priority}
                   deadline={todo.deadline}
-                  isComplete={true}
+                  is_active={todo.is_active}
                 />
               ))}
             </div>

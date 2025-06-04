@@ -36,7 +36,7 @@ const fetchWithAuth = async (url, options = {}, access, refresh, updateTokens, f
   if (!isRefreshing) {
     isRefreshing = true;
     try {
-      const res = await fetch('/auth/token/refresh/', {
+      const res = await fetch('/api/auth/token/refresh/', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ refresh }),

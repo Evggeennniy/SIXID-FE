@@ -1,10 +1,12 @@
 import {
+  changeTodosAction,
   selectActiveTodoItem,
   setTodosItemDeadline,
 } from "../../../../../redux/slice/todos/todosSlice";
 
 import { useSelector, useDispatch } from "react-redux";
 import BaseCalendar from "../../../../../shared/BaseCalendar/BaseCalendar";
+import { formatDateToYYYYMMDD } from "../../../../../util/timeFormatter";
 
 export default function OptionsCalendar() {
   const dispatch = useDispatch();
@@ -27,7 +29,19 @@ export default function OptionsCalendar() {
 
   const handleDateClick = (date) => {
     if (activeTodo) {
-      dispatch(setTodosItemDeadline({ id: activeTodo.id, deadline: date }));
+      const formatedDate = formatDateToYYYYMMDD(date);
+      dispatch(
+        setTodosItemDeadline({
+          id: activeTodo.id,
+          deadline: formatedDate,
+        })
+      );
+      dispatch(
+        changeTodosAction({
+          id: activeTodo.id,
+          data: { deadline: formatedDate },
+        })
+      );
     }
   };
 
