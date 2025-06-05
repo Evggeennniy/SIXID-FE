@@ -7,22 +7,29 @@ import ChevronDown from "@assets/svg/chevronDown.svg?react";
 import avatarImage from "@assets/images/avatarIcon.png";
 export const MainHeader = () => {
   const toggleNav = useUIStore((state) => state.toggleNav);
-
+  function onsubmit(e) {
+    e.preventDefault();
+  }
   return (
     <div className='flex content-between items-center gap-[20px] mb-[30px]'>
       <Logotype className='w-[30px] h-[30px] block sm:hidden ' />
       <div className='flex w-full gap-[10%]'>
-        <div className='flex content-between items-center pr-3 flex-1 border-[2px] border-[#dad8d8] rounded-[12px]  '>
-          <label className='inline-flex items-center px-2 py-3 gap-2 w-full cursor-pointer'>
+        <form
+          onSubmit={onsubmit}
+          className='flex content-between gap-4 items-center pr-3 flex-1  rounded-[12px]  '
+        >
+          <label className='inline-flex items-center px-2 py-3 gap-2 w-full  rounded-lg  shadow bg-[#FFFFFF] cursor-pointer'>
             <input
               type='text'
               className='focus:outline-none px-1 w-full'
               placeholder='Поиск...'
+              maxLength={100}
             />
           </label>
-
-          <SearchIcon className='transition duration-100 ease-in-out active:scale-[90%] cursor-pointer w-[25px] h-[25px]' />
-        </div>
+          <button className='h-[90%] px-2 bg-[#FFFFFF] shadow rounded-lg flex justify-center items-center '>
+            <SearchIcon className='transition duration-100 ease-in-out active:scale-[90%] cursor-pointer   w-[25px] ' />
+          </button>
+        </form>
 
         <div className=' hidden  sm:flex items-center gap-2 px-3 py-1.5 rounded-md w-fit'>
           <div className='flex flex-col justify-center'>

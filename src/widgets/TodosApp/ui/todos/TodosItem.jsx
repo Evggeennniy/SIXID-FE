@@ -86,7 +86,7 @@ export const TodosItem = ({ id, title, deadline, priority, is_active }) => {
 
         {/* Short date (MM.YYYY), shown only on small screens */}
         <p className='block sm:hidden flex-1 pl-2 basis-0'>
-          {(deadline && formatFullDate(deadline)) || "Не указан"}
+          {(deadline && formatShortDate(deadline)) || "Не указан"}
         </p>
       </div>
     </li>

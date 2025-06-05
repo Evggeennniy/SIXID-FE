@@ -11,6 +11,8 @@ function Dropdown({
   plusIcon,
   className = "",
   children,
+  replaceIcon = false,
+  replacerIcon = null,
   isInlineContent = false,
   ...restProps // catch all other props
 }) {
@@ -22,6 +24,8 @@ function Dropdown({
       <DropdownBtn
         open={open}
         toggle={toggleDropdown}
+        replaceIcon={replaceIcon}
+        replacerIcon={replacerIcon}
         icon={icon}
         rightIcon={rightIcon}
         rightIconPosition={rightIconPosition}

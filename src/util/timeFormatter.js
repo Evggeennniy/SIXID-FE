@@ -13,10 +13,11 @@ export function addZero(num) {
 }
 export function formatShortDate(dateStr) {
 	const date = new Date(dateStr);
+	const day = date.getDate().toString().padStart(2, "0");
 	const month = (date.getMonth() + 1).toString().padStart(2, "0");
-	const year = date.getFullYear();
-	return `${month}.${year}`;
+	return `${day}.${month}`;
 }
+
 export const formatDateToYYYYMMDD = (date) => {
 	const year = date.getFullYear();
 	const month = `${date.getMonth() + 1}`.padStart(2, "0");

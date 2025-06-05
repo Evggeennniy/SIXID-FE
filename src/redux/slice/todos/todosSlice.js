@@ -133,6 +133,72 @@ export const changeTodosAction = createAsyncThunk(
     }
   }
 );
+
+export const addTodoAction = createAsyncThunk(
+  "todos/add",
+  async (data, { getState, dispatch, rejectWithValue }) => {
+    const state = getState();
+    const access = state.auth.accessToken;
+    const refresh = state.auth.refreshToken;
+
+    try {
+      const res = await fetchWithAuth(
+        "/api/todos/",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        },
+        access,
+        refresh,
+        (newAccess) => dispatch(setTokens({ access: newAccess })),
+        () => dispatch(logout())
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(errorData);
+      }
+
+      const createdTodo = await res.json();
+      return createdTodo;
+    } catch (error) {
+      return rejectWithValue(error.message || "Network error");
+    }
+  }
+);
+export const deleteTodosAction = createAsyncThunk(
+  "todos/delete",
+  async (id, { getState, dispatch, rejectWithValue }) => {
+    const state = getState();
+    const access = state.auth.accessToken;
+    const refresh = state.auth.refreshToken;
+
+    try {
+      const res = await fetchWithAuth(
+        `/api/todos/${id}/`,
+        {
+          method: "DELETE",
+        },
+        access,
+        refresh,
+        (newAccess) => dispatch(setTokens({ access: newAccess })),
+        () => dispatch(logout())
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(errorData);
+      }
+
+      return id; // Return deleted todo ID to remove from state
+    } catch (error) {
+      return rejectWithValue(error.message || "Network error");
+    }
+  }
+);
 const todosSlice = createSlice({
   name: 'todos',
   initialState,
@@ -158,7 +224,7 @@ const todosSlice = createSlice({
         is_active: true,
         deadline: action.payload?.date || null,
         subtasks: [],
-        priority: "обычно",
+        priority: "normal",
       });
     },
     setTodosItemIsComplete(state, action) {
