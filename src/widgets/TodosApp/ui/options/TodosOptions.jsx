@@ -11,6 +11,7 @@ import {
   addNewOptionItem,
   closeTodoOptions,
   deleteTodoItem,
+  deleteTodosAction,
   selectActiveTodoItem,
   selectIsOpenTodosOptions,
   selectTodosOptionItems,
@@ -21,10 +22,11 @@ import OptionsWrapDropdown from "./OptionsWrapDropdown";
 import SingleSelectOptions from "./SingleSelectOptionOfImportance";
 import OptionsCalendar from "./calendar/OptionsCalendar";
 import Button from "../../../../shared/ui/Button";
+import { formatShortDate } from "../../../../util/timeFormatter";
 const importanceOptions = [
-  { value: "срочно", label: "Срочно" },
-  { value: "важно", label: "Важно" },
-  { value: "обычно", label: "Обычно" },
+  { value: "urgent", label: "Срочно" },
+  { value: "important", label: "Важно" },
+  { value: "normal", label: "Обычно" },
 ];
 function TodosOptions() {
   const {
@@ -69,10 +71,12 @@ function TodosOptions() {
   }
   function onDeleteTodoItem() {
     dispatch(deleteTodoItem(activeTodo?.id));
+    dispatch(deleteTodosAction(activeTodo?.id));
   }
   function onCloseOptions() {
     dispatch(closeTodoOptions());
   }
+
   return (
     <OptionsSection
       open={isOptionsOpen}
@@ -166,15 +170,6 @@ function TodosOptions() {
                 />
               </form>
             </div>
-
-            {/* erro hints for user */}
-            {/* <p
-              className={`${
-                messageHasError ? "opacity-100" : "opacity-0"
-              } text-red-400 pl-3 `}
-            >
-              Поле должно быть не пустым.
-            </p> */}
             <h5 className='leading-normal'></h5>
           </div>
         </section>
@@ -192,6 +187,8 @@ function TodosOptions() {
             icon={<CalendarIcon />}
             text={"Срок выполнения"}
             haveDorder={true}
+            replaceIcon={activeTodo?.deadline !== null}
+            replacerIcon={formatShortDate(activeTodo?.deadline) || null}
           >
             <OptionsCalendar />
           </OptionsWrapDropdown>

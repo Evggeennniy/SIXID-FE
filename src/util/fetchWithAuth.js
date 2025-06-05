@@ -1,79 +1,88 @@
 
-const fetchWithAuth = async (url, options = {}, access, refresh, updateTokens, forceLogout) => {
-  let isRefreshing = false;
-  let refreshSubscribers = [];
 
-  const subscribeTokenRefresh = (callback) => {
-    refreshSubscribers.push(callback);
-  };
+let isRefreshing = false;
+let refreshSubscribers = [];
 
-  const onRefreshed = (newAccess) => {
-    refreshSubscribers.forEach((callback) => callback(newAccess));
-    refreshSubscribers = [];
-  };
+const subscribeTokenRefresh = (callback) => {
+  refreshSubscribers.push(callback);
+};
 
-  const authHeaders = access
-    ? { Authorization: `Bearer ${access}` }
-    : {};
+const onRefreshed = (newAccessToken) => {
+  refreshSubscribers.forEach((callback) => callback(newAccessToken));
+  refreshSubscribers = [];
+};
 
-  const fetchOptions = {
+const fetchWithAuth = async (
+  url,
+  options = {},
+  access,
+  refresh,
+  updateTokens,
+  forceLogout
+) => {
+  const applyToken = (token) => ({
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      ...authHeaders,
       ...options.headers,
+      Authorization: `Bearer ${token}`,
     },
-  };
+  });
 
-  const response = await fetch(url, fetchOptions);
+  // Initial request
+  let response = await fetch(url, applyToken(access));
   if (response.status !== 401) return response;
 
+  // Unauthorized: try refresh
   if (!refresh) {
     forceLogout?.();
-    throw new Error('Unauthorized: No refresh token');
+    throw new Error("Unauthorized: No refresh token");
   }
 
-  if (!isRefreshing) {
-    isRefreshing = true;
-    try {
-      const res = await fetch('/api/auth/token/refresh/', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ refresh }),
+  // Already refreshing? Wait
+  if (isRefreshing) {
+    return new Promise((resolve, reject) => {
+      subscribeTokenRefresh(async (newAccessToken) => {
+        try {
+          const retryResponse = await fetch(url, applyToken(newAccessToken));
+          resolve(retryResponse);
+        } catch (err) {
+          reject(err);
+        }
       });
-
-      if (!res.ok) throw new Error('Refresh failed');
-
-      const data = await res.json();
-      const newAccess = data.access;
-      updateTokens?.(newAccess);
-      onRefreshed(newAccess);
-    } catch (err) {
-      forceLogout?.();
-      throw err;
-    } finally {
-      isRefreshing = false;
-    }
+    });
   }
 
-  return new Promise((resolve, reject) => {
-    subscribeTokenRefresh(async (newAccessToken) => {
-      try {
-        const retryOptions = {
-          ...fetchOptions,
-          headers: {
-            ...fetchOptions.headers,
-            Authorization: `Bearer ${newAccessToken}`,
-          },
-        };
-
-        const retryResponse = await fetch(url, retryOptions);
-        resolve(retryResponse);
-      } catch (err) {
-        reject(err);
-      }
+  // Start refresh
+  isRefreshing = true;
+  try {
+    const refreshResponse = await fetch("/api/auth/token/refresh/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ refresh }),
     });
-  });
+
+    if (!refreshResponse.ok) {
+      forceLogout?.();
+      throw new Error("Token refresh failed");
+    }
+
+    const { access: newAccessToken } = await refreshResponse.json();
+
+    // Update app state (token) and notify subscribers
+    if (updateTokens) {
+      await updateTokens(newAccessToken); // works with async or sync
+    }
+    onRefreshed(newAccessToken);
+
+    // Retry original request with new token
+    return await fetch(url, applyToken(newAccessToken));
+  } catch (err) {
+    forceLogout?.();
+    throw err;
+  } finally {
+    isRefreshing = false;
+  }
 };
 
-export default fetchWithAuth
+export default fetchWithAuth;

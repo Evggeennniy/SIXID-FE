@@ -6,6 +6,7 @@ import { MainSection } from "../../shared/MainSection";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewTodoItem,
+  addTodoAction,
   getTodosAction,
   selectTodosActiveItems,
   selectTodosCompletedItems,
@@ -39,6 +40,15 @@ export const TodosApp = () => {
     const data = Object.fromEntries(fd.entries());
 
     dispatch(addNewTodoItem({ title: data.todo_title, date: null }));
+    dispatch(
+      addTodoAction({
+        title: data.todo_title,
+        is_active: true,
+        priority: "normal",
+        deadline: null,
+      })
+    );
+
     setInputState({
       value: "",
       didBlur: false,
@@ -51,7 +61,7 @@ export const TodosApp = () => {
   }, []);
   return (
     <MainSection>
-      <h2 className='capitalize mb-[30px]'>список задач</h2>
+      <h2 className='capitalize  mb-[30px]'>список задач</h2>
       <TodosInput
         value={messageValue}
         onBlur={handleMessageBlur}
@@ -74,6 +84,7 @@ export const TodosApp = () => {
               />
             ))}
           </div>
+
           <Dropdown
             btnText={"Выполненые"}
             rightIcon={
@@ -88,7 +99,7 @@ export const TodosApp = () => {
             rightIconPosition='inline'
             className=''
           >
-            <div className='text-[#5E5E5E] cursor-pointer transition-colors w-full '>
+            <div className='text-[#5E5E5E] cursor-pointer transition-colors w-full mb-[70px] sm:md-0'>
               {completedTodos.map((todo) => (
                 <TodosItem
                   key={todo.id}
