@@ -37,7 +37,7 @@ export default function AuthForm() {
     handleInputChange: handleConfirmPasswordChange,
     handleInputBlur: handleConfirmPasswordBlur,
   } = useInput("", () => true);
-
+  const [agreed, setAgreed] = useState(false);
   const [error, setError] = useState("");
 
   useEffect(() => {
@@ -65,6 +65,11 @@ export default function AuthForm() {
         setError("Пароли не совпадают");
         return;
       }
+      if (!agreed) {
+        setError("Вы должны принять политику конфиденциальности");
+        return;
+      }
+
       dispatch(
         registerUserAction({
           username: nameValue,
@@ -85,12 +90,11 @@ export default function AuthForm() {
       );
     }
   };
-
   return (
-    <div className='flex justify-center items-center min-h-screen'>
-      <div className='w-full max-w-3xl rounded-xl overflow-hidden shadow-lg flex'>
+    <div className='flex justify-center items-center min-h-screen '>
+      <div className='w-full sm:max-w-4xl rounded-xl overflow-hidden sm:shadow-lg flex flex-col gap-4 sm:gap-0 sm:flex-row items-center sm:items-start sm:h-[27rem]'>
         {/* Left Side - Form */}
-        <div className='w-1/2 p-8 bg-blue-50'>
+        <div className='w-full sm:h-full sm:w-1/2 p-8  bg-[#ECF7FF] shadow rounded-xl sm:rounded-none am:shadow-none'>
           <h2 className='text-2xl text-[#4A4A4A] mb-6'>
             {isLogin ? "Вход в Cixid" : "Регистрация в Cixid"}
           </h2>
@@ -127,7 +131,28 @@ export default function AuthForm() {
               />
             )}
 
-            {/* Ошибка */}
+            {!isLogin && (
+              <label className='flex items-start gap-2 text-sm text-gray-600 mb-4'>
+                <input
+                  type='checkbox'
+                  className='mt-1 accent-blue-600'
+                  checked={agreed}
+                  onChange={(e) => setAgreed(e.target.checked)}
+                />
+                <span>
+                  Я принимаю{" "}
+                  <a
+                    href='/privacy-policy'
+                    className='text-[#1976D2] hover:underline'
+                    target='_blank'
+                    rel='noopener noreferrer'
+                  >
+                    политику конфиденциальности
+                  </a>
+                </span>
+              </label>
+            )}
+
             {(error || errorRedux) && (
               <p className='text-red-600 mb-4 text-sm font-medium'>
                 {error ||
@@ -139,7 +164,7 @@ export default function AuthForm() {
 
             <button
               type='submit'
-              className='w-full bg-[#1976D2] hover:bg-blue-700 text-center! text-white py-2 rounded font-medium transition'
+              className='w-full bg-[#1976D2] hover:bg-blue-700 text-white flex justify-center items-center py-2 rounded font-medium transition'
             >
               {isLogin ? "Войти" : "Зарегистрироваться"}
             </button>
@@ -156,16 +181,24 @@ export default function AuthForm() {
         </div>
 
         {/* Right Side */}
-        <div className='w-1/2 bg-indigo-300 text-white flex flex-col items-center justify-center p-6 relative'>
-          <h3 className='text-[32px] font-semibold text-center mb-2'>
+        <div className='w-full sm:w-1/2 rounded-xl shadow-lg sm:shadow h-[11.625rem]  sm:h-full sm:rounded-none bg-indigo-300 text-white flex flex-col items-center justify-center p-6 relative'>
+          <h3 className='text-[2rem] font-semibold text-center mb-2'>
             Реализуй свои <br />
             <span className='font-bold'>цели</span>.
-            <span className='text-[22px] font-light'> Не чужие.</span>
+            <span className='text-[1.375rem] font-light'> Не чужие.</span>
           </h3>
-          <div className={"absolute top-[28%] left-12 text-lg"}>
+          <div
+            className={
+              "absolute sm:top-[28%] sm:left-12 top-[10%] left-5 text-lg"
+            }
+          >
             <FluentCommaIcon />
           </div>
-          <div className={"absolute bottom-[28%] right-22 text-lg"}>
+          <div
+            className={
+              "absolute sm:bottom-[28%] sm:right-22 bottom-[10%] right-5 text-lg"
+            }
+          >
             <FluentCommaIcon />
           </div>
         </div>

@@ -219,14 +219,17 @@ const todosSlice = createSlice({
       state.isOpenTodosOptions = false
     },
     addNewTodoItem(state, action) {
-      state.todosList.push({
+      const newItem = {
         id: Date.now(),
         title: action.payload.title,
         is_active: true,
         deadline: action.payload?.date || null,
         subtasks: [],
         priority: "normal",
-      });
+      }
+      state.todosList.push(newItem);
+      state.activeDayTasks.push(newItem.id)
+      state.activeTodoItem = newItem.id
     },
     setTodosItemIsComplete(state, action) {
       const todoItem = state.todosList.find(item => item.id === action.payload);
