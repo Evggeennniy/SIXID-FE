@@ -99,7 +99,7 @@ function TodosOptions() {
                     <input
                       type='checkbox'
                       name='is_done'
-                      checked={activeTodo?.status === "complete"}
+                      checked={!activeTodo?.is_active}
                       onChange={onChange}
                       className='absolute w-5 h-5 opacity-0 cursor-pointer'
                       onClick={(e) => e.stopPropagation()}
@@ -107,12 +107,10 @@ function TodosOptions() {
                     <span
                       className={`w-5 h-5 rounded border border-gray-300 flex items-center justify-center
                       ${
-                        activeTodo?.status === "complete"
-                          ? "bg-[#A8A5FF]"
-                          : "bg-[#ECF7FF]"
+                        !activeTodo?.is_active ? "bg-[#A8A5FF]" : "bg-[#ECF7FF]"
                       }`}
                     >
-                      {activeTodo?.status === "complete" && (
+                      {!activeTodo?.is_active && (
                         <svg
                           className='w-4 h-4 text-white'
                           fill='none'

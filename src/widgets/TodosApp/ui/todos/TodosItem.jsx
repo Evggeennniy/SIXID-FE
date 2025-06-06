@@ -19,7 +19,7 @@ export const TodosItem = ({ id, title, deadline, priority, is_active }) => {
     dispatch(setActiveTodoItem(id));
   };
   const handleToggle = (todoId) => {
-    dispatch(setTodosItemIsComplete(id));
+    dispatch(setTodosItemIsComplete(todoId));
     dispatch(
       changeTodosAction({
         id: todoId,
