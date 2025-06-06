@@ -6,6 +6,7 @@ import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import CalendarAppCalendar from "./CalendarAppCalendar";
 import {
+  closeCalendarOptions,
   selectActiveCalendarDay,
   selectIsOpenCalendarOptions,
 } from "../../../../redux/slice/calendar/calendarSlice";
@@ -60,9 +61,7 @@ function CalendarOptions() {
     });
   }, [activeTodo?.title]);
 
-  const dayTasks = useSelector(selectActiveDayTasks)?.filter(
-    (item) => item.id !== activeTodo?.id
-  );
+  const dayTasks = useSelector(selectActiveDayTasks);
 
   function onSubmit(e) {
     e.preventDefault();
@@ -118,9 +117,15 @@ function CalendarOptions() {
       })
     );
   }
+
+  function onCloseOptions() {
+    dispatch(closeCalendarOptions());
+  }
+
   return (
     <OptionsSection
       open={isOptionsOpen}
+      onClose={onCloseOptions}
       className={clsx(
         isOptionsOpen
           ? "opacity-100 w-full md:max-w-[400px] translate-x-0 pointer-events-auto   "
@@ -134,106 +139,112 @@ function CalendarOptions() {
 
             <div className='flex flex-col justify-center sm:flex-row sm:items-center gap-2  border border-[#E0E4FF] p-2 rounded-xl shadow w-full   min-w-0'>
               <div className='flex items-center w-full'>
-                <CheckboxTodo
-                  key={activeTodo?.id}
-                  checked={!activeTodo?.is_active}
-                  onChange={() =>
-                    handleToggle(activeTodo?.id, activeTodo?.is_active)
-                  }
-                  title={activeTodo?.title}
-                />
+                {dayTasks?.length > 0 && (
+                  <CheckboxTodo
+                    key={activeTodo?.id}
+                    checked={!activeTodo?.is_active}
+                    onChange={() =>
+                      handleToggle(activeTodo?.id, activeTodo?.is_active)
+                    }
+                    title={activeTodo?.title}
+                  />
+                )}
               </div>
             </div>
           </div>
-          <div className='flex flex-col '>
-            <OptionsWrapDropdown
-              icon={<SubtasksIcon />}
-              text={`Подзадачи (${optionItems.length || 0})`}
-              haveDorder={true}
-            >
-              <div className='flex flex-col gap-2'>
-                <form
-                  onSubmit={onSubmit}
-                  className='flex justify-start items-center shodow rounded w-full  rounded-sm p-3 shadow-[0_0_10px_rgba(0,0,0,0.1)]'
-                >
-                  <button
-                    type='submit'
-                    className='flex justify-center items-center p-1 '
-                  >
-                    {/* <PlusIcon className='w-[1.0625rem] h-[1.0625rem]' /> */}
-                  </button>
-                  <input
-                    type='text'
-                    name='subtask_title'
-                    placeholder='Добавить подзадачу'
-                    className={`focus:outline-none focus:ring-0 w-full`}
-                    value={messageValue}
-                    onBlur={handleMessageBlur}
-                    onChange={handleMessageChange}
-                  />
-                </form>
-                <ul className='flex flex-col gap-2 p-1'>
-                  {optionItems?.map((item) => (
-                    <TodosOptionItem
-                      key={item.title}
-                      title={item.title}
-                      optionId={item.id}
-                      id={activeTodo?.id}
-                    />
-                  ))}
-                </ul>
-              </div>
-            </OptionsWrapDropdown>
-
-            <OptionsWrapDropdown
-              icon={<CalendarIcon />}
-              text={"Изменить"}
-              haveDorder={true}
-            >
-              <form
-                onSubmit={onSubmitInput}
-                className='flex items-center w-full'
+          {dayTasks?.length > 0 && (
+            <div className='flex flex-col '>
+              <OptionsWrapDropdown
+                icon={<SubtasksIcon />}
+                text={`Подзадачи (${optionItems.length || 0})`}
+                haveDorder={true}
               >
-                <div className='flex items-center w-full gap-2'>
-                  <input
-                    type='text'
-                    value={inputTaskValue}
-                    onBlur={handleInputBlur}
-                    onChange={handleInputChange}
-                    name='input_title'
-                    className='w-full py-2 px-3 rounded bg-[#ECF7FF] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#A8A5FF]'
-                    placeholder='Название задачи'
-                  />
-                  <button className='w-0 h-0 opacity-0'></button>
+                <div className='flex flex-col gap-2'>
+                  <form
+                    onSubmit={onSubmit}
+                    className='flex justify-start items-center shodow rounded w-full  rounded-sm p-3 shadow-[0_0_10px_rgba(0,0,0,0.1)]'
+                  >
+                    <button
+                      type='submit'
+                      className='flex justify-center items-center p-1 '
+                    >
+                      {/* <PlusIcon className='w-[1.0625rem] h-[1.0625rem]' /> */}
+                    </button>
+                    <input
+                      type='text'
+                      name='subtask_title'
+                      placeholder='Добавить подзадачу'
+                      className={`focus:outline-none focus:ring-0 w-full`}
+                      value={messageValue}
+                      onBlur={handleMessageBlur}
+                      onChange={handleMessageChange}
+                    />
+                  </form>
+                  <ul className='flex flex-col gap-2 p-1'>
+                    {optionItems?.map((item) => (
+                      <TodosOptionItem
+                        key={item.title}
+                        title={item.title}
+                        optionId={item.id}
+                        id={activeTodo?.id}
+                      />
+                    ))}
+                  </ul>
                 </div>
-              </form>
-            </OptionsWrapDropdown>
+              </OptionsWrapDropdown>
 
-            <OptionsWrapDropdown
-              icon={<CalendarIcon />}
-              text={"Другая дата"}
-              haveDorder={true}
-            >
-              <CalendarAppCalendar />
-            </OptionsWrapDropdown>
-          </div>
+              <OptionsWrapDropdown
+                icon={<CalendarIcon />}
+                text={"Изменить"}
+                haveDorder={true}
+              >
+                <form
+                  onSubmit={onSubmitInput}
+                  className='flex items-center w-full'
+                >
+                  <div className='flex items-center w-full gap-2'>
+                    <input
+                      type='text'
+                      value={inputTaskValue}
+                      onBlur={handleInputBlur}
+                      onChange={handleInputChange}
+                      name='input_title'
+                      className='w-full py-2 px-3 rounded bg-[#ECF7FF] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#A8A5FF]'
+                      placeholder='Название задачи'
+                    />
+                    <button className='w-0 h-0 opacity-0'></button>
+                  </div>
+                </form>
+              </OptionsWrapDropdown>
 
-          {dayTasks?.map((item) => (
-            <div
-              key={item.id}
-              className='flex flex-col justify-center sm:flex-row sm:items-center gap-2 border border-[#E0E4FF] p-2 rounded-xl shadow w-full min-w-0'
-              onClick={() => dispatch(setActiveTodoItem(item.id))}
-            >
-              <div className='flex items-center w-full'>
-                <CheckboxTodo
-                  key={item?.id}
-                  checked={!item.is_active}
-                  onChange={() => handleToggle(item.id, item.is_active)}
-                  title={item?.title}
-                />
-              </div>
+              <OptionsWrapDropdown
+                icon={<CalendarIcon />}
+                text={"Другая дата"}
+                haveDorder={true}
+              >
+                <CalendarAppCalendar />
+              </OptionsWrapDropdown>
             </div>
-          ))}
+          )}
+
+          {dayTasks
+            ?.filter((item) => item.id !== activeTodo?.id)
+            ?.map((item) => (
+              <div
+                key={item.id}
+                className='flex flex-col justify-center sm:flex-row sm:items-center gap-2 border border-[#E0E4FF] p-2 rounded-xl shadow w-full min-w-0'
+                onClick={() => dispatch(setActiveTodoItem(item.id))}
+              >
+                <div className='flex items-center w-full'>
+                  <CheckboxTodo
+                    key={item?.id}
+                    checked={!item.is_active}
+                    onChange={() => handleToggle(item.id, item.is_active)}
+                    title={item?.title}
+                  />
+                </div>
+              </div>
+            ))}
         </section>
         <div className='mt-auto'>
           <CalendarInput date={activeDay} />

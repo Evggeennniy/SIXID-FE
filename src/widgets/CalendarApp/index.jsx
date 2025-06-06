@@ -61,7 +61,7 @@ export default function CalendarApp() {
   }, []);
   return (
     <MainSection>
-      <div className='p-4 bg-transparent rounded-lg w-full text-[#4A4A4A]'>
+      <div className=' bg-transparent rounded-lg w-full text-[#4A4A4A]'>
         <CalendarHeader
           month={month}
           year={year}
