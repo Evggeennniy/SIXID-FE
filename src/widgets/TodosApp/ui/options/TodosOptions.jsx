@@ -23,6 +23,7 @@ import SingleSelectOptions from "./SingleSelectOptionOfImportance";
 import OptionsCalendar from "./calendar/OptionsCalendar";
 import Button from "../../../../shared/ui/Button";
 import { formatShortDate } from "../../../../util/timeFormatter";
+import CheckboxTodo from "../../../../shared/CheakBoxTodo/CheakoxTodo";
 const importanceOptions = [
   { value: "urgent", label: "Срочно" },
   { value: "important", label: "Важно" },
@@ -94,43 +95,13 @@ function TodosOptions() {
 
             <div className='flex flex-col justify-center sm:flex-row sm:items-center gap-2  border border-[#E0E4FF] p-2 rounded-xl shadow w-full   min-w-0'>
               <div className='flex items-center w-full'>
-                <div className='flex items-center w-full gap-2'>
-                  <label className='relative flex items-center gap-1 py-3 px-2 cursor-pointer bg-[#ECF7FF] rounded'>
-                    <input
-                      type='checkbox'
-                      name='is_done'
-                      checked={!activeTodo?.is_active}
-                      onChange={onChange}
-                      className='absolute w-5 h-5 opacity-0 cursor-pointer'
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                    <span
-                      className={`w-5 h-5 rounded border border-gray-300 flex items-center justify-center
-                      ${
-                        !activeTodo?.is_active ? "bg-[#A8A5FF]" : "bg-[#ECF7FF]"
-                      }`}
-                    >
-                      {!activeTodo?.is_active && (
-                        <svg
-                          className='w-4 h-4 text-white'
-                          fill='none'
-                          stroke='currentColor'
-                          strokeWidth='2'
-                          viewBox='0 0 24 24'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M5 13l4 4L19 7'
-                          />
-                        </svg>
-                      )}
-                    </span>
-                  </label>
-                  <h5 className='break-words min-w-0 leading-normal w-full'>
-                    {activeTodo?.title}
-                  </h5>
-                </div>
+                <CheckboxTodo
+                  key={activeTodo?.id}
+                  checked={!activeTodo?.is_active}
+                  onChange={onChange}
+                  title={activeTodo?.title}
+                  onClick={(e) => e.stopPropagation()}
+                />
               </div>
             </div>
           </div>

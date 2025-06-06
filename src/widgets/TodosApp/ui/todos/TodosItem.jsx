@@ -10,6 +10,7 @@ import {
   setTodosItemIsComplete,
 } from "../../../../redux/slice/todos/todosSlice";
 import TodosItemStatusOfImportance from "./TodosItemStatusOfImportance";
+import CheckboxTodo from "../../../../shared/CheakBoxTodo/CheakoxTodo";
 
 export const TodosItem = ({ id, title, deadline, priority, is_active }) => {
   const dispatch = useDispatch();
@@ -39,42 +40,12 @@ export const TodosItem = ({ id, title, deadline, priority, is_active }) => {
       onClick={onClickHandler}
     >
       <div className='col-span-1 sm:col-span-4 items-center flex w-full gap-2 sm:gap-4'>
-        <label className='relative flex items-center cursor-pointer p-2'>
-          <input
-            type='checkbox'
-            name='is_done'
-            checked={is_active}
-            onChange={() => handleToggle(id, is_active)}
-            onClick={(e) => e.stopPropagation()}
-            className='absolute w-6 h-6 opacity-0 cursor-pointer'
-          />
-          <span
-            className={`w-[18px] h-[18px] rounded border border-gray-300 flex items-center justify-center
-      ${!is_active ? "bg-[#A8A5FF]" : "bg-[#ECF7FF]"}`}
-          >
-            {!is_active && (
-              <svg
-                className='w-4 h-4 text-white'
-                fill='none'
-                stroke='currentColor'
-                strokeWidth='2'
-                viewBox='0 0 24 24'
-              >
-                <path
-                  strokeLinecap='round'
-                  strokeLinejoin='round'
-                  d='M5 13l4 4L19 7'
-                />
-              </svg>
-            )}
-          </span>
-        </label>
-        <h5
-          className='overflow-hidden sm:line-clamp-1 line-clamp-2'
+        <CheckboxTodo
+          key={id}
+          checked={!is_active}
+          onChange={() => handleToggle(id, is_active)}
           title={title}
-        >
-          {title}
-        </h5>
+        />
       </div>
 
       <TodosItemStatusOfImportance priority={priority} />

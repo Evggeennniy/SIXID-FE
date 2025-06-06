@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { OptionsSection } from "@shared/OptionsSection/index.jsx";
 import OptionsWrapDropdown from "@widgets/TodosApp/ui/options/OptionsWrapDropdown.jsx";
 import CalendarIcon from "@assets/svg/option-calendar-icon.svg?react";
@@ -47,16 +47,22 @@ function CalendarOptions() {
 
   const {
     value: inputTaskValue,
-    handleInputBlur: handleInputBlur,
-    handleInputChange: handleInputChange,
+    handleInputBlur,
+    handleInputChange,
     setInputState: setInputTaskState,
-  } = useInput(activeTodo?.title, (value) => isNotEmpty(value));
+  } = useInput(activeTodo?.title || "", (value) => isNotEmpty(value));
+
+  useEffect(() => {
+    setInputTaskState({
+      value: activeTodo?.title,
+      didBlur: false,
+      wasValidOnBlur: false,
+    });
+  }, [activeTodo?.title]);
 
   const dayTasks = useSelector(selectActiveDayTasks)?.filter(
     (item) => item.id !== activeTodo?.id
   );
-
-  console.log(dayTasks);
 
   function onSubmit(e) {
     e.preventDefault();
@@ -111,11 +117,6 @@ function CalendarOptions() {
         data: { title: data.input_title },
       })
     );
-    // setInputTaskState({
-    //   value: activeTodo?.title,
-    //   didBlur: false,
-    //   wasValidOnBlur: false,
-    // });
   }
   return (
     <OptionsSection
