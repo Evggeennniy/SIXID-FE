@@ -13,6 +13,8 @@ import {
 import {
   addNewOptionItem,
   changeTodosAction,
+  deleteTodoItem,
+  deleteTodosAction,
   selectActiveDayTasks,
   selectActiveTodoItem,
   selectTodosOptionItems,
@@ -26,6 +28,7 @@ import { useInput } from "../../../../hooks/useInput";
 import SubtasksIcon from "@assets/svg/subtasks.svg?react";
 import CalendarInput from "./CalendarInput";
 import CheckboxTodo from "../../../../shared/CheakBoxTodo/CheakoxTodo";
+import BacketIcon from "@assets/svg/backet.svg?react";
 function CalendarOptions() {
   const dispatch = useDispatch();
   const {
@@ -62,6 +65,11 @@ function CalendarOptions() {
   }, [activeTodo?.title]);
 
   const dayTasks = useSelector(selectActiveDayTasks);
+
+  function onDeleteTodoItem() {
+    dispatch(deleteTodoItem(activeTodo?.id));
+    dispatch(deleteTodosAction(activeTodo?.id));
+  }
 
   function onSubmit(e) {
     e.preventDefault();
@@ -133,27 +141,30 @@ function CalendarOptions() {
       )}
     >
       <div className='flex flex-col gap-6 w-full h-full px-12 pb-5 md:p-5  min-h-fit    '>
-        <section className='flex flex-col justify-center  w-full gap-5'>
-          <div className='flex flex-col text-[#5E5E5E] '>
-            <h5 className={"text-[#A4A4A4] mb-2 md:hidden"}>Главая задача</h5>
-
-            <div className='flex flex-col justify-center sm:flex-row sm:items-center gap-2  border border-[#E0E4FF] p-2 rounded-xl shadow w-full   min-w-0'>
+        <section className='flex flex-col justify-center  w-full gap-2'>
+          {dayTasks?.map((item) => (
+            <div
+              key={item.id}
+              className={clsx(
+                "flex flex-col justify-center sm:flex-row sm:items-center gap-2 border border-[#E0E4FF] p-2 rounded-xl shadow w-full min-w-0",
+                activeTodo?.id === item.id && "bg-[#E1F5FF]"
+              )}
+              onClick={() => dispatch(setActiveTodoItem(item.id))}
+            >
               <div className='flex items-center w-full'>
-                {dayTasks?.length > 0 && (
-                  <CheckboxTodo
-                    key={activeTodo?.id}
-                    checked={!activeTodo?.is_active}
-                    onChange={() =>
-                      handleToggle(activeTodo?.id, activeTodo?.is_active)
-                    }
-                    title={activeTodo?.title}
-                  />
-                )}
+                <CheckboxTodo
+                  key={item?.id}
+                  checked={!item.is_active}
+                  onChange={() => handleToggle(item.id, item.is_active)}
+                  title={item?.title}
+                />
               </div>
             </div>
-          </div>
+          ))}
+        </section>
+        <div className='mt-auto'>
           {dayTasks?.length > 0 && (
-            <div className='flex flex-col '>
+            <div className='flex flex-col  '>
               <OptionsWrapDropdown
                 icon={<SubtasksIcon />}
                 text={`Подзадачи (${optionItems.length || 0})`}
@@ -224,31 +235,16 @@ function CalendarOptions() {
               >
                 <CalendarAppCalendar />
               </OptionsWrapDropdown>
+              <button
+                onClick={onDeleteTodoItem}
+                className='border-t border-b border-[#E0E4FF] w-full flex gap-2 py-3  text-[#CDCDCD]'
+              >
+                <BacketIcon /> Удалить
+              </button>
             </div>
           )}
-
-          {dayTasks
-            ?.filter((item) => item.id !== activeTodo?.id)
-            ?.map((item) => (
-              <div
-                key={item.id}
-                className='flex flex-col justify-center sm:flex-row sm:items-center gap-2 border border-[#E0E4FF] p-2 rounded-xl shadow w-full min-w-0'
-                onClick={() => dispatch(setActiveTodoItem(item.id))}
-              >
-                <div className='flex items-center w-full'>
-                  <CheckboxTodo
-                    key={item?.id}
-                    checked={!item.is_active}
-                    onChange={() => handleToggle(item.id, item.is_active)}
-                    title={item?.title}
-                  />
-                </div>
-              </div>
-            ))}
-        </section>
-        <div className='mt-auto'>
-          <CalendarInput date={activeDay} />
         </div>
+        <CalendarInput date={activeDay} />
       </div>
     </OptionsSection>
   );

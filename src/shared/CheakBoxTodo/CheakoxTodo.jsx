@@ -1,7 +1,7 @@
 function CheckboxTodo({ checked, onChange, title, className = "" }) {
   return (
     <div className={`flex items-center w-full gap-2 ${className}`}>
-      <label className='relative flex items-center gap-1 py-3 px-2 cursor-pointer bg-[#ECF7FF] rounded'>
+      <label className='relative flex items-center gap-1 py-3 px-2 cursor-pointer bg-transparent rounded'>
         <input
           type='checkbox'
           checked={checked}
