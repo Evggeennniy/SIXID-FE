@@ -26,15 +26,13 @@ const calendarSlice = createSlice({
       state.activeCalendarItem = null;
       state.isOpenCalendarOptions = false
     },
-    setActiveDayTasks(state, action) {
-      state.activeDayTasks = action.payload
-    }
+
   }
 })
-export const { setActiveCalendarDay, closeCalendarOptions, setActiveDayTasks } = calendarSlice.actions
+export const { setActiveCalendarDay, closeCalendarOptions, } = calendarSlice.actions
 export default calendarSlice.reducer
 
 export const selectIsOpenCalendarOptions = ((state) => state.calendar.isOpenCalendarOptions);
-export const selectActiveDayTasks = ((state) => state.calendar.activeDayTasks);
+
 export const selectActiveCalendarDay = ((state) => state.calendar.activeDay);
 

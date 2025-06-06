@@ -3,9 +3,11 @@ import { useSelector, useDispatch } from "react-redux";
 import BaseCalendar from "../../../../shared/BaseCalendar/BaseCalendar";
 
 import {
+  changeTodosAction,
   selectActiveTodoItem,
   setTodosItemDeadline,
 } from "../../../../redux/slice/todos/todosSlice";
+import { formatDateToYYYYMMDD } from "../../../../util/timeFormatter";
 
 export default function CalendarAppCalendar() {
   const dispatch = useDispatch();
@@ -20,15 +22,24 @@ export default function CalendarAppCalendar() {
   const deadline = activeTodo?.deadline ? new Date(activeTodo.deadline) : null;
 
   const color =
-    activeTodo?.statusOfImportant === "важно"
+    activeTodo?.priority === "important"
       ? "rgba(50, 195, 104, 1)"
-      : activeTodo?.statusOfImportant === "срочно"
+      : activeTodo?.priority === "urgent"
       ? "rgba(255, 0, 0, 1)"
       : "rgba(150, 227, 255, 1)";
 
   const handleDateClick = (date) => {
     if (activeTodo) {
-      dispatch(setTodosItemDeadline({ id: activeTodo.id, deadline: date }));
+      const formatedDate = formatDateToYYYYMMDD(date);
+      dispatch(
+        setTodosItemDeadline({ id: activeTodo.id, deadline: formatedDate })
+      );
+      dispatch(
+        changeTodosAction({
+          id: activeTodo.id,
+          data: { deadline: formatedDate },
+        })
+      );
     }
   };
 

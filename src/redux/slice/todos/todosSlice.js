@@ -65,7 +65,8 @@ const initialState = {
   loading: false,
   error: null,
   activeTodoItem: null,
-  isOpenTodosOptions: false
+  isOpenTodosOptions: false,
+  activeDayTasks: []
 }
 //getTodos
 
@@ -260,6 +261,15 @@ const todosSlice = createSlice({
       if (item) {
         item.priority = action.payload.priority
       }
+    },
+    setTodoItemTitle(state, action) {
+      const item = state.todosList.find(item => item.id === action.payload.id)
+      if (item) {
+        item.title = action.payload.title
+      }
+    },
+    setActiveDayTasks(state, action) {
+      state.activeDayTasks = action.payload
     }
 
   },
@@ -299,7 +309,7 @@ const todosSlice = createSlice({
 
   }
 })
-export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete, addNewTodoItem, deleteTodoItem, closeTodoOptions, setTodoItemStatusOfImportantce, setTodosItemDeadline } = todosSlice.actions
+export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete, addNewTodoItem, deleteTodoItem, closeTodoOptions, setTodoItemStatusOfImportantce, setTodosItemDeadline, setActiveDayTasks, setTodoItemTitle } = todosSlice.actions
 export default todosSlice.reducer
 export const selectTodosAllItems = ((state) => state.todos.todosList);
 export const selectTodosActiveItems = ((state) => state.todos.todosList.filter(item => item.is_active));
@@ -308,3 +318,13 @@ export const selectIsOpenTodosOptions = ((state) => state.todos.isOpenTodosOptio
 export const selectActiveTodoItem = ((state) => state.todos.activeTodoItem);
 export const selectTodosOptionItems = (state, activeTodoItem) =>
   state.todos.todosList.find((item) => item.id === activeTodoItem)?.subtasks || [];
+export const selectActiveDayTasks = (state) => {
+  const taskIds = state.todos.activeDayTasks;
+  const allTasks = state.todos.todosList;
+
+  if (!taskIds || taskIds.length === 0) return [];
+
+  return allTasks.filter((task) => taskIds.includes(task.id));
+};
+
+

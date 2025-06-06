@@ -2,9 +2,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   selectActiveCalendarDay,
   setActiveCalendarDay,
-  setActiveDayTasks,
 } from "../../../../redux/slice/calendar/calendarSlice";
-import { setActiveTodoItem } from "../../../../redux/slice/todos/todosSlice";
+import {
+  setActiveDayTasks,
+  setActiveTodoItem,
+} from "../../../../redux/slice/todos/todosSlice";
 
 export default function CalendarDayCell({ day, isToday, tasks = [] }) {
   const dispatch = useDispatch();
@@ -12,11 +14,11 @@ export default function CalendarDayCell({ day, isToday, tasks = [] }) {
 
   const getBgColor = (importance) => {
     switch (importance) {
-      case "срочно":
+      case "urgent":
         return "bg-red-300";
-      case "важно":
+      case "important":
         return "bg-green-300";
-      case "обычно":
+      case "normal":
         return "bg-[#96E3FF]";
       default:
         return "bg-white";
@@ -25,8 +27,8 @@ export default function CalendarDayCell({ day, isToday, tasks = [] }) {
 
   function handleOnClick() {
     dispatch(setActiveCalendarDay(day.date.toDateString()));
-    dispatch(setActiveDayTasks(tasks));
-    dispatch(setActiveTodoItem(tasks?.[0]?.id));
+    dispatch(setActiveDayTasks(tasks?.map((item) => item?.id)));
+    dispatch(setActiveTodoItem(tasks?.[0].id));
   }
 
   const isActive = day.date.toDateString() === activeDay;
@@ -37,13 +39,13 @@ export default function CalendarDayCell({ day, isToday, tasks = [] }) {
       className={`
         p-2 rounded-lg flex flex-col items-start justify-start text-sm overflow-hidden
         h-auto sm:h-[130px] shadow-[0_0_10px_rgba(0,0,0,0.2)] cursor-pointer transition-all duration-200
-        ${isActive ? "ring-2 ring-blue-500 bg-blue-50" : ""}
+        ${isActive ? "ring-2 ring-[#E0E4FF] bg-[#E0E4FF]!" : ""}
         ${
           !day.currentMonth
             ? "text-[#A4A4A4] bg-[#FFFFFF] opacity-40"
             : "text-[#4A4A4A] bg-[#FFFFFF] opacity-80"
         }
-        ${isToday ? "border-2 border-blue-400 font-bold" : ""}
+        ${isToday ? "bg-[#A4A4A4]!  font-bold" : ""}
       `}
     >
       <span className='text-[.9375rem] sm:text-base'>{day.dayNumber}</span>
@@ -53,7 +55,7 @@ export default function CalendarDayCell({ day, isToday, tasks = [] }) {
           <div
             key={idx}
             className={`p-1 text-[.65rem] sm:text-[.75rem] text-left border-l ${getBgColor(
-              task.statusOfImportant
+              task.priority
             )} border-[#A8A5FF] whitespace-nowrap overflow-hidden text-ellipsis`}
           >
             {task.title}

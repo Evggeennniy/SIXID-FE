@@ -1,13 +1,18 @@
 import React from "react";
-import { addNewTodoItem } from "../../../../redux/slice/todos/todosSlice";
+import {
+  addNewTodoItem,
+  addTodoAction,
+} from "../../../../redux/slice/todos/todosSlice";
 import { isNotEmpty } from "../../../../util/validation";
 import { useInput } from "../../../../hooks/useInput";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { TodosInput } from "../../../TodosApp/ui/todos/TodosInput";
+import { formatDateToYYYYMMDD } from "../../../../util/timeFormatter";
+import { selectActiveCalendarDay } from "../../../../redux/slice/calendar/calendarSlice";
 
-function CalendarInput({ date }) {
+function CalendarInput() {
+  const activeDay = useSelector(selectActiveCalendarDay);
   const dispatch = useDispatch();
-
   const {
     value: messageValue,
     handleInputBlur: handleMessageBlur,
@@ -15,7 +20,6 @@ function CalendarInput({ date }) {
 
     setInputState,
   } = useInput("", (value) => isNotEmpty(value));
-
   function onSubmit(e) {
     e.preventDefault();
 
@@ -25,8 +29,22 @@ function CalendarInput({ date }) {
     }
     const fd = new FormData(e.currentTarget);
     const data = Object.fromEntries(fd.entries());
+    if (activeDay) {
+      const newDate = new Date(activeDay);
+      const formatedDate = formatDateToYYYYMMDD(newDate);
 
-    dispatch(addNewTodoItem({ title: data.todo_title, date: date }));
+      dispatch(addNewTodoItem({ title: data.todo_title, date: formatedDate }));
+
+      dispatch(
+        addTodoAction({
+          title: data.todo_title,
+          is_active: true,
+          priority: "normal",
+          deadline: formatedDate,
+        })
+      );
+    }
+
     setInputState({
       value: "",
       didBlur: false,

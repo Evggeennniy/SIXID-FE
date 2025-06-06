@@ -1,13 +1,17 @@
-import { useSelector } from "react-redux";
-import { selectTodosAllItems } from "../../redux/slice/todos/todosSlice.js";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getTodosAction,
+  selectTodosAllItems,
+} from "../../redux/slice/todos/todosSlice.js";
 import CalendarGrid from "@widgets/CalendarApp/ui/calendar/CalendarGrid.jsx";
 import CalendarHeader from "@widgets/CalendarApp/ui/calendar/CalendarHeader.jsx";
 import WeekDaysHeader from "@widgets/CalendarApp/ui/calendar/WeekDaysHeader.jsx";
 import getMonthDays from "../../util/getMonthDays.js";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MainSection } from "@shared/MainSection/index.jsx";
 
 export default function CalendarApp() {
+  const dispatch = useDispatch();
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(today);
   const [viewMode, setViewMode] = useState("month");
@@ -52,7 +56,9 @@ export default function CalendarApp() {
       : newDate.setDate(currentDate.getDate() + 7);
     setCurrentDate(newDate);
   };
-
+  useEffect(() => {
+    dispatch(getTodosAction());
+  }, []);
   return (
     <MainSection>
       <div className='p-4 bg-transparent rounded-lg w-full text-[#4A4A4A]'>

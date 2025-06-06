@@ -7,22 +7,24 @@ import { useDispatch, useSelector } from "react-redux";
 import CalendarAppCalendar from "./CalendarAppCalendar";
 import {
   selectActiveCalendarDay,
-  selectActiveDayTasks,
   selectIsOpenCalendarOptions,
 } from "../../../../redux/slice/calendar/calendarSlice";
 import {
   addNewOptionItem,
+  changeTodosAction,
+  selectActiveDayTasks,
   selectActiveTodoItem,
   selectTodosOptionItems,
   setActiveTodoItem,
+  setTodoItemTitle,
   setTodosItemIsComplete,
 } from "../../../../redux/slice/todos/todosSlice";
 import TodosOptionItem from "../../../TodosApp/ui/options/TodosOptionItem";
 import { isNotEmpty } from "../../../../util/validation";
 import { useInput } from "../../../../hooks/useInput";
 import SubtasksIcon from "@assets/svg/subtasks.svg?react";
-import { TodosInput } from "../../../TodosApp/ui/todos/TodosInput";
 import CalendarInput from "./CalendarInput";
+import CheckboxTodo from "../../../../shared/CheakBoxTodo/CheakoxTodo";
 function CalendarOptions() {
   const dispatch = useDispatch();
   const {
@@ -35,8 +37,6 @@ function CalendarOptions() {
   const isOptionsOpen = useSelector(selectIsOpenCalendarOptions);
 
   const activeDay = useSelector(selectActiveCalendarDay);
-  console.log(activeDay);
-  const dayTasks = useSelector(selectActiveDayTasks);
   const { activeTodo, optionItems } = useSelector((state) => {
     const activeTodo = state.todos.todosList.find(
       (todo) => todo.id === selectActiveTodoItem(state)
@@ -44,6 +44,19 @@ function CalendarOptions() {
     const subtasks = selectTodosOptionItems(state, activeTodo?.id);
     return { activeTodo, optionItems: subtasks };
   });
+
+  const {
+    value: inputTaskValue,
+    handleInputBlur: handleInputBlur,
+    handleInputChange: handleInputChange,
+    setInputState: setInputTaskState,
+  } = useInput(activeTodo?.title, (value) => isNotEmpty(value));
+
+  const dayTasks = useSelector(selectActiveDayTasks)?.filter(
+    (item) => item.id !== activeTodo?.id
+  );
+
+  console.log(dayTasks);
 
   function onSubmit(e) {
     e.preventDefault();
@@ -55,18 +68,54 @@ function CalendarOptions() {
     const data = Object.fromEntries(fd.entries());
 
     dispatch(
-      addNewOptionItem({ todoId: activeTodo?.id, title: data.subtask_title })
+      addNewOptionItem({
+        todoId: activeTodo?.id,
+        title: data.subtask_title,
+      })
     );
+
     setInputState({
-      value: "",
+      value: activeTodo?.title,
       didBlur: false,
       wasValidOnBlur: false,
     });
   }
 
-  function onChange() {
-    if (!activeTodo) return;
-    dispatch(setTodosItemIsComplete(activeTodo.id));
+  const handleToggle = (todoId, status) => {
+    dispatch(setTodosItemIsComplete(todoId));
+    dispatch(
+      changeTodosAction({
+        id: todoId,
+        data: { is_active: !status },
+      })
+    );
+  };
+  function onSubmitInput(e) {
+    e.preventDefault();
+    if (!isNotEmpty(inputTaskValue)) {
+      handleInputBlur();
+      return;
+    }
+    const fd = new FormData(e.currentTarget);
+    const data = Object.fromEntries(fd.entries());
+    dispatch(
+      setTodoItemTitle({
+        id: activeTodo?.id,
+        title: data.input_title,
+      })
+    );
+
+    dispatch(
+      changeTodosAction({
+        id: activeTodo?.id,
+        data: { title: data.input_title },
+      })
+    );
+    // setInputTaskState({
+    //   value: activeTodo?.title,
+    //   didBlur: false,
+    //   wasValidOnBlur: false,
+    // });
   }
   return (
     <OptionsSection
@@ -84,45 +133,14 @@ function CalendarOptions() {
 
             <div className='flex flex-col justify-center sm:flex-row sm:items-center gap-2  border border-[#E0E4FF] p-2 rounded-xl shadow w-full   min-w-0'>
               <div className='flex items-center w-full'>
-                <div className='flex items-center w-full gap-2'>
-                  <label className='relative flex items-center gap-1 py-3 px-2 cursor-pointer bg-[#ECF7FF] rounded'>
-                    <input
-                      type='checkbox'
-                      name='is_done'
-                      checked={activeTodo?.status === "complete"}
-                      onChange={onChange}
-                      className='absolute w-5 h-5 opacity-0 cursor-pointer'
-                      onClick={(e) => e.stopPropagation()}
-                    />
-                    <span
-                      className={`w-5 h-5 rounded border border-gray-300 flex items-center justify-center
-                      ${
-                        activeTodo?.status === "complete"
-                          ? "bg-[#A8A5FF]"
-                          : "bg-[#ECF7FF]"
-                      }`}
-                    >
-                      {activeTodo?.status === "complete" && (
-                        <svg
-                          className='w-4 h-4 text-white'
-                          fill='none'
-                          stroke='currentColor'
-                          strokeWidth='2'
-                          viewBox='0 0 24 24'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M5 13l4 4L19 7'
-                          />
-                        </svg>
-                      )}
-                    </span>
-                  </label>
-                  <h5 className='break-words min-w-0 leading-normal w-full'>
-                    {activeTodo?.title}
-                  </h5>
-                </div>
+                <CheckboxTodo
+                  key={activeTodo?.id}
+                  checked={!activeTodo?.is_active}
+                  onChange={() =>
+                    handleToggle(activeTodo?.id, activeTodo?.is_active)
+                  }
+                  title={activeTodo?.title}
+                />
               </div>
             </div>
           </div>
@@ -171,7 +189,23 @@ function CalendarOptions() {
               text={"Изменить"}
               haveDorder={true}
             >
-              ф{/* <CalendarAppCalendar /> */}
+              <form
+                onSubmit={onSubmitInput}
+                className='flex items-center w-full'
+              >
+                <div className='flex items-center w-full gap-2'>
+                  <input
+                    type='text'
+                    value={inputTaskValue}
+                    onBlur={handleInputBlur}
+                    onChange={handleInputChange}
+                    name='input_title'
+                    className='w-full py-2 px-3 rounded bg-[#ECF7FF] border border-gray-300 focus:outline-none focus:ring-2 focus:ring-[#A8A5FF]'
+                    placeholder='Название задачи'
+                  />
+                  <button className='w-0 h-0 opacity-0'></button>
+                </div>
+              </form>
             </OptionsWrapDropdown>
 
             <OptionsWrapDropdown
@@ -183,57 +217,22 @@ function CalendarOptions() {
             </OptionsWrapDropdown>
           </div>
 
-          {dayTasks
-            .filter((item) => item.id !== activeTodo?.id)
-            ?.map((item) => (
-              <>
-                {" "}
-                <div
-                  className='flex flex-col justify-center sm:flex-row sm:items-center gap-2  border border-[#E0E4FF] p-2 rounded-xl shadow w-full   min-w-0'
-                  onClick={() => dispatch(setActiveTodoItem(item.id))}
-                >
-                  <div className='flex items-center w-full'>
-                    <div className='flex items-center w-full gap-2'>
-                      <label className='relative flex items-center gap-1 py-3 px-2 cursor-pointer bg-[#ECF7FF] rounded'>
-                        <input
-                          type='checkbox'
-                          name='is_done'
-                          checked={item?.status === "complete"}
-                          className='absolute w-5 h-5 opacity-0 cursor-pointer'
-                        />
-                        <span
-                          className={`w-5 h-5 rounded border border-gray-300 flex items-center justify-center
-                      ${
-                        item?.status === "complete"
-                          ? "bg-[#A8A5FF]"
-                          : "bg-[#ECF7FF]"
-                      }`}
-                        >
-                          {item?.status === "complete" && (
-                            <svg
-                              className='w-4 h-4 text-white'
-                              fill='none'
-                              stroke='currentColor'
-                              strokeWidth='2'
-                              viewBox='0 0 24 24'
-                            >
-                              <path
-                                strokeLinecap='round'
-                                strokeLinejoin='round'
-                                d='M5 13l4 4L19 7'
-                              />
-                            </svg>
-                          )}
-                        </span>
-                      </label>
-                      <h5 className='break-words min-w-0 leading-normal w-full'>
-                        {item?.title}
-                      </h5>
-                    </div>
-                  </div>
-                </div>
-              </>
-            ))}
+          {dayTasks?.map((item) => (
+            <div
+              key={item.id}
+              className='flex flex-col justify-center sm:flex-row sm:items-center gap-2 border border-[#E0E4FF] p-2 rounded-xl shadow w-full min-w-0'
+              onClick={() => dispatch(setActiveTodoItem(item.id))}
+            >
+              <div className='flex items-center w-full'>
+                <CheckboxTodo
+                  key={item?.id}
+                  checked={!item.is_active}
+                  onChange={() => handleToggle(item.id, item.is_active)}
+                  title={item?.title}
+                />
+              </div>
+            </div>
+          ))}
         </section>
         <div className='mt-auto'>
           <CalendarInput date={activeDay} />
