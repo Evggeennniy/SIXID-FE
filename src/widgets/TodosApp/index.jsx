@@ -6,11 +6,14 @@ import { MainSection } from "../../shared/MainSection";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewTodoItem,
+  addTodoAction,
+  getTodosAction,
   selectTodosActiveItems,
   selectTodosCompletedItems,
 } from "../../redux/slice/todos/todosSlice";
 import { useInput } from "../../hooks/useInput";
 import { isNotEmpty } from "../../util/validation";
+import { useEffect } from "react";
 
 export const TodosApp = () => {
   const dispatch = useDispatch();
@@ -36,16 +39,29 @@ export const TodosApp = () => {
     const fd = new FormData(e.currentTarget);
     const data = Object.fromEntries(fd.entries());
 
-    dispatch(addNewTodoItem(data.todo_title));
+    dispatch(addNewTodoItem({ title: data.todo_title, date: null }));
+    dispatch(
+      addTodoAction({
+        title: data.todo_title,
+        is_active: true,
+        priority: "normal",
+        deadline: null,
+      })
+    );
+
     setInputState({
       value: "",
       didBlur: false,
       wasValidOnBlur: false,
     });
   }
+
+  useEffect(() => {
+    dispatch(getTodosAction());
+  }, []);
   return (
     <MainSection>
-      <h2 className='capitalize mb-[30px]'>список задач</h2>
+      <h2 className='capitalize  mb-[30px]'>список задач</h2>
       <TodosInput
         value={messageValue}
         onBlur={handleMessageBlur}
@@ -62,12 +78,13 @@ export const TodosApp = () => {
                 key={todo.id}
                 id={todo.id}
                 title={todo.title}
-                statusOfImportant={todo.statusOfImportant}
+                priority={todo.priority}
                 deadline={todo.deadline}
-                isComplete={false}
+                is_active={todo.is_active}
               />
             ))}
           </div>
+
           <Dropdown
             btnText={"Выполненые"}
             rightIcon={
@@ -82,15 +99,15 @@ export const TodosApp = () => {
             rightIconPosition='inline'
             className=''
           >
-            <div className='text-[#5E5E5E] cursor-pointer transition-colors w-full '>
+            <div className='text-[#5E5E5E] cursor-pointer transition-colors w-full mb-[70px] sm:md-0'>
               {completedTodos.map((todo) => (
                 <TodosItem
                   key={todo.id}
                   id={todo.id}
                   title={todo.title}
-                  statusOfImportant={todo.statusOfImportant}
+                  priority={todo.priority}
                   deadline={todo.deadline}
-                  isComplete={true}
+                  is_active={todo.is_active}
                 />
               ))}
             </div>
