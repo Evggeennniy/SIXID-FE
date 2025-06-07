@@ -1,14 +1,15 @@
+import { useSelector, useDispatch } from "react-redux";
+
+import BaseCalendar from "../../../../shared/BaseCalendar/BaseCalendar";
+
 import {
   changeTodosAction,
   selectActiveTodoItem,
   setTodosItemDeadline,
-} from "../../../../../redux/slice/todos/todosSlice";
+} from "../../../../redux/slice/todos/todosSlice";
+import { formatDateToYYYYMMDD } from "../../../../util/timeFormatter";
 
-import { useSelector, useDispatch } from "react-redux";
-import BaseCalendar from "../../../../../shared/BaseCalendar/BaseCalendar";
-import { formatDateToYYYYMMDD } from "../../../../../util/timeFormatter";
-
-export default function OptionsCalendar() {
+export default function CalendarAppCalendar() {
   const dispatch = useDispatch();
 
   const today = new Date();
@@ -21,9 +22,9 @@ export default function OptionsCalendar() {
   const deadline = activeTodo?.deadline ? new Date(activeTodo.deadline) : null;
 
   const color =
-    activeTodo?.statusOfImportant === "важно"
+    activeTodo?.priority === "important"
       ? "rgba(50, 195, 104, 1)"
-      : activeTodo?.statusOfImportant === "срочно"
+      : activeTodo?.priority === "urgent"
       ? "rgba(255, 0, 0, 1)"
       : "rgba(150, 227, 255, 1)";
 
@@ -31,10 +32,7 @@ export default function OptionsCalendar() {
     if (activeTodo) {
       const formatedDate = formatDateToYYYYMMDD(date);
       dispatch(
-        setTodosItemDeadline({
-          id: activeTodo.id,
-          deadline: formatedDate,
-        })
+        setTodosItemDeadline({ id: activeTodo.id, deadline: formatedDate })
       );
       dispatch(
         changeTodosAction({

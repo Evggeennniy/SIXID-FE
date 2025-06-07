@@ -1,12 +1,21 @@
 import Dropdown from "../../../../shared/ui/dropdown/Dropdown";
 import OptionsDropdownIcon from "./OptionsDropdownIcon";
 
-function OptionsWrapDropdown({ children, icon, text, haveDorder = false }) {
+function OptionsWrapDropdown({
+  children,
+  icon,
+  text,
+  haveDorder = false,
+  replaceIcon = false,
+  replacerIcon = null,
+}) {
   return (
     <div className={`${haveDorder ? "border-t  " : ""} py-2 border-[#E0E4FF]`}>
       <Dropdown
         btnText={<OptionsDropdownIcon icon={icon} text={text} />}
         className='text-[#A4A4A4]'
+        replaceIcon={replaceIcon}
+        replacerIcon={replacerIcon}
         usePlusIcon={true}
         isInlineContent={true}
       >

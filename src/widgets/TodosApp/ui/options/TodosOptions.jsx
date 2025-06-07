@@ -11,6 +11,7 @@ import {
   addNewOptionItem,
   closeTodoOptions,
   deleteTodoItem,
+  deleteTodosAction,
   selectActiveTodoItem,
   selectIsOpenTodosOptions,
   selectTodosOptionItems,
@@ -21,10 +22,12 @@ import OptionsWrapDropdown from "./OptionsWrapDropdown";
 import SingleSelectOptions from "./SingleSelectOptionOfImportance";
 import OptionsCalendar from "./calendar/OptionsCalendar";
 import Button from "../../../../shared/ui/Button";
+import { formatShortDate } from "../../../../util/timeFormatter";
+import CheckboxTodo from "../../../../shared/CheakBoxTodo/CheakoxTodo";
 const importanceOptions = [
-  { value: "срочно", label: "Срочно" },
-  { value: "важно", label: "Важно" },
-  { value: "обычно", label: "Обычно" },
+  { value: "urgent", label: "Срочно" },
+  { value: "important", label: "Важно" },
+  { value: "normal", label: "Обычно" },
 ];
 function TodosOptions() {
   const {
@@ -69,10 +72,12 @@ function TodosOptions() {
   }
   function onDeleteTodoItem() {
     dispatch(deleteTodoItem(activeTodo?.id));
+    dispatch(deleteTodosAction(activeTodo?.id));
   }
   function onCloseOptions() {
     dispatch(closeTodoOptions());
   }
+
   return (
     <OptionsSection
       open={isOptionsOpen}
@@ -89,66 +94,42 @@ function TodosOptions() {
             <h5 className={"text-[#A4A4A4] mb-2 md:hidden"}>Главая задача</h5>
 
             <div className='flex flex-col justify-center sm:flex-row sm:items-center gap-2  border border-[#E0E4FF] p-2 rounded-xl shadow w-full   min-w-0'>
-              <div className="flex items-center w-full">
-                <div className="flex items-center w-full gap-2">
-                  <label className="relative flex items-center gap-1 py-3 px-2 cursor-pointer bg-[#ECF7FF] rounded">
-                    <input
-                        type="checkbox"
-                        name="is_done"
-                        checked={activeTodo?.status === 'complete'}
-                        onChange={onChange}
-                        className="absolute w-5 h-5 opacity-0 cursor-pointer"
-                        onClick={(e) => e.stopPropagation()}
-                    />
-                    <span
-                        className={`w-5 h-5 rounded border border-gray-300 flex items-center justify-center
-                      ${activeTodo?.status === 'complete'  ? "bg-[#A8A5FF]" : "bg-[#ECF7FF]"}`}
-                    >
-                  {activeTodo?.status === 'complete' && (
-                      <svg
-                          className="w-4 h-4 text-white"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          viewBox="0 0 24 24"
-                      >
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7"/>
-                      </svg>
-                  )}
-                </span>
-                  </label>
-                  <h5 className="break-words min-w-0 leading-normal w-full">
-                    {activeTodo?.title}
-                  </h5>
-                </div>
+              <div className='flex items-center w-full'>
+                <CheckboxTodo
+                  key={activeTodo?.id}
+                  checked={!activeTodo?.is_active}
+                  onChange={onChange}
+                  title={activeTodo?.title}
+                  onClick={(e) => e.stopPropagation()}
+                />
               </div>
             </div>
           </div>
 
-          <div className="flex flex-col text-[#5E5E5E] ">
+          <div className='flex flex-col text-[#5E5E5E] '>
             <h5 className={"text-[#A4A4A4] mb-2"}>Подзадачи</h5>
 
-            <div className="flex flex-col justify-start   border border-[#E0E4FF] p-2 rounded-xl shadow">
+            <div className='flex flex-col justify-start   border border-[#E0E4FF] p-2 rounded-xl shadow'>
               {/* list of subtasks */}
-              <ul className="flex flex-col gap-2 p-1">
+              <ul className='flex flex-col gap-2 p-1'>
                 {optionItems?.map((item) => (
-                    <TodosOptionItem title={item.title}/>
+                  <TodosOptionItem title={item.title} />
                 ))}
               </ul>
 
               {/* form to add subtasks */}
               <form
-                  onSubmit={onSubmit}
-                  className="flex justify-start items-center w-full"
+                onSubmit={onSubmit}
+                className='flex justify-start items-center w-full'
               >
                 <button
-                    type="submit"
-                    className="flex justify-center items-center p-1 "
+                  type='submit'
+                  className='flex justify-center items-center p-1 '
                 >
-                  <PlusIcon className="w-[1.0625rem] h-[1.0625rem]"/>
+                  <PlusIcon className='w-[1.0625rem] h-[1.0625rem]' />
                 </button>
                 <input
-                    type='text'
+                  type='text'
                   name='subtask_title'
                   placeholder='Добавить подзадачу'
                   className={`focus:outline-none focus:ring-0 w-full`}
@@ -158,15 +139,6 @@ function TodosOptions() {
                 />
               </form>
             </div>
-
-            {/* erro hints for user */}
-            {/* <p
-              className={`${
-                messageHasError ? "opacity-100" : "opacity-0"
-              } text-red-400 pl-3 `}
-            >
-              Поле должно быть не пустым.
-            </p> */}
             <h5 className='leading-normal'></h5>
           </div>
         </section>
@@ -184,6 +156,8 @@ function TodosOptions() {
             icon={<CalendarIcon />}
             text={"Срок выполнения"}
             haveDorder={true}
+            replaceIcon={activeTodo?.deadline !== null}
+            replacerIcon={formatShortDate(activeTodo?.deadline) || null}
           >
             <OptionsCalendar />
           </OptionsWrapDropdown>

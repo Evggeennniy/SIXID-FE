@@ -11,6 +11,7 @@ export const registerUserAction = createAsyncThunk(
 				method: 'POST',
 				headers: {
 					'Content-Type': 'application/json',
+					"withCredentials": true,
 				},
 				body: JSON.stringify(payload),
 			};
@@ -58,33 +59,51 @@ export const loginUserAction = createAsyncThunk(
 );
 
 const initialState = {
-	isAuthenticated: false,
 	user: null,
+	accessToken: localStorage.getItem('access') || null,
+	refreshToken: localStorage.getItem('refresh') || null,
 	loading: false,
 	error: null,
-
-	isRegistered: false,  // true if registration succeeded
+	isRegistered: false,
+	isAuthenticated: false,
 };
 
 const authSlice = createSlice({
 	name: 'auth',
 	initialState,
 	reducers: {
-		logout(state) {
-			state.isAuthenticated = false;
-			state.user = null;
-			state.isRegistered = false;
+		logout: (state) => {
+			state.access = null;
+			state.refresh = null;
+			localStorage.removeItem('access');
+			localStorage.removeItem('refresh');
+			state.loading = false;
 			state.error = null;
+			state.isRegistered = false;
+			state.isAuthenticated = false
+			state.user = null;
 		},
+
+
 		resetRegisterFlag(state) {
 			state.isRegistered = false;
 			state.error = null;
 		},
+		setTokens: (state, action) => {
+			const { access, refresh } = action.payload;
+			if (access) {
+				state.accessToken = access;
+				localStorage.setItem('access', access);
+			}
+			if (refresh) {
+				state.refreshToken = refresh;
+				localStorage.setItem('refresh', refresh);
+			}
+		},
 	},
 	extraReducers: (builder) => {
-		// Register user
 		builder
-			// Register user
+			// Registration
 			.addCase(registerUserAction.pending, (state) => {
 				state.loading = true;
 				state.error = null;
@@ -92,36 +111,40 @@ const authSlice = createSlice({
 			})
 			.addCase(registerUserAction.fulfilled, (state, action) => {
 				state.loading = false;
-				state.isRegistered = true; // Registration success
-				state.user = action.payload;
-				state.error = null;
+				state.isRegistered = true;
+				state.user = action.payload.user;
 			})
 			.addCase(registerUserAction.rejected, (state, action) => {
 				state.loading = false;
-				state.error = action.payload;
+				state.error = action.payload || 'Registration failed';
 				state.isRegistered = false;
 			})
 
-			// Login user
+			// Login
 			.addCase(loginUserAction.pending, (state) => {
 				state.loading = true;
 				state.error = null;
-				state.isAuthenticated = false;
 			})
 			.addCase(loginUserAction.fulfilled, (state, action) => {
+				const { access, refresh } = action.payload;
+				if (access) {
+					state.accessToken = access;
+					localStorage.setItem('access', access);
+				}
+				if (refresh) {
+					state.refreshToken = refresh;
+					localStorage.setItem('refresh', refresh);
+				}
 				state.loading = false;
-				state.isAuthenticated = true; // Login success
-				state.user = action.payload;
-				state.error = null;
+				state.isAuthenticated = true
 			})
 			.addCase(loginUserAction.rejected, (state, action) => {
+				state.isAuthenticated = false
 				state.loading = false;
-				state.error = action.payload;
-				state.isAuthenticated = false;
+				state.error = action.payload || 'Login failed';
 			});
 	},
 });
 
-
-export const { login, logout } = authSlice.actions;
+export const { logout, resetRegisterFlag, setTokens } = authSlice.actions;
 export default authSlice.reducer;

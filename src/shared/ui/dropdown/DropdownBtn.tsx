@@ -8,6 +8,8 @@ function DropdownBtn({
   usePlusIcon = false, // new prop for plus/arrow toggle
   plusIcon, // optional custom plus icon
   className,
+  replaceIcon,
+  replacerIcon,
 }) {
   // Default plus icon if none passed
   const DefaultPlusIcon = (
@@ -49,7 +51,9 @@ function DropdownBtn({
   // If usePlusIcon is true, show plus icon when closed and arrow when open
   // Else show rightIcon or default arrow always rotating
 
-  const iconToShow = usePlusIcon
+  const iconToShow = replaceIcon
+    ? replacerIcon
+    : usePlusIcon
     ? open
       ? rightIcon || DefaultArrowIcon
       : plusIcon || DefaultPlusIcon
@@ -68,8 +72,8 @@ function DropdownBtn({
         {rightIconPosition === "inline" && (
           <span
             className={`transition-transform duration-300 ${
-              open ? "-rotate-180" : "rotate-0"
-            } flex gap-1 justify-center items-center pt-1`}
+              replaceIcon ? "" : open ? "-rotate-180" : "rotate-0"
+            }`}
           >
             {iconToShow}
           </span>
@@ -80,7 +84,7 @@ function DropdownBtn({
       {rightIconPosition === "right" && (
         <span
           className={`transition-transform duration-300 ${
-            open ? "-rotate-180" : "rotate-0"
+            replaceIcon ? "" : open ? "-rotate-180" : "rotate-0"
           }`}
         >
           {iconToShow}

@@ -31,6 +31,23 @@ export const OptionsSection = ({
     }
   }, [open]);
 
+  useEffect(() => {
+    if (!isMobile) return;
+
+    if (open) {
+      document.body.style.overflow = "hidden";
+      document.body.style.touchAction = "none";
+    } else {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    }
+
+    return () => {
+      document.body.style.overflow = "";
+      document.body.style.touchAction = "";
+    };
+  }, [open, isMobile]);
+
   // Start drag
   const handleStart = (e) => {
     if (!isMobile) return;
@@ -112,56 +129,3 @@ export const OptionsSection = ({
     </section>
   );
 };
-
-//   children,
-//   className,
-//   open,
-//   onClose,
-//   ...props
-// }) => {
-//   return (
-//     <section
-//       className={clsx(
-//         "bg-white shadow-[0_0_.625rem_0_#dbdaf0] transition-all duration-300 ease-in-out",
-
-//         "fixed bottom-0 left-0 w-full z-50 rounded-t-[1.25rem]",
-
-//         "md:static md:rounded-[1.25rem] md:bg-transparent md:h-auto md:w-auto",
-
-//         "md:origin-right",
-
-//         open
-//           ? "translate-y-0 opacity-100 pointer-events-auto"
-//           : "translate-y-full opacity-0 pointer-events-none",
-
-//         "md:transition-transform md:duration-300 md:ease-in-out",
-//         open
-//           ? "md:scale-x-100 md:opacity-100 md:pointer-events-auto"
-//           : "md:scale-x-0 md:opacity-0 md:pointer-events-none",
-
-//         "md:flex-[1_1_30%] lg:flex-[1_1_20%]",
-
-//         className
-//       )}
-//       {...props}
-//     >
-//       {/* Drag handle (mobile only) */}
-//       <div
-//         onClick={onClose}
-//         className='w-12 h-1.5 rounded-full bg-gray-300 mx-auto my-3 md:hidden cursor-pointer'
-//       />
-
-//       {/* Scrollable container */}
-//       <div
-//         className={clsx(
-//           "transition-all duration-300",
-//           open
-//             ? "p-[1.25rem] max-h-[100vh] h-full overflow-y-auto"
-//             : "p-0 max-h-0 overflow-hidden"
-//         )}
-//       >
-//         {children}
-//       </div>
-//     </section>
-//   );
-// };
