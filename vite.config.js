@@ -6,7 +6,6 @@ import svgr from "vite-plugin-svgr";
 import path from "path";
 
 export default defineConfig({
-  base: "/SIXID-FE/",
   plugins: [react(), tailwindcss(), svgr()],
   resolve: {
     alias: {
@@ -21,8 +20,8 @@ export default defineConfig({
   server: {
     proxy: {
       // Proxy /api requests to your backend server
-      '/api': {
-        target: 'http://127.0.0.1:8000',
+      "/api": {
+        target: "http://127.0.0.1:8000",
         changeOrigin: true,
         secure: false,
       },
