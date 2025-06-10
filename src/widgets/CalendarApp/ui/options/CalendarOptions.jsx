@@ -136,8 +136,8 @@ function CalendarOptions() {
       onClose={onCloseOptions}
       className={clsx(
         isOptionsOpen
-          ? "opacity-100 w-full md:max-w-[400px] translate-x-0 pointer-events-auto   "
-          : "opacity-0 max-w-0 translate-x-0 pointer-events-none"
+          ? "opacity-100 w-full md:max-w-[400px] translate-x-0 pointer-events-auto pb-[100px]!  "
+          : "opacity-0 max-w-0 translate-x-0 pointer-events-none "
       )}
     >
       <div className='flex flex-col gap-6 w-full h-full px-12 pb-5 md:p-5  min-h-fit    '>
@@ -162,9 +162,9 @@ function CalendarOptions() {
             </div>
           ))}
         </section>
-        <div className='mt-auto'>
+        <div className=''>
           {dayTasks?.length > 0 && (
-            <div className='flex flex-col  '>
+            <div className='flex flex-col min-h-[250px] mt-[50%]  '>
               <OptionsWrapDropdown
                 icon={<SubtasksIcon />}
                 text={`Подзадачи (${optionItems.length || 0})`}
@@ -237,7 +237,7 @@ function CalendarOptions() {
               </OptionsWrapDropdown>
               <button
                 onClick={onDeleteTodoItem}
-                className='border-t border-b border-[#E0E4FF] w-full flex gap-2 py-3  text-[#CDCDCD]'
+                className='border-t border-b border-[#E0E4FF] w-full flex gap-2 py-3 h-fit  text-[#CDCDCD]'
               >
                 <BacketIcon /> Удалить
               </button>
