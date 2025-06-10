@@ -46,7 +46,7 @@ export default function CalendarDayCell({ day, isToday, tasks = [] }) {
             ? "text-[#A4A4A4] bg-[#FFFFFF] opacity-40"
             : "text-[#4A4A4A] bg-[#FFFFFF] opacity-80"
         }
-        ${isToday ? "border-1 border-[#A8A5FF]  font-bold" : ""}
+        ${isToday ? "border-2 border-[#A8A5FF]  font-bold" : ""}
       `}
     >
       <span className='text-[.9375rem] mx-auto sm:mx-0 sm:text-base'>

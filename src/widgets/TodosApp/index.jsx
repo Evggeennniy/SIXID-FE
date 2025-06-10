@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addNewTodoItem,
   addTodoAction,
+  closeTodoOptions,
   getTodosAction,
   selectTodosActiveItems,
   selectTodosCompletedItems,
@@ -14,10 +15,12 @@ import {
 import { useInput } from "../../hooks/useInput";
 import { isNotEmpty } from "../../util/validation";
 import { useEffect } from "react";
+import { closeCalendarOptions } from "../../redux/slice/calendar/calendarSlice";
+import { useLocation } from "react-router-dom";
 
 export const TodosApp = () => {
   const dispatch = useDispatch();
-
+  const location = useLocation();
   const activeTodos = useSelector(selectTodosActiveItems);
   const completedTodos = useSelector(selectTodosCompletedItems);
 
@@ -59,6 +62,12 @@ export const TodosApp = () => {
   useEffect(() => {
     dispatch(getTodosAction());
   }, []);
+  useEffect(() => {
+    return () => {
+      dispatch(closeCalendarOptions());
+      dispatch(closeTodoOptions());
+    };
+  }, [location.pathname]);
   return (
     <MainSection>
       <h2 className='capitalize  mb-[30px]'>список задач</h2>

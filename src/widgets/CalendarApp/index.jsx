@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import {
+  closeTodoOptions,
   getTodosAction,
   selectTodosAllItems,
 } from "../../redux/slice/todos/todosSlice.js";
@@ -9,9 +10,12 @@ import WeekDaysHeader from "@widgets/CalendarApp/ui/calendar/WeekDaysHeader.jsx"
 import getMonthDays from "../../util/getMonthDays.js";
 import React, { useEffect, useState } from "react";
 import { MainSection } from "@shared/MainSection/index.jsx";
+import { useLocation } from "react-router-dom";
+import { closeCalendarOptions } from "../../redux/slice/calendar/calendarSlice.js";
 
 export default function CalendarApp() {
   const dispatch = useDispatch();
+  const location = useLocation();
   const today = new Date();
   const [currentDate, setCurrentDate] = useState(today);
   const [viewMode, setViewMode] = useState("month");
@@ -56,9 +60,17 @@ export default function CalendarApp() {
       : newDate.setDate(currentDate.getDate() + 7);
     setCurrentDate(newDate);
   };
+
   useEffect(() => {
     dispatch(getTodosAction());
   }, []);
+
+  useEffect(() => {
+    return () => {
+      dispatch(closeCalendarOptions());
+      dispatch(closeTodoOptions());
+    };
+  }, [location.pathname]);
   return (
     <MainSection>
       <div className=' bg-transparent rounded-lg w-full text-[#4A4A4A]'>

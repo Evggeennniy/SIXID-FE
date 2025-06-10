@@ -26,8 +26,8 @@ export const MainHeader = () => {
               maxLength={100}
             />
           </label>
-          <button className='h-[60%] md:h-[90%] px-2  bg-[#FFFFFF] shadow rounded-lg flex justify-center items-center '>
-            <SearchIcon className='transition duration-100 ease-in-out active:scale-[90%] cursor-pointer   w-[25px] ' />
+          <button className='h-[65%] md:h-[90%] px-2 py-2  bg-[#FFFFFF] shadow rounded-lg flex justify-center items-center '>
+            <SearchIcon className='transition duration-100  ease-in-out active:scale-[90%] cursor-pointer   w-[25px] ' />
           </button>
         </form>
 
