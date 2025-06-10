@@ -32,9 +32,6 @@ function CalendarInput() {
     if (activeDay) {
       const newDate = new Date(activeDay);
       const formatedDate = formatDateToYYYYMMDD(newDate);
-
-      dispatch(addNewTodoItem({ title: data.todo_title, date: formatedDate }));
-
       dispatch(
         addTodoAction({
           title: data.todo_title,

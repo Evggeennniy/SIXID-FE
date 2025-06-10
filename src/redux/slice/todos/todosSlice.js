@@ -218,19 +218,19 @@ const todosSlice = createSlice({
       state.todosList = state.todosList.filter(item => item.id !== action.payload);
       state.isOpenTodosOptions = false
     },
-    addNewTodoItem(state, action) {
-      const newItem = {
-        id: Date.now(),
-        title: action.payload.title,
-        is_active: true,
-        deadline: action.payload?.date || null,
-        subtasks: [],
-        priority: "normal",
-      }
-      state.todosList.push(newItem);
-      state.activeDayTasks.push(newItem.id)
-      state.activeTodoItem = newItem.id
-    },
+    // addNewTodoItem(state, action) {
+    //   const newItem = {
+    //     id: Date.now(),
+    //     title: action.payload.title,
+    //     is_active: true,
+    //     deadline: action.payload?.date || null,
+    //     subtasks: [],
+    //     priority: "normal",
+    //   }
+    //   state.todosList.push(newItem);
+    //   state.activeDayTasks.push(newItem.id)
+    //   state.activeTodoItem = newItem.id
+    // },
     setTodosItemIsComplete(state, action) {
       const todoItem = state.todosList.find(item => item.id === action.payload);
       if (!todoItem) return;
@@ -308,6 +308,20 @@ const todosSlice = createSlice({
       .addCase(changeTodosAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Update todo failed";
+      })
+      .addCase(addTodoAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addTodoAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.activeTodoItem = action.payload.id
+        state.activeDayTasks.push(action.payload.id)
+        state.todosList.push(action.payload); // Add the new todo to the list
+      })
+      .addCase(addTodoAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to add todo";
       });
 
   }

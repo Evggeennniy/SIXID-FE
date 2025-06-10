@@ -42,7 +42,6 @@ export const TodosApp = () => {
     const fd = new FormData(e.currentTarget);
     const data = Object.fromEntries(fd.entries());
 
-    dispatch(addNewTodoItem({ title: data.todo_title, date: null }));
     dispatch(
       addTodoAction({
         title: data.todo_title,
