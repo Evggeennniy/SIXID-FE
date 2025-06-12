@@ -1,7 +1,4 @@
 {
-  "short_name": "SIXID",
-  "name": "Productivity Ecosystem",
-  "description": "A productivity ecosystem for managing tasks, projects, and workflows.",
   "start_url": ".",
   "display": "standalone",
   "icons": [
