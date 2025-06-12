@@ -113,7 +113,7 @@ export const OptionsSection = ({
       {...props}
     >
       <div
-        className='w-full p-6 reletive md:hidden'
+        className="w-full p-6 reletive md:hidden"
         onMouseDown={handleStart}
         onMouseMove={handleMove}
         onMouseUp={handleEnd}
@@ -122,10 +122,10 @@ export const OptionsSection = ({
         onTouchMove={handleMove}
         onTouchEnd={handleEnd}
       >
-        <div className='absolute w-12 top-0 left-1/2 transform -translate-1/2 h-1.5 rounded-full bg-[#D1D1D1] mx-auto my-3 md:hidden cursor-pointer touch-none' />
+        <div className="absolute w-12 top-0 left-1/2 transform -translate-1/2 h-1.5 rounded-full bg-[#D1D1D1] mx-auto my-3 md:hidden cursor-pointer touch-none" />
       </div>
 
-      <div className='overflow-y-auto max-h-[100vh] h-full'>{children}</div>
+      <div className="overflow-y-auto max-h-[100vh] h-full">{children}</div>
     </section>
   );
 };

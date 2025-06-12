@@ -2,6 +2,7 @@ import clsx from "clsx";
 import { useIsMobile } from "../../hooks/useMobile";
 import { useRef } from "react";
 import { useUIStore } from "@shared/store/ui-store";
+
 export const NavSection = ({ children, className, ...props }) => {
   const backdropRef = useRef(null);
   const isNavOpen = useUIStore((state) => state.isNavOpen);
@@ -26,25 +27,25 @@ export const NavSection = ({ children, className, ...props }) => {
         )}
       >
         <svg
-          xmlns='http://www.w3.org/2000/svg'
-          fill='none'
-          viewBox='0 0 24 24'
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
           strokeWidth={1.5}
-          stroke='#FFFFFF'
-          className='size-6 absolute -z-1 right-6 top-3'
+          stroke="#FFFFFF"
+          className="size-6 absolute -z-1 right-6 top-3"
           onClick={toggleNav}
         >
           <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            d='M6 18 18 6M6 6l12 12'
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 18 18 6M6 6l12 12"
           />
         </svg>
 
         <section
           className={clsx(
-            "xl:basis-[20%] max-w-[80%] sm:max-w-[15%] w-full z-[999] xl:max-w-[20%] min-h-[90vh] bg-[#EFF7FF] xl:basis-[15%] xl:max-w-[15%] xl:flex-none",
-            "p-[10px] lg:p-[20px]",
+            "xl:basis-[20%] max-w-[80%] sm:max-w-[15%] w-full z-[999] min-h-[90vh] bg-[#EFF7FF] xl:max-w-[15%] xl:flex-none",
+            "p-[20px] lg:p-[20px]",
             "transition-[left] absolute top-0 bottom-0 z-10 sm:static",
             "rounded-[20px] shadow-[0_0_10px_0_#dbdaf0]",
             "overflow-y-auto scrollbar-left",
@@ -62,7 +63,7 @@ export const NavSection = ({ children, className, ...props }) => {
   return (
     <section
       className={clsx(
-        "xl:basis-[20%] max-w-[80%] sm:max-w-[15%] w-full z-[999] xl:max-w-[20%] min-h-[90vh] bg-[#EFF7FF] xl:basis-[15%] xl:max-w-[15%] xl:flex-none",
+        "xl:basis-[20%] max-w-[80%] sm:max-w-[15%] w-full z-[999] min-h-[90vh] bg-[#EFF7FF] xl:max-w-[15%] xl:flex-none",
         "p-[10px] lg:p-[20px]",
         "rounded-[20px] shadow-[0_0_10px_0_#dbdaf0]",
         "overflow-y-auto scrollbar-left",
