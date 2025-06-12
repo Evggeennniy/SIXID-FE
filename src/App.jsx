@@ -16,7 +16,7 @@ function Layout() {
 
   return (
     <div className="container min-h-screen p-[10px] xl:p-[30px] text-center">
-      <div className="relative h-full flex gap-[10px]">
+      <div className="h-full flex items-stretch gap-[10px]">
         {!hideSideNav && <SideNav />}
         <AppRoutes />
       </div>
