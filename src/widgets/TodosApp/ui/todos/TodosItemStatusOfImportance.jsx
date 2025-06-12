@@ -15,7 +15,7 @@ function TodosItemStatusOfImportance({ priority }) {
     text = "Обычно";
   }
   return (
-    <div className='xl:pl-3 shrink-0 flex gap-2  items-center  sm:w-full'>
+    <div className='xl:pl-3 shrink-0 flex gap-2 h-full items-center  sm:w-full'>
       <div
         style={{ background: сircleColor }}
         className={`w-5 flex-shrink-0 h-5 rounded-full`}

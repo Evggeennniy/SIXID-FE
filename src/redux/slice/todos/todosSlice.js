@@ -2,87 +2,27 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import fetchWithAuth from "../../../util/fetchWithAuth";
 import { logout, setTokens } from "../auth/authSlice";
 
-// [
-//   {
-//     id: 1,
-//     title: "Протестировать работу списка заданий на SIXID",
-//     deadline: "2025-05-25T17:00:00Z",
-//     statusOfImportant: "срочно", // urgently
-//     status: "active",
-//     subtasks: [
-//       {
-//         id: 1,
-//         title: "Открыть страницу списка заданий",
-//         is_done: false,
-//       },
-//       {
-//         id: 2,
-//         title: "Проверить отображение активных задач",
-//         is_done: false,
-//       },
-//       {
-//         id: 3,
-//         title: "Проверить фильтрацию по статусу",
-//         is_done: true,
-//       },
-//     ],
-//   },
-//   {
-//     id: 2,
-//     title: "Написать юнит-тесты для новых компонентов",
-//     deadline: "2025-06-01",
-//     statusOfImportant: "важно", // importent
-//     status: "complete",
-//     subtasks: [],
-//   },
-//   {
-//     id: 3,
-//     title: "Проверить дизайн-макеты",
-//     deadline: "2025-06-10",
-//     statusOfImportant: "обычно", // simple
-//     status: "active",
-//     subtasks: [],
-//   },
-//   {
-//     id: 4,
-//     title: "Подготовить слайды презентации",
-//     deadline: "2025-05-30T12:00:00Z",
-//     statusOfImportant: "срочно", // urgently
-//     status: "complete",
-//     subtasks: [],
-//   },
-//   {
-//     id: 5,
-//     title: "Рефакторинг старого кода",
-//     deadline: "2025-06-15",
-//     statusOfImportant: "важно", // importent
-//     status: "active",
-//     subtasks: [],
-//   },
-// ]
+
 const initialState = {
   todosList: [],
   loading: false,
   error: null,
   activeTodoItem: null,
   isOpenTodosOptions: false,
-  activeDayTasks: []
+  activeDayTasks: [],
 }
 //getTodos
 
 export const getTodosAction = createAsyncThunk(
-  "todos/get",
+  'todos/get',
   async (_, { getState, dispatch, rejectWithValue }) => {
-    const state = getState();
-    const access = state.auth.accessToken;
-    const refresh = state.auth.refreshToken;
+
 
     try {
       const res = await fetchWithAuth(
-        "/api/todos/",
-        { method: "GET" },
-        access,
-        refresh,
+        '/api/todos/tasks',
+        { method: 'GET' },
+
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
@@ -95,29 +35,110 @@ export const getTodosAction = createAsyncThunk(
       const data = await res.json();
       return data;
     } catch (error) {
-      return rejectWithValue(error.message || "Network error");
+      return rejectWithValue(error.message || 'Network error');
     }
   }
 );
-export const changeTodosAction = createAsyncThunk(
-  "todos/change",
-  async ({ id, data }, { getState, dispatch, rejectWithValue }) => {
-    const state = getState();
-    const access = state.auth.accessToken;
-    const refresh = state.auth.refreshToken;
+export const getSubtasksAction = createAsyncThunk(
+  'subtasks/getAll',
+  async (_, { getState, dispatch, rejectWithValue }) => {
 
     try {
       const res = await fetchWithAuth(
-        `/api/todos/${id}/`,
+        '/api/todos/subtasks',
+        { method: 'GET' },
+
+        (newAccess) => dispatch(setTokens({ access: newAccess })),
+        () => dispatch(logout())
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(errorData);
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message || 'Network error');
+    }
+  }
+);
+export const createSubtaskAction = createAsyncThunk(
+  'subtasks/create',
+  async ({ title, taskId }, { getState, dispatch, rejectWithValue }) => {
+    const { accessToken, refreshToken } = getState().auth;
+
+    try {
+      const res = await fetchWithAuth(
+        `/api/todos/subtasks/`,
         {
-          method: "PATCH",
+          method: 'POST',
+          body: JSON.stringify({ title, is_active: true, task: taskId }),
+        },
+        accessToken,
+        refreshToken,
+        (newAccess) => dispatch(setTokens({ access: newAccess })),
+        () => dispatch(logout())
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(errorData);
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message || 'Network error');
+    }
+  }
+);
+
+export const updateSubtaskAction = createAsyncThunk(
+  'subtasks/update',
+  async ({ id, is_active, taskId }, { getState, dispatch, rejectWithValue }) => {
+
+    try {
+      const res = await fetchWithAuth(
+        `/api/todos/subtasks/${id}/`,
+        {
+          method: 'PATCH',
+          body: JSON.stringify({ task: taskId, is_active: is_active }),
+        },
+
+        (newAccess) => dispatch(setTokens({ access: newAccess })),
+        () => dispatch(logout())
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(errorData);
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message || 'Network error');
+    }
+  }
+);
+
+export const changeTodosAction = createAsyncThunk(
+  'todos/change',
+  async ({ id, data }, { getState, dispatch, rejectWithValue }) => {
+
+    try {
+      const res = await fetchWithAuth(
+        `/api/todos/tasks/${id}/`,
+        {
+          method: 'PATCH',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(data),
         },
-        access,
-        refresh,
+
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
@@ -130,30 +151,26 @@ export const changeTodosAction = createAsyncThunk(
       const updatedTodo = await res.json();
       return updatedTodo;
     } catch (error) {
-      return rejectWithValue(error.message || "Network error");
+      return rejectWithValue(error.message || 'Network error');
     }
   }
 );
 
 export const addTodoAction = createAsyncThunk(
-  "todos/add",
+  'todos/add',
   async (data, { getState, dispatch, rejectWithValue }) => {
-    const state = getState();
-    const access = state.auth.accessToken;
-    const refresh = state.auth.refreshToken;
 
     try {
       const res = await fetchWithAuth(
-        "/api/todos/",
+        '/api/todos/tasks/',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(data),
         },
-        access,
-        refresh,
+
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
@@ -166,25 +183,21 @@ export const addTodoAction = createAsyncThunk(
       const createdTodo = await res.json();
       return createdTodo;
     } catch (error) {
-      return rejectWithValue(error.message || "Network error");
+      return rejectWithValue(error.message || 'Network error');
     }
   }
 );
+
 export const deleteTodosAction = createAsyncThunk(
-  "todos/delete",
+  'todos/delete',
   async (id, { getState, dispatch, rejectWithValue }) => {
-    const state = getState();
-    const access = state.auth.accessToken;
-    const refresh = state.auth.refreshToken;
 
     try {
       const res = await fetchWithAuth(
-        `/api/todos/${id}/`,
+        `/api/todos/tasks/${id}/`,
         {
-          method: "DELETE",
+          method: 'DELETE',
         },
-        access,
-        refresh,
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
@@ -194,9 +207,9 @@ export const deleteTodosAction = createAsyncThunk(
         return rejectWithValue(errorData);
       }
 
-      return id; // Return deleted todo ID to remove from state
+      return id; // Return deleted todo ID
     } catch (error) {
-      return rejectWithValue(error.message || "Network error");
+      return rejectWithValue(error.message || 'Network error');
     }
   }
 );
@@ -218,19 +231,19 @@ const todosSlice = createSlice({
       state.todosList = state.todosList.filter(item => item.id !== action.payload);
       state.isOpenTodosOptions = false
     },
-    addNewTodoItem(state, action) {
-      const newItem = {
-        id: Date.now(),
-        title: action.payload.title,
-        is_active: true,
-        deadline: action.payload?.date || null,
-        subtasks: [],
-        priority: "normal",
-      }
-      state.todosList.push(newItem);
-      state.activeDayTasks.push(newItem.id)
-      state.activeTodoItem = newItem.id
-    },
+
+    //   const newItem = {
+    //     id: Date.now(),
+    //     title: action.payload.title,
+    //     is_active: true,
+    //     deadline: action.payload?.date || null,
+    //     subtasks: [],
+    //     priority: "normal",
+    //   }
+    //   state.todosList.push(newItem);
+    //   state.activeDayTasks.push(newItem.id)
+    //   state.activeTodoItem = newItem.id
+    // },
     setTodosItemIsComplete(state, action) {
       const todoItem = state.todosList.find(item => item.id === action.payload);
       if (!todoItem) return;
@@ -288,6 +301,7 @@ const todosSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.todosList = action.payload;
+
       })
       .addCase(getTodosAction.rejected, (state, action) => {
         state.loading = false;
@@ -308,8 +322,59 @@ const todosSlice = createSlice({
       .addCase(changeTodosAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Update todo failed";
-      });
+      })
+      .addCase(addTodoAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addTodoAction.fulfilled, (state, action) => {
+        state.loading = false;
+        state.activeTodoItem = action.payload.id
+        state.activeDayTasks.push(action.payload.id)
+        state.todosList.push(action.payload); // Add the new todo to the list
+      })
+      .addCase(addTodoAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || "Failed to add todo";
+      })
+      // Create subtask
+      .addCase(createSubtaskAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createSubtaskAction.fulfilled, (state, action) => {
+        state.loading = false;
+        const todo = state.todosList.find(item => item.id === action.payload.task);
+        todo.subtasks.push(action.payload);
+      })
+      .addCase(createSubtaskAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Failed to create subtask';
+      })
+      .addCase(updateSubtaskAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateSubtaskAction.fulfilled, (state, action) => {
+        state.loading = false;
+        const todo = state.todosList.find(item => item.id === action.payload.task);
 
+        if (!todo) {
+          console.warn('Todo not found for subtask update:', action.payload.task);
+          return;
+        }
+
+        const index = todo.subtasks.findIndex(sub => sub.id === action.payload.id);
+        if (index !== -1) {
+          todo.subtasks[index] = action.payload;
+        } else {
+          console.warn('Subtask not found:', action.payload.id);
+        }
+      })
+      .addCase(updateSubtaskAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Failed to update subtask';
+      });
   }
 })
 export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete, addNewTodoItem, deleteTodoItem, closeTodoOptions, setTodoItemStatusOfImportantce, setTodosItemDeadline, setActiveDayTasks, setTodoItemTitle } = todosSlice.actions

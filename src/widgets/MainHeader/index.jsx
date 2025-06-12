@@ -16,9 +16,9 @@ export const MainHeader = () => {
       <div className='flex w-full gap-[10%]'>
         <form
           onSubmit={onsubmit}
-          className='flex content-between gap-4 items-center pr-3 flex-1  rounded-[12px]  '
+          className='flex content-between gap-4 items-center  flex-1  rounded-[12px]  '
         >
-          <label className='inline-flex items-center px-2 py-3 gap-2 w-full  rounded-lg  shadow bg-[#FFFFFF] cursor-pointer'>
+          <label className='inline-flex items-center px-1 py-1 md:px-2 md:py-3 gap-2 w-full  rounded-lg  shadow bg-[#FFFFFF] cursor-pointer'>
             <input
               type='text'
               className='focus:outline-none px-1 w-full'
@@ -26,8 +26,8 @@ export const MainHeader = () => {
               maxLength={100}
             />
           </label>
-          <button className='h-[90%] px-2 bg-[#FFFFFF] shadow rounded-lg flex justify-center items-center '>
-            <SearchIcon className='transition duration-100 ease-in-out active:scale-[90%] cursor-pointer   w-[25px] ' />
+          <button className='h-[65%] md:h-[90%] px-2 py-2  bg-[#FFFFFF] shadow rounded-lg flex justify-center items-center '>
+            <SearchIcon className='transition duration-100  ease-in-out active:scale-[90%] cursor-pointer   w-[25px] ' />
           </button>
         </form>
 

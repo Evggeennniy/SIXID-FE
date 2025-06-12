@@ -13,6 +13,7 @@ import {
 import {
   addNewOptionItem,
   changeTodosAction,
+  createSubtaskAction,
   deleteTodoItem,
   deleteTodosAction,
   selectActiveDayTasks,
@@ -29,6 +30,7 @@ import SubtasksIcon from "@assets/svg/subtasks.svg?react";
 import CalendarInput from "./CalendarInput";
 import CheckboxTodo from "../../../../shared/CheakBoxTodo/CheakoxTodo";
 import BacketIcon from "@assets/svg/backet.svg?react";
+import { useLocation } from "react-router-dom";
 function CalendarOptions() {
   const dispatch = useDispatch();
   const {
@@ -70,7 +72,6 @@ function CalendarOptions() {
     dispatch(deleteTodoItem(activeTodo?.id));
     dispatch(deleteTodosAction(activeTodo?.id));
   }
-
   function onSubmit(e) {
     e.preventDefault();
     if (!isNotEmpty(messageValue)) {
@@ -81,14 +82,10 @@ function CalendarOptions() {
     const data = Object.fromEntries(fd.entries());
 
     dispatch(
-      addNewOptionItem({
-        todoId: activeTodo?.id,
-        title: data.subtask_title,
-      })
+      createSubtaskAction({ taskId: activeTodo?.id, title: data.subtask_title })
     );
-
     setInputState({
-      value: activeTodo?.title,
+      value: "",
       didBlur: false,
       wasValidOnBlur: false,
     });
@@ -136,11 +133,11 @@ function CalendarOptions() {
       onClose={onCloseOptions}
       className={clsx(
         isOptionsOpen
-          ? "opacity-100 w-full md:max-w-[400px] translate-x-0 pointer-events-auto   "
-          : "opacity-0 max-w-0 translate-x-0 pointer-events-none"
+          ? "opacity-100 w-full md:max-w-[400px] translate-x-0 pointer-events-auto pb-[100px]! sm:pb-4!  "
+          : "opacity-0 max-w-0 translate-x-0 pointer-events-none "
       )}
     >
-      <div className='flex flex-col gap-6 w-full h-full px-12 pb-5 md:p-5  min-h-fit    '>
+      <div className='flex flex-col gap-6 w-full h-full px-5 pb-5 md:p-5  min-h-fit    '>
         <section className='flex flex-col justify-center  w-full gap-2'>
           {dayTasks?.map((item) => (
             <div
@@ -162,9 +159,9 @@ function CalendarOptions() {
             </div>
           ))}
         </section>
-        <div className='mt-auto'>
+        <div className='sm:mt-auto'>
           {dayTasks?.length > 0 && (
-            <div className='flex flex-col  '>
+            <div className='flex flex-col min-h-[250px] mt-[50%] sm:mt-0  w-[95%] mx-auto  '>
               <OptionsWrapDropdown
                 icon={<SubtasksIcon />}
                 text={`Подзадачи (${optionItems.length || 0})`}
@@ -196,8 +193,8 @@ function CalendarOptions() {
                       <TodosOptionItem
                         key={item.title}
                         title={item.title}
-                        optionId={item.id}
-                        id={activeTodo?.id}
+                        taskId={activeTodo?.id}
+                        id={item.id}
                       />
                     ))}
                   </ul>
@@ -237,7 +234,7 @@ function CalendarOptions() {
               </OptionsWrapDropdown>
               <button
                 onClick={onDeleteTodoItem}
-                className='border-t border-b border-[#E0E4FF] w-full flex gap-2 py-3  text-[#CDCDCD]'
+                className='border-t border-b border-[#E0E4FF] w-full flex gap-2 py-3 h-fit  text-[#CDCDCD]'
               >
                 <BacketIcon /> Удалить
               </button>

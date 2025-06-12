@@ -31,12 +31,12 @@ export const TodosItem = ({ id, title, deadline, priority, is_active }) => {
   const baseStyles =
     "grid  grid-cols-[minmax(9.375rem,450px)_20px_20%] w-full sm:grid-cols-6 w-full items-start animate-item gap-[15px] pr-2 py-2 sm:p-[13px] transition-colors duration-200 cursor-pointer";
 
-  const textColor = is_active ? "text-[#A4A4A4]" : "text-[#5E5E5E]";
+  const textColor = !is_active ? "text-[#A4A4A4]" : "text-[#5E5E5E]";
   const bgColor = activeItem === id ? "bg-white" : "bg-transparent";
 
   return (
     <li
-      className={`${baseStyles} ${textColor} ${bgColor} hover:bg-white flex  `}
+      className={`${baseStyles} ${textColor} ${bgColor} hover:bg-white flex items-center  `}
       onClick={onClickHandler}
     >
       <div className='col-span-1 sm:col-span-4 items-center flex w-full gap-2 sm:gap-4'>
@@ -50,14 +50,14 @@ export const TodosItem = ({ id, title, deadline, priority, is_active }) => {
 
       <TodosItemStatusOfImportance priority={priority} />
 
-      <div className='flex sm:shrink-0  gap-1 w-full pl-1 xl:pl-4'>
-        <p className='hidden sm:block text-center  flex-1 basis-0'>
-          {(deadline && formatFullDate(deadline)) || "Не указан"}
+      <div className='flex sm:shrink-0 items-center  gap-1 w-full pl-1 xl:pl-4 h-full'>
+        <p className='hidden sm:flex items-center text-center  flex-1 basis-0'>
+          {(deadline && formatFullDate(deadline)) || ""}
         </p>
 
         {/* Short date (MM.YYYY), shown only on small screens */}
-        <p className='block sm:hidden flex-1 pl-2 basis-0'>
-          {(deadline && formatShortDate(deadline)) || "Не указан"}
+        <p className='flex sm:hidden items-center  flex-1 pl-2 basis-0'>
+          {(deadline && formatShortDate(deadline)) || ""}
         </p>
       </div>
     </li>
