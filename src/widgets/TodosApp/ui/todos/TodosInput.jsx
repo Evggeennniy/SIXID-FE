@@ -16,7 +16,7 @@ export const TodosInput = ({ onSubmit, ...props }) => {
     <>
       <form
         onSubmit={handleSubmit}
-        className=" sm:mb-[30px] sm:static absolute bottom-[25px] left-0 right-0 z-50  px-2 py-2"
+        className=" sm:mb-[30px] sm:static fixed bottom-[25px] left-0 right-0 z-50  px-2 py-2"
       >
         <div className="flex justify-between w-full items-center relative px-3 rounded-[5px] bg-[#ECF7FF] shadow-[0px_2px_10px_rgba(0,0,0,0.1)]">
           <div className="flex items-center w-full gap-[15px]">
