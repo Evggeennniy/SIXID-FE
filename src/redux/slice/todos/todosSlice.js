@@ -20,7 +20,7 @@ export const getTodosAction = createAsyncThunk(
 
     try {
       const res = await fetchWithAuth(
-        '/api/todos/tasks',
+        '/api/todos/tasks/',
         { method: 'GET' },
 
         (newAccess) => dispatch(setTokens({ access: newAccess })),
@@ -45,7 +45,7 @@ export const getSubtasksAction = createAsyncThunk(
 
     try {
       const res = await fetchWithAuth(
-        '/api/todos/subtasks',
+        '/api/todos/subtasks/',
         { method: 'GET' },
 
         (newAccess) => dispatch(setTokens({ access: newAccess })),

@@ -1,3 +1,4 @@
+// fetchWithAuth.js
 import Cookies from 'js-cookie';
 
 let isRefreshing = false;
@@ -16,7 +17,6 @@ const fetchWithAuth = async (url, options = {}, updateTokens, forceLogout) => {
   const access = Cookies.get('access');
   const refresh = Cookies.get('refresh');
 
-  // 🧠 Сохраняем тело запроса, чтобы оно не "потерялось" при повторном использовании
   const stringifiedBody =
     options.body && typeof options.body !== 'string'
       ? JSON.stringify(options.body)
@@ -34,13 +34,11 @@ const fetchWithAuth = async (url, options = {}, updateTokens, forceLogout) => {
   });
 
   const retryRequest = async (token) => {
-    console.log('🔁 Retrying request with token:', token);
     return await fetch(url, applyToken(token));
   };
 
-  // Если кто-то уже обновляет токен — ждем его
+  // ⏳ Если кто-то уже обновляет токен — ждем
   if (isRefreshing) {
-    console.log('⏳ Waiting for token refresh to finish...');
     return new Promise((resolve, reject) => {
       subscribeTokenRefresh(async (newAccessToken) => {
         try {
@@ -53,24 +51,23 @@ const fetchWithAuth = async (url, options = {}, updateTokens, forceLogout) => {
     });
   }
 
-  // 🟡 Первый запрос с текущим access токеном
-  let response = await retryRequest(access);
-
-  if (response.status !== 401) {
-    return response;
+  // 🟡 Попробуем access токен
+  let response;
+  if (access) {
+    response = await retryRequest(access);
+    if (response.status !== 401) return response;
   }
 
-  // ❌ Если токен протух — пробуем refresh
+  // ❌ Если refresh токена нет
   if (!refresh) {
-    console.warn('❌ No refresh token available');
     forceLogout?.();
     throw new Error('Unauthorized: No refresh token');
   }
 
+  // 🔄 Обновление токена
   isRefreshing = true;
 
   try {
-    console.log('🔄 Attempting to refresh token...');
     const refreshResponse = await fetch('/api/auth/token/refresh/', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -78,7 +75,6 @@ const fetchWithAuth = async (url, options = {}, updateTokens, forceLogout) => {
     });
 
     if (!refreshResponse.ok) {
-      console.warn('❌ Refresh token request failed');
       forceLogout?.();
       throw new Error('Token refresh failed');
     }
@@ -86,21 +82,16 @@ const fetchWithAuth = async (url, options = {}, updateTokens, forceLogout) => {
     const { access: newAccessToken } = await refreshResponse.json();
 
     if (!newAccessToken) {
-      console.warn('❌ No access token returned from refresh');
       forceLogout?.();
       throw new Error('No new access token returned');
     }
 
     Cookies.set('access', newAccessToken);
+    updateTokens?.(newAccessToken);
 
-    if (updateTokens) {
-      await updateTokens(newAccessToken);
-    }
-
-    // 🔔 Оповещаем всех, кто ждал обновления токена
     onRefreshed(newAccessToken);
 
-    // 🔁 Повтор запроса
+    // ✅ Только теперь делаем retry
     return await retryRequest(newAccessToken);
   } catch (err) {
     forceLogout?.();
@@ -110,4 +101,4 @@ const fetchWithAuth = async (url, options = {}, updateTokens, forceLogout) => {
   }
 };
 
-export default fetchWithAuth;
+export default fetchWithAuth
