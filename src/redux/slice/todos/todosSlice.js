@@ -2,64 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import fetchWithAuth from "../../../util/fetchWithAuth";
 import { logout, setTokens } from "../auth/authSlice";
 
-// [
-//   {
-//     id: 1,
-//     title: "Протестировать работу списка заданий на SIXID",
-//     deadline: "2025-05-25T17:00:00Z",
-//     statusOfImportant: "срочно", // urgently
-//     status: "active",
-//     subtasks: [
-//       {
-//         id: 1,
-//         title: "Открыть страницу списка заданий",
-//         is_done: false,
-//       },
-//       {
-//         id: 2,
-//         title: "Проверить отображение активных задач",
-//         is_done: false,
-//       },
-//       {
-//         id: 3,
-//         title: "Проверить фильтрацию по статусу",
-//         is_done: true,
-//       },
-//     ],
-//   },
-//   {
-//     id: 2,
-//     title: "Написать юнит-тесты для новых компонентов",
-//     deadline: "2025-06-01",
-//     statusOfImportant: "важно", // importent
-//     status: "complete",
-//     subtasks: [],
-//   },
-//   {
-//     id: 3,
-//     title: "Проверить дизайн-макеты",
-//     deadline: "2025-06-10",
-//     statusOfImportant: "обычно", // simple
-//     status: "active",
-//     subtasks: [],
-//   },
-//   {
-//     id: 4,
-//     title: "Подготовить слайды презентации",
-//     deadline: "2025-05-30T12:00:00Z",
-//     statusOfImportant: "срочно", // urgently
-//     status: "complete",
-//     subtasks: [],
-//   },
-//   {
-//     id: 5,
-//     title: "Рефакторинг старого кода",
-//     deadline: "2025-06-15",
-//     statusOfImportant: "важно", // importent
-//     status: "active",
-//     subtasks: [],
-//   },
-// ]
+
 const initialState = {
   todosList: [],
   loading: false,
@@ -71,18 +14,16 @@ const initialState = {
 //getTodos
 
 export const getTodosAction = createAsyncThunk(
-  "todos/get",
+  'todos/get',
   async (_, { getState, dispatch, rejectWithValue }) => {
-    const state = getState();
-    const access = state.auth.accessToken;
-    const refresh = state.auth.refreshToken;
+    const { accessToken, refreshToken } = getState().auth;
 
     try {
       const res = await fetchWithAuth(
-        "/api/todos/",
-        { method: "GET" },
-        access,
-        refresh,
+        '/api/todos/tasks',
+        { method: 'GET' },
+        accessToken,
+        refreshToken,
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
@@ -95,29 +36,28 @@ export const getTodosAction = createAsyncThunk(
       const data = await res.json();
       return data;
     } catch (error) {
-      return rejectWithValue(error.message || "Network error");
+      return rejectWithValue(error.message || 'Network error');
     }
   }
 );
+
 export const changeTodosAction = createAsyncThunk(
-  "todos/change",
+  'todos/change',
   async ({ id, data }, { getState, dispatch, rejectWithValue }) => {
-    const state = getState();
-    const access = state.auth.accessToken;
-    const refresh = state.auth.refreshToken;
+    const { accessToken, refreshToken } = getState().auth;
 
     try {
       const res = await fetchWithAuth(
-        `/api/todos/${id}/`,
+        `/api/todos/tasks/${id}/`,
         {
-          method: "PATCH",
+          method: 'PATCH',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(data),
         },
-        access,
-        refresh,
+        accessToken,
+        refreshToken,
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
@@ -130,30 +70,28 @@ export const changeTodosAction = createAsyncThunk(
       const updatedTodo = await res.json();
       return updatedTodo;
     } catch (error) {
-      return rejectWithValue(error.message || "Network error");
+      return rejectWithValue(error.message || 'Network error');
     }
   }
 );
 
 export const addTodoAction = createAsyncThunk(
-  "todos/add",
+  'todos/add',
   async (data, { getState, dispatch, rejectWithValue }) => {
-    const state = getState();
-    const access = state.auth.accessToken;
-    const refresh = state.auth.refreshToken;
+    const { accessToken, refreshToken } = getState().auth;
 
     try {
       const res = await fetchWithAuth(
-        "/api/todos/",
+        '/api/todos/tasks/',
         {
-          method: "POST",
+          method: 'POST',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify(data),
         },
-        access,
-        refresh,
+        accessToken,
+        refreshToken,
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
@@ -166,25 +104,24 @@ export const addTodoAction = createAsyncThunk(
       const createdTodo = await res.json();
       return createdTodo;
     } catch (error) {
-      return rejectWithValue(error.message || "Network error");
+      return rejectWithValue(error.message || 'Network error');
     }
   }
 );
+
 export const deleteTodosAction = createAsyncThunk(
-  "todos/delete",
+  'todos/delete',
   async (id, { getState, dispatch, rejectWithValue }) => {
-    const state = getState();
-    const access = state.auth.accessToken;
-    const refresh = state.auth.refreshToken;
+    const { accessToken, refreshToken } = getState().auth;
 
     try {
       const res = await fetchWithAuth(
-        `/api/todos/${id}/`,
+        `/api/todos/tasks/${id}/`,
         {
-          method: "DELETE",
+          method: 'DELETE',
         },
-        access,
-        refresh,
+        accessToken,
+        refreshToken,
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
@@ -194,9 +131,9 @@ export const deleteTodosAction = createAsyncThunk(
         return rejectWithValue(errorData);
       }
 
-      return id; // Return deleted todo ID to remove from state
+      return id; // Return deleted todo ID
     } catch (error) {
-      return rejectWithValue(error.message || "Network error");
+      return rejectWithValue(error.message || 'Network error');
     }
   }
 );
@@ -218,7 +155,7 @@ const todosSlice = createSlice({
       state.todosList = state.todosList.filter(item => item.id !== action.payload);
       state.isOpenTodosOptions = false
     },
-    // addNewTodoItem(state, action) {
+
     //   const newItem = {
     //     id: Date.now(),
     //     title: action.payload.title,

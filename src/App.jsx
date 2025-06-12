@@ -7,8 +7,7 @@ import "./App.css";
 
 import React from "react";
 import { Provider } from "react-redux";
-import { PersistGate } from "redux-persist/integration/react";
-import { store, persistor } from "./redux/store/store"; // ✅ импортируем persistor
+import { store } from "./redux/store/store";
 
 // Layout component to handle routing and conditional SideNav
 function Layout() {
@@ -28,11 +27,9 @@ function Layout() {
 function App() {
   return (
     <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <BrowserRouter basename='/SIXID-FE'>
-          <Layout />
-        </BrowserRouter>
-      </PersistGate>
+      <BrowserRouter basename='/SIXID-FE'>
+        <Layout />
+      </BrowserRouter>
     </Provider>
   );
 }
