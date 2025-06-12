@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   addNewOptionItem,
   closeTodoOptions,
+  createSubtaskAction,
   deleteTodoItem,
   deleteTodosAction,
   selectActiveTodoItem,
@@ -59,7 +60,7 @@ function TodosOptions() {
     const data = Object.fromEntries(fd.entries());
 
     dispatch(
-      addNewOptionItem({ todoId: activeTodo?.id, title: data.subtask_title })
+      createSubtaskAction({ taskId: activeTodo?.id, title: data.subtask_title })
     );
     setInputState({
       value: "",
@@ -115,7 +116,11 @@ function TodosOptions() {
               {/* list of subtasks */}
               <ul className='flex flex-col gap-2 p-1'>
                 {optionItems?.map((item) => (
-                  <TodosOptionItem title={item.title} />
+                  <TodosOptionItem
+                    title={item.title}
+                    taskId={activeTodo?.id}
+                    id={item.id}
+                  />
                 ))}
               </ul>
 

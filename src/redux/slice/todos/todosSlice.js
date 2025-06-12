@@ -9,21 +9,104 @@ const initialState = {
   error: null,
   activeTodoItem: null,
   isOpenTodosOptions: false,
-  activeDayTasks: []
+  activeDayTasks: [],
 }
 //getTodos
 
 export const getTodosAction = createAsyncThunk(
   'todos/get',
   async (_, { getState, dispatch, rejectWithValue }) => {
-    const { accessToken, refreshToken } = getState().auth;
+
 
     try {
       const res = await fetchWithAuth(
         '/api/todos/tasks',
         { method: 'GET' },
+
+        (newAccess) => dispatch(setTokens({ access: newAccess })),
+        () => dispatch(logout())
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(errorData);
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message || 'Network error');
+    }
+  }
+);
+export const getSubtasksAction = createAsyncThunk(
+  'subtasks/getAll',
+  async (_, { getState, dispatch, rejectWithValue }) => {
+
+    try {
+      const res = await fetchWithAuth(
+        '/api/todos/subtasks',
+        { method: 'GET' },
+
+        (newAccess) => dispatch(setTokens({ access: newAccess })),
+        () => dispatch(logout())
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(errorData);
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message || 'Network error');
+    }
+  }
+);
+export const createSubtaskAction = createAsyncThunk(
+  'subtasks/create',
+  async ({ title, taskId }, { getState, dispatch, rejectWithValue }) => {
+    const { accessToken, refreshToken } = getState().auth;
+
+    try {
+      const res = await fetchWithAuth(
+        `/api/todos/subtasks/`,
+        {
+          method: 'POST',
+          body: JSON.stringify({ title, is_active: true, task: taskId }),
+        },
         accessToken,
         refreshToken,
+        (newAccess) => dispatch(setTokens({ access: newAccess })),
+        () => dispatch(logout())
+      );
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        return rejectWithValue(errorData);
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message || 'Network error');
+    }
+  }
+);
+
+export const updateSubtaskAction = createAsyncThunk(
+  'subtasks/update',
+  async ({ id, is_active, taskId }, { getState, dispatch, rejectWithValue }) => {
+
+    try {
+      const res = await fetchWithAuth(
+        `/api/todos/subtasks/${id}/`,
+        {
+          method: 'PATCH',
+          body: JSON.stringify({ task: taskId, is_active: is_active }),
+        },
+
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
@@ -44,7 +127,6 @@ export const getTodosAction = createAsyncThunk(
 export const changeTodosAction = createAsyncThunk(
   'todos/change',
   async ({ id, data }, { getState, dispatch, rejectWithValue }) => {
-    const { accessToken, refreshToken } = getState().auth;
 
     try {
       const res = await fetchWithAuth(
@@ -56,8 +138,7 @@ export const changeTodosAction = createAsyncThunk(
           },
           body: JSON.stringify(data),
         },
-        accessToken,
-        refreshToken,
+
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
@@ -78,7 +159,6 @@ export const changeTodosAction = createAsyncThunk(
 export const addTodoAction = createAsyncThunk(
   'todos/add',
   async (data, { getState, dispatch, rejectWithValue }) => {
-    const { accessToken, refreshToken } = getState().auth;
 
     try {
       const res = await fetchWithAuth(
@@ -90,8 +170,7 @@ export const addTodoAction = createAsyncThunk(
           },
           body: JSON.stringify(data),
         },
-        accessToken,
-        refreshToken,
+
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
@@ -112,7 +191,6 @@ export const addTodoAction = createAsyncThunk(
 export const deleteTodosAction = createAsyncThunk(
   'todos/delete',
   async (id, { getState, dispatch, rejectWithValue }) => {
-    const { accessToken, refreshToken } = getState().auth;
 
     try {
       const res = await fetchWithAuth(
@@ -120,8 +198,6 @@ export const deleteTodosAction = createAsyncThunk(
         {
           method: 'DELETE',
         },
-        accessToken,
-        refreshToken,
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
@@ -225,6 +301,7 @@ const todosSlice = createSlice({
         state.loading = false;
         state.error = null;
         state.todosList = action.payload;
+
       })
       .addCase(getTodosAction.rejected, (state, action) => {
         state.loading = false;
@@ -259,8 +336,45 @@ const todosSlice = createSlice({
       .addCase(addTodoAction.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload || "Failed to add todo";
-      });
+      })
+      // Create subtask
+      .addCase(createSubtaskAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(createSubtaskAction.fulfilled, (state, action) => {
+        state.loading = false;
+        const todo = state.todosList.find(item => item.id === action.payload.task);
+        todo.subtasks.push(action.payload);
+      })
+      .addCase(createSubtaskAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Failed to create subtask';
+      })
+      .addCase(updateSubtaskAction.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateSubtaskAction.fulfilled, (state, action) => {
+        state.loading = false;
+        const todo = state.todosList.find(item => item.id === action.payload.task);
 
+        if (!todo) {
+          console.warn('Todo not found for subtask update:', action.payload.task);
+          return;
+        }
+
+        const index = todo.subtasks.findIndex(sub => sub.id === action.payload.id);
+        if (index !== -1) {
+          todo.subtasks[index] = action.payload;
+        } else {
+          console.warn('Subtask not found:', action.payload.id);
+        }
+      })
+      .addCase(updateSubtaskAction.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload || 'Failed to update subtask';
+      });
   }
 })
 export const { setActiveTodoItem, addNewOptionItem, setTodosItemIsComplete, addNewTodoItem, deleteTodoItem, closeTodoOptions, setTodoItemStatusOfImportantce, setTodosItemDeadline, setActiveDayTasks, setTodoItemTitle } = todosSlice.actions
