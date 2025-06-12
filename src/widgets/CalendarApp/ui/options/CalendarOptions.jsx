@@ -13,6 +13,7 @@ import {
 import {
   addNewOptionItem,
   changeTodosAction,
+  createSubtaskAction,
   deleteTodoItem,
   deleteTodosAction,
   selectActiveDayTasks,
@@ -71,7 +72,6 @@ function CalendarOptions() {
     dispatch(deleteTodoItem(activeTodo?.id));
     dispatch(deleteTodosAction(activeTodo?.id));
   }
-
   function onSubmit(e) {
     e.preventDefault();
     if (!isNotEmpty(messageValue)) {
@@ -82,14 +82,10 @@ function CalendarOptions() {
     const data = Object.fromEntries(fd.entries());
 
     dispatch(
-      addNewOptionItem({
-        todoId: activeTodo?.id,
-        title: data.subtask_title,
-      })
+      createSubtaskAction({ taskId: activeTodo?.id, title: data.subtask_title })
     );
-
     setInputState({
-      value: activeTodo?.title,
+      value: "",
       didBlur: false,
       wasValidOnBlur: false,
     });
@@ -197,8 +193,8 @@ function CalendarOptions() {
                       <TodosOptionItem
                         key={item.title}
                         title={item.title}
-                        optionId={item.id}
-                        id={activeTodo?.id}
+                        taskId={activeTodo?.id}
+                        id={item.id}
                       />
                     ))}
                   </ul>

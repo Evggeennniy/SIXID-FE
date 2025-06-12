@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectTodosOptionItems,
@@ -10,8 +9,6 @@ function TodosOptionItem({ title, taskId, id }) {
   const subtask = useSelector((state) =>
     selectTodosOptionItems(state, taskId)
   )?.find((item) => item.id === id);
-
-  console.log(subtask, subtask?.is_active !== true);
 
   function onChange() {
     dispatch(
