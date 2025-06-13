@@ -9,6 +9,7 @@ import clsx from "clsx";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewOptionItem,
+  changeTodosAction,
   closeTodoOptions,
   createSubtaskAction,
   deleteTodoItem,
@@ -69,10 +70,6 @@ function TodosOptions() {
     });
   }
 
-  function onChange() {
-    if (!activeTodo) return;
-    dispatch(setTodosItemIsComplete(activeTodo.id));
-  }
   function onDeleteTodoItem() {
     dispatch(deleteTodoItem(activeTodo?.id));
     dispatch(deleteTodosAction(activeTodo?.id));
@@ -81,6 +78,23 @@ function TodosOptions() {
     dispatch(closeTodoOptions());
   }
 
+  const handleToggle = () => {
+    dispatch(
+      changeTodosAction({
+        id: activeTodo?.id,
+        data: { is_active: !activeTodo?.is_active },
+      })
+    );
+  };
+
+  const handleTitleChange = (newTitle) => {
+    dispatch(
+      changeTodosAction({
+        id: activeTodo?.id,
+        data: { title: newTitle },
+      })
+    );
+  };
   return (
     <OptionsSection
       open={isOptionsOpen}
@@ -99,11 +113,10 @@ function TodosOptions() {
             <div className='flex flex-col justify-center sm:flex-row sm:items-center gap-2  border border-[#E0E4FF] p-2 rounded-xl shadow w-full   min-w-0'>
               <div className='flex items-center w-full'>
                 <CheckboxTodo
-                  key={activeTodo?.id}
                   checked={!activeTodo?.is_active}
-                  onChange={onChange}
+                  onChange={handleToggle}
                   title={activeTodo?.title}
-                  onClick={(e) => e.stopPropagation()}
+                  onTitleChange={handleTitleChange}
                 />
               </div>
             </div>

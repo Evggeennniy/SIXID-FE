@@ -1,4 +1,42 @@
-function CheckboxTodo({ checked, onChange, title, className = "" }) {
+import { useState, useEffect, useRef } from "react";
+
+function CheckboxTodo({
+  checked,
+  onChange,
+  title,
+  onTitleChange,
+  className = "",
+}) {
+  const [isEditing, setIsEditing] = useState(false);
+  const [draftTitle, setDraftTitle] = useState(title);
+  const inputRef = useRef(null);
+
+  useEffect(() => {
+    setDraftTitle(title);
+  }, [title]);
+
+  useEffect(() => {
+    if (isEditing && inputRef.current) inputRef.current.focus();
+  }, [isEditing]);
+
+  const finishEditing = () => {
+    setIsEditing(false);
+    if (draftTitle !== title && onTitleChange) {
+      onTitleChange(draftTitle);
+    }
+  };
+
+  const onKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      finishEditing();
+    } else if (e.key === "Escape") {
+      e.preventDefault();
+      setDraftTitle(title);
+      setIsEditing(false);
+    }
+  };
+
   return (
     <div className={`flex items-center w-full gap-2 ${className}`}>
       <label className='relative flex items-center gap-1 py-3 px-2 cursor-pointer bg-transparent rounded'>
@@ -31,7 +69,25 @@ function CheckboxTodo({ checked, onChange, title, className = "" }) {
           )}
         </span>
       </label>
-      <h5 className='break-words min-w-0 leading-normal w-full'>{title}</h5>
+
+      {isEditing ? (
+        <input
+          ref={inputRef}
+          value={draftTitle}
+          onChange={(e) => setDraftTitle(e.target.value)}
+          onBlur={finishEditing}
+          onKeyDown={onKeyDown}
+          className='w-full text-black rounded px-1 py-0.5 outline-none'
+        />
+      ) : (
+        <h5
+          onClick={() => setIsEditing(true)}
+          className='break-words min-w-0 leading-normal w-full cursor-text'
+          title={title}
+        >
+          {title}
+        </h5>
+      )}
     </div>
   );
 }

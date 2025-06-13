@@ -97,16 +97,21 @@ export const createSubtaskAction = createAsyncThunk(
 
 export const updateSubtaskAction = createAsyncThunk(
   'subtasks/update',
-  async ({ id, is_active, taskId }, { getState, dispatch, rejectWithValue }) => {
-
+  async (payload, { getState, dispatch, rejectWithValue }) => {
     try {
+      // Destructure mandatory id from payload and keep rest as updateFields
+      const { id, ...updateFields } = payload;
+
+      // Make sure taskId (if required) is included in updateFields or elsewhere
+      // For example, if your API needs taskId always, you can do:
+      // updateFields.task = updateFields.task || someFallbackTaskId;
+
       const res = await fetchWithAuth(
         `/api/todos/subtasks/${id}/`,
         {
           method: 'PATCH',
-          body: JSON.stringify({ task: taskId, is_active: is_active }),
+          body: JSON.stringify(updateFields),
         },
-
         (newAccess) => dispatch(setTokens({ access: newAccess })),
         () => dispatch(logout())
       );
