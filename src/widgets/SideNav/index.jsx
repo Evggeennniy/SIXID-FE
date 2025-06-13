@@ -90,8 +90,8 @@ export const SideNav = () => {
             className='pointer-events-none'
           />
         </SideNavList>
-        <div className='bg-white rounded-2xl transform sm:hidden md:flex -translate-y-1/2 top-3 right-0 p-2 text-[12px] w-[60px]  justify-center items-center absolute'>
-          СКОРО
+        <div className='bg-white rounded-2xl transform sm:hidden md:flex -translate-y-1/2 top-3 right-0 p-2 py-1 text-[12px] w-[60px]  justify-center items-center absolute'>
+          <p className='mx-auto'>СКОРО</p>
         </div>
       </div>
       <hr className='line border-gray-300 mb-[15px]' />

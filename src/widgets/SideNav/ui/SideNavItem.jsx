@@ -15,7 +15,7 @@ export const SideNavItem = ({ Icon, label, to, className, ...props }) => {
     <li className='relative'>
       <button
         className={clsx(
-          "flex items-center p-[5px] gap-[10px] w-full transition duration-100 ease-in-out active:scale-[95%] rounded-md relative z-10",
+          "flex items-center p-[5px] gap-[10px] w-full transition duration-100 ease-in-out active:scale-[95%]  relative z-10",
           className
         )}
         {...props}
@@ -26,7 +26,7 @@ export const SideNavItem = ({ Icon, label, to, className, ...props }) => {
       >
         {/* Background layer */}
         {isActive && (
-          <span className='absolute inset-0 rounded-md w-[115%] md:w-[122%] -left-5 bg-[#E1F5FF] z-0' />
+          <span className='absolute inset-0 w-[115.5%] border-[#A8A5FF] border-r-2 md:w-[122%] -left-5 bg-[#E1F5FF] z-0' />
         )}
 
         {/* Foreground content */}
