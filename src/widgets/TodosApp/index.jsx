@@ -68,8 +68,8 @@ export const TodosApp = () => {
     };
   }, [location.pathname]);
   return (
-    <MainSection>
-      <h2 className='capitalize  mb-[30px]'>список задач</h2>
+    <MainSection title={"cписок задач"}>
+      <div className='pt-[70px]'></div>
 
       <TodosInput
         value={messageValue}

@@ -73,6 +73,7 @@ export default function CalendarApp() {
   }, [location.pathname]);
   return (
     <MainSection>
+      <div className='pt-[10px]'></div>
       <div className=' bg-transparent rounded-lg w-full text-[#4A4A4A]'>
         <CalendarHeader
           month={month}
