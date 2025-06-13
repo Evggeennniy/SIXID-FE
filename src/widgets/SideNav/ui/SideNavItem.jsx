@@ -1,28 +1,37 @@
 import clsx from "clsx";
 
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useUIStore } from "@shared/store/ui-store";
 
 export const SideNavItem = ({ Icon, label, to, className, ...props }) => {
   const navigate = useNavigate();
+  const location = useLocation();
   const isNavOpen = useUIStore((state) => state.isNavOpen);
   const toggleNav = useUIStore((state) => state.toggleNav);
 
+  const isActive = location.pathname === to;
+
   return (
-    <li>
+    <li className='relative'>
       <button
         className={clsx(
-          "flex items-center p-[5px] gap-[10px] transition duration-100 ease-in-out active:scale-[95%]",
+          "flex items-center p-[5px] gap-[10px] w-full transition duration-100 ease-in-out active:scale-[95%] rounded-md relative z-10",
           className
         )}
         {...props}
         onClick={() => {
           navigate(to);
-          isNavOpen && toggleNav();
+          if (isNavOpen) toggleNav();
         }}
       >
-        {Icon && <Icon />}
-        <h5 className='capitalize sm:hidden xl:block'>{label}</h5>
+        {/* Background layer */}
+        {isActive && (
+          <span className='absolute inset-0 rounded-md w-[115%] md:w-[122%] -left-5 bg-[#E1F5FF] z-0' />
+        )}
+
+        {/* Foreground content */}
+        {Icon && <Icon className='z-10' />}
+        <h5 className='capitalize sm:hidden xl:block z-10'>{label}</h5>
       </button>
     </li>
   );

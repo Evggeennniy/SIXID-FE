@@ -17,13 +17,19 @@ import DialogueIcon from "@assets/svg/dialogue-icon.svg?react";
 import BudgetIcon from "@assets/svg/money-icon.svg?react";
 import CalendarIcon from "@assets/svg/calendar-icon.svg?react";
 import clsx from "clsx";
+import ProfileButton from "../../shared/ProfileButton/ProfileButton";
 
 export const SideNav = () => {
   return (
     <NavSection>
       <div className='flex items-center gap-[10px] mb-[15px]'>
-        <Logotype className='h-[35px] w-[35px]' />
-        <h4 className='uppercase tracking-[1px] sm:hidden xl:block'>sixid</h4>
+        <div className='hidden'>
+          <Logotype className='h-[35px] w-[35px]' />
+          <h4 className='uppercase tracking-[1px] sm:hidden xl:block'>sixid</h4>
+        </div>
+        <div className='flex sm:hidden items-center justify-between gap-2 px-3 py-1.5 rounded-md   w-full'>
+          <ProfileButton />
+        </div>
       </div>
       <hr className='line border-gray-300 mb-[15px]' />
       <div>
@@ -84,7 +90,7 @@ export const SideNav = () => {
             className='pointer-events-none'
           />
         </SideNavList>
-        <div className='bg-white rounded-2xl transform -translate-y-1/2 top-3 right-0 p-2 text-[12px] w-[60px] flex justify-center items-center absolute'>
+        <div className='bg-white rounded-2xl transform sm:hidden md:flex -translate-y-1/2 top-3 right-0 p-2 text-[12px] w-[60px]  justify-center items-center absolute'>
           СКОРО
         </div>
       </div>

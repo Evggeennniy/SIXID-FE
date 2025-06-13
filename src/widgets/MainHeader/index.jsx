@@ -4,7 +4,7 @@ import Logotype from "@assets/svg/logotype.svg?react";
 import MenuIcon from "@assets/svg/menu-icon.svg?react";
 import SearchIcon from "@assets/svg/search-icon.svg?react";
 import ChevronDown from "@assets/svg/chevronDown.svg?react";
-import avatarImage from "@assets/images/avatarIcon.png";
+import ProfileButton from "../../shared/ProfileButton/ProfileButton";
 
 export const MainHeader = ({ title }) => {
   const toggleNav = useUIStore((state) => state.toggleNav);
@@ -13,8 +13,8 @@ export const MainHeader = ({ title }) => {
   }
 
   return (
-    <div className=' fixed max-w-[90%] sm:max-w-[80%] z-[900] top-0 w-full bg-[#ECF7FF] pt-[30px] '>
-      <div className='bg-[#ECF7FF] flex content-between items-center gap-[20px] mb-[30px]'>
+    <div className=' fixed max-w-[95%] sm:max-w-[80%] z-[900] top-0 w-full bg-[#ECF7FF] pt-[30px] '>
+      <div className='bg-[#ECF7FF] flex content-between items-center gap-[20px] mb-[20px]  sm:mb-[30px]'>
         <Logotype className='w-[30px] h-[30px] block sm:hidden ' />
         <form
           onSubmit={onsubmit}
@@ -31,23 +31,7 @@ export const MainHeader = ({ title }) => {
             <SearchIcon className='transition duration-100 ease-in-out active:scale-[90%] cursor-pointer w-[25px] h-[25px]' />
           </div>
           <div className=' hidden  sm:flex items-center gap-2 px-3 py-1.5 rounded-md shadow  w-fit'>
-            <div className='flex flex-col justify-center'>
-              <div className='flex items-center gap-2'>
-                <div className=' flex flex-col '>
-                  <span className='text-sm font-medium text-[#4A4A4A]'>
-                    Євгеній Павлов
-                  </span>
-                  <span className='text-xs text-[#A4A4A4]'>Мой профиль</span>
-                </div>
-
-                <ChevronDown className='w-4 h-4 text-gray-500' />
-              </div>
-            </div>
-            <img
-              src={avatarImage}
-              alt='User Avatar'
-              className='w-10 h-10 rounded-full object-cover'
-            />
+            <ProfileButton />
           </div>
         </form>
         <MenuIcon
@@ -57,7 +41,7 @@ export const MainHeader = ({ title }) => {
       </div>
 
       {title && (
-        <h2 className='capitalize  mb-[30px]  bg-[#ECF7FF] top-25 w-full '>
+        <h2 className='capitalize  mb-[20px] sm:mb-[30px]  bg-[#ECF7FF] top-25 w-full '>
           {title}
         </h2>
       )}
