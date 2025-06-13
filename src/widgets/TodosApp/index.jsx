@@ -70,6 +70,7 @@ export const TodosApp = () => {
   return (
     <MainSection>
       <h2 className='capitalize  mb-[30px]'>список задач</h2>
+
       <TodosInput
         value={messageValue}
         onBlur={handleMessageBlur}
@@ -78,6 +79,7 @@ export const TodosApp = () => {
         name='todo_title'
       />
 
+      <div className='mt-8'></div>
       <TodosList>
         <div className='flex flex-col gap-8'>
           <div className='cursor-pointer transition-colors '>

@@ -133,7 +133,7 @@ function CalendarOptions() {
       onClose={onCloseOptions}
       className={clsx(
         isOptionsOpen
-          ? "opacity-100 w-full md:max-w-[400px] translate-x-0 pointer-events-auto pb-[100px]! sm:pb-4!  "
+          ? "opacity-100 w-full md:max-w-[25rem] translate-x-0 pointer-events-auto pb-[8.25rem]! sm:pb-4!  "
           : "opacity-0 max-w-0 translate-x-0 pointer-events-none "
       )}
     >
@@ -149,19 +149,50 @@ function CalendarOptions() {
               onClick={() => dispatch(setActiveTodoItem(item.id))}
             >
               <div className='flex items-center w-full'>
-                <CheckboxTodo
-                  key={item?.id}
-                  checked={!item.is_active}
-                  onChange={() => handleToggle(item.id, item.is_active)}
-                  title={item?.title}
-                />
+                <label className='relative flex items-center gap-1 py-3 px-2 cursor-pointer bg-transparent rounded'>
+                  <input
+                    type='checkbox'
+                    key={item?.id}
+                    checked={!item.is_active}
+                    onChange={() => handleToggle(item.id, item.is_active)}
+                    onClick={(e) => e.stopPropagation()}
+                    className='absolute w-5 h-5 opacity-0 cursor-pointer'
+                  />
+                  <span
+                    className={`w-5 h-5 rounded border border-gray-300 flex items-center justify-center ${
+                      !item.is_active ? "bg-[#A8A5FF]" : "bg-[#ECF7FF]"
+                    }`}
+                  >
+                    {!item.is_active && (
+                      <svg
+                        className='w-4 h-4 text-white'
+                        fill='none'
+                        stroke='currentColor'
+                        strokeWidth='2'
+                        viewBox='0 0 24 24'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M5 13l4 4L19 7'
+                        />
+                      </svg>
+                    )}
+                  </span>
+                </label>
+                <h5
+                  className='break-words text-[#5E5E5E] min-w-0 leading-normal w-full cursor-text'
+                  title={item.title}
+                >
+                  {item.title}
+                </h5>
               </div>
             </div>
           ))}
         </section>
-        <div className='sm:mt-auto'>
+        <div className='mt-auto '>
           {dayTasks?.length > 0 && (
-            <div className='flex flex-col min-h-[250px] mt-[50%] sm:mt-0  w-[95%] mx-auto  '>
+            <div className='flex flex-col min-h-[13.625rem]  sm:mt-0  w-[95%] mx-auto  '>
               <OptionsWrapDropdown
                 icon={<SubtasksIcon />}
                 text={`Подзадачи (${optionItems.length || 0})`}
@@ -170,13 +201,13 @@ function CalendarOptions() {
                 <div className='flex flex-col gap-2'>
                   <form
                     onSubmit={onSubmit}
-                    className='flex justify-start items-center shodow rounded w-full  rounded-sm p-3 shadow-[0_0_10px_rgba(0,0,0,0.1)]'
+                    className='flex justify-start items-center shodow rounded w-full   p-3 shadow-[0_0_.625rem_rgba(0,0,0,0.1)]'
                   >
                     <button
                       type='submit'
                       className='flex justify-center items-center p-1 '
                     >
-                      {/* <PlusIcon className='w-[1.0625rem] h-[1.0625rem]' /> */}
+                      {/* <PlusIcon className='w-[17px] h-[17px]' /> */}
                     </button>
                     <input
                       type='text'

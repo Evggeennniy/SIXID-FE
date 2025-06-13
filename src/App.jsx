@@ -15,8 +15,8 @@ function Layout() {
   const hideSideNav = location.pathname.startsWith("/auth"); // You can customize this
 
   return (
-    <div className="container min-h-screen p-[10px] xl:p-[30px] text-center">
-      <div className="h-full flex items-stretch gap-[10px]">
+    <div className='container min-h-screen p-[10px] xl:p-[30px] text-center'>
+      <div className='h-full flex items-stretch gap-[10px] relative'>
         {!hideSideNav && <SideNav />}
         <AppRoutes />
       </div>

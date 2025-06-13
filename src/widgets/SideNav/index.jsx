@@ -16,16 +16,11 @@ import GraphIcon from "@assets/svg/graph-icon.svg?react";
 import DialogueIcon from "@assets/svg/dialogue-icon.svg?react";
 import BudgetIcon from "@assets/svg/money-icon.svg?react";
 import CalendarIcon from "@assets/svg/calendar-icon.svg?react";
+import clsx from "clsx";
 
 export const SideNav = () => {
-  const isNavOpen = useUIStore((state) => state.isNavOpen);
-
   return (
-    <NavSection
-      className={
-        isNavOpen ? "-left-2 -top-2! sm:top-0! sm:left-0" : "left-[-100vw]"
-      }
-    >
+    <NavSection>
       <div className='flex items-center gap-[10px] mb-[15px]'>
         <Logotype className='h-[35px] w-[35px]' />
         <h4 className='uppercase tracking-[1px] sm:hidden xl:block'>sixid</h4>
