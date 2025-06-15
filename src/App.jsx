@@ -12,11 +12,11 @@ import { store } from "./redux/store/store";
 // Layout component to handle routing and conditional SideNav
 function Layout() {
   const location = useLocation();
-  const hideSideNav = location.pathname.startsWith("/auth"); // You can customize this
+  const hideSideNav = location.pathname.startsWith("/auth");
 
   return (
-    <div className='container min-h-screen p-[10px] xl:p-[30px] text-center'>
-      <div className='h-full flex items-stretch gap-[10px] relative'>
+    <div className="container min-h-screen p-[10px] xl:p-[30px] text-center">
+      <div className="h-full flex items-stretch gap-[20px] relative">
         {!hideSideNav && <SideNav />}
         <AppRoutes />
       </div>

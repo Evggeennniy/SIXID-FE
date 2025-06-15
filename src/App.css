@@ -1,5 +1,4 @@
 @import url("https://fonts.googleapis.com/css2?family=Exo+2:wght@400;700&display=swap");
-
 /* MIXINS */
 /* MAIN */
 * {
@@ -9,7 +8,6 @@
 h2 {
   font-size: 30px;
 }
-
 @media (max-width: 640px) {
   h2 {
     font-size: 21px;
@@ -51,16 +49,12 @@ button {
   max-width: 1900px;
 }
 
+/* BLOCKS */
 /* Apply only to elements with class .scrollbar-left */
 .scrollbar-left {
-  direction: rtl;
-  /* Flip horizontal flow */
+  direction: rtl; /* Flip horizontal flow */
 }
 
-.scrollbar-left>* {
-  direction: ltr;
-  /* Revert content direction */
-}
-
-/* BLOCKS */
-/*# sourceMappingURL=App.css.map */
+.scrollbar-left > * {
+  direction: ltr; /* Revert content direction */
+}/*# sourceMappingURL=App.css.map */

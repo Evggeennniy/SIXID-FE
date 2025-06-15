@@ -29,18 +29,18 @@ export const NavSection = ({ children, className, ...props }) => {
         )}
       >
         <svg
-          xmlns='http://www.w3.org/2000/svg'
-          fill='none'
-          viewBox='0 0 24 24'
+          xmlns="http://www.w3.org/2000/svg"
+          fill="none"
+          viewBox="0 0 24 24"
           strokeWidth={1.5}
-          stroke='#FFFFFF'
-          className='size-6 absolute -z-1 right-6 top-3 cursor-pointer'
+          stroke="#FFFFFF"
+          className="size-6 absolute -z-1 right-6 top-3 cursor-pointer"
           onClick={toggleNav}
         >
           <path
-            strokeLinecap='round'
-            strokeLinejoin='round'
-            d='M6 18 18 6M6 6l12 12'
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M6 18 18 6M6 6l12 12"
           />
         </svg>
 

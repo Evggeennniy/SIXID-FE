@@ -5,7 +5,6 @@ import Dropdown from "../../shared/ui/dropdown/Dropdown";
 import { MainSection } from "../../shared/MainSection";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  addNewTodoItem,
   addTodoAction,
   closeTodoOptions,
   getTodosAction,
@@ -67,22 +66,22 @@ export const TodosApp = () => {
       dispatch(closeTodoOptions());
     };
   }, [location.pathname]);
-  return (
-    <MainSection title={"cписок задач"}>
-      <div className='pt-[70px]'></div>
 
+  return (
+    <MainSection>
+      <h2 className="text-lg sm:text-xl font-semibold text-center sm:text-left">
+        Список задач
+      </h2>
       <TodosInput
         value={messageValue}
         onBlur={handleMessageBlur}
         onChange={handleMessageChange}
         onSubmit={onSubmit}
-        name='todo_title'
+        name="todo_title"
       />
-
-      <div className='mt-8'></div>
       <TodosList>
-        <div className='flex flex-col gap-8'>
-          <div className='cursor-pointer transition-colors '>
+        <div className="flex flex-col gap-8">
+          <div className="cursor-pointer transition-colors ">
             {activeTodos.map((todo) => (
               <TodosItem
                 key={todo.id}
@@ -99,17 +98,17 @@ export const TodosApp = () => {
               btnText={"Выполненые"}
               rightIcon={
                 <svg
-                  viewBox='0 0 448 512'
-                  xmlns='http://www.w3.org/2000/svg'
-                  className='fill-[#5E5E5E80] w-3 h-3 mt-[2px]'
+                  viewBox="0 0 448 512"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="fill-[#5E5E5E80] w-3 h-3 mt-[2px]"
                 >
-                  <path d='M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z' />
+                  <path d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z" />
                 </svg>
               }
-              rightIconPosition='inline'
-              className=''
+              rightIconPosition="inline"
+              className=""
             >
-              <div className='text-[#5E5E5E] cursor-pointer transition-colors w-full mb-[70px] sm:md-0'>
+              <div className="text-[#5E5E5E] cursor-pointer transition-colors w-full mb-[70px] sm:md-0">
                 {completedTodos.map((todo) => (
                   <TodosItem
                     key={todo.id}

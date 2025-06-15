@@ -16,92 +16,81 @@ import GraphIcon from "@assets/svg/graph-icon.svg?react";
 import DialogueIcon from "@assets/svg/dialogue-icon.svg?react";
 import BudgetIcon from "@assets/svg/money-icon.svg?react";
 import CalendarIcon from "@assets/svg/calendar-icon.svg?react";
-import clsx from "clsx";
-import ProfileButton from "../../shared/ProfileButton/ProfileButton";
+import ProfileButton from "@shared/ProfileButton/ProfileButton";
 
 export const SideNav = () => {
   return (
     <NavSection>
-      <div className='flex items-center gap-[10px] mb-[15px]'>
-        <div className='hidden'>
-          <Logotype className='h-[35px] w-[35px]' />
-          <h4 className='uppercase tracking-[1px] sm:hidden xl:block'>sixid</h4>
-        </div>
-        <div className='flex sm:hidden items-center justify-between gap-2 px-3 py-1.5 rounded-md   w-full'>
-          <ProfileButton />
+      <div className="flex items-center gap-[10px] mb-[15px]">
+        <div className="flex items-center gap-[10px]">
+          <Logotype className="h-[35px] w-[35px]" />
+          <h4 className="uppercase tracking-[1px] block sm:hidden xl:block">
+            sixid
+          </h4>
         </div>
       </div>
-      <hr className='line border-gray-300 mb-[15px]' />
+      <hr className="line border-gray-300 mb-[15px]" />
       <div>
         <SideNavList>
-          <SideNavItem Icon={HomeIcon} label='главная' to='/' />
+          <SideNavItem Icon={HomeIcon} label="главная" to="/" />
         </SideNavList>
       </div>
       <div>
-        <SideNavTitle label='инструменты' />
+        <SideNavTitle label="инструменты" />
         <SideNavList>
-          <SideNavItem Icon={ToDoIcon} label='задачи' to='/todos' />
-          <SideNavItem Icon={CalendarIcon} label='календарь' to='/calendar' />
-          {/* <SideNavItem Icon={NoteIcon} label='заметки' to='/notes' />
-          <SideNavItem
-            Icon={LightningIcon}
-            label='продуктивность'
-            to='/productivity'
-          /> */}
+          <SideNavItem Icon={ToDoIcon} label="задачи" to="/todos" />
+          <SideNavItem Icon={CalendarIcon} label="календарь" to="/calendar" />
         </SideNavList>
       </div>
-      <div className='relative'>
-        <SideNavTitle label='в разработке' />
-        <SideNavList className='opacity-50'>
+      <div className="relative">
+        <SideNavTitle label="в разработке" />
+        <SideNavList className="opacity-50">
           <SideNavItem
             Icon={NoteIcon}
-            label='заметки'
-            to='/notes'
-            className='pointer-events-none'
+            label="заметки"
+            to="/notes"
+            className="pointer-events-none"
           />
           <SideNavItem
             Icon={LightningIcon}
-            label='продуктивность'
-            to='/productivity'
-            className='pointer-events-none'
+            label="продуктивность"
+            to="/productivity"
+            className="pointer-events-none"
           />
           <SideNavItem
             Icon={BudgetIcon}
-            label='бюджет'
-            to='/budget'
-            className='pointer-events-none'
+            label="бюджет"
+            to="/budget"
+            className="pointer-events-none"
           />
           <SideNavItem
             Icon={PuzzleIcon}
-            label='стратегии'
-            to='/strategies'
-            className='pointer-events-none'
+            label="стратегии"
+            to="/strategies"
+            className="pointer-events-none"
           />
           <SideNavItem
             Icon={BooksIcon}
-            label='библиотека'
-            to='/library'
-            className='pointer-events-none'
+            label="библиотека"
+            to="/library"
+            className="pointer-events-none"
           />
           <SideNavItem
             Icon={GraphIcon}
-            label='тестирование'
-            to='/tests'
-            className='pointer-events-none'
+            label="тестирование"
+            to="/tests"
+            className="pointer-events-none"
           />
         </SideNavList>
-        <div className='bg-white rounded-2xl transform sm:hidden md:flex -translate-y-1/2 top-3 right-0 p-2 py-1 text-[12px] w-[60px]  justify-center items-center absolute'>
-          <p className='mx-auto'>СКОРО</p>
-        </div>
       </div>
-      <hr className='line border-gray-300 mb-[15px]' />
+      <hr className="line border-gray-300 mb-[15px]" />
       <div>
-        <SideNavList className='opacity-50'>
+        <SideNavList className="opacity-50">
           <SideNavItem
             Icon={DialogueIcon}
-            label='обсуждения'
-            to='/threads'
-            className='pointer-events-none'
+            label="обсуждения"
+            to="/threads"
+            className="pointer-events-none"
           />
         </SideNavList>
       </div>
