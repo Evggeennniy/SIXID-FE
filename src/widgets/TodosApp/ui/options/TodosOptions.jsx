@@ -24,9 +24,11 @@ import OptionsWrapDropdown from "./OptionsWrapDropdown";
 import SingleSelectOptions from "./SingleSelectOptionOfImportance";
 import OptionsCalendar from "./calendar/OptionsCalendar";
 import Button from "../../../../shared/ui/Button";
-import { formatShortDate } from "../../../../util/timeFormatter";
+// import { formatShortDate } from "../../../../util/timeFormatter";
+
 import CheckboxTodo from "../../../../shared/CheakBoxTodo/CheakoxTodo";
 import { useLocation } from "react-router-dom";
+import { formatShortDate } from "../../../../util/timeFormatter";
 
 const importanceOptions = [
   { value: "urgent", label: "Срочно" },

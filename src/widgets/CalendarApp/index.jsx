@@ -7,58 +7,54 @@ import {
 import CalendarGrid from "@widgets/CalendarApp/ui/calendar/CalendarGrid.jsx";
 import CalendarHeader from "@widgets/CalendarApp/ui/calendar/CalendarHeader.jsx";
 import WeekDaysHeader from "@widgets/CalendarApp/ui/calendar/WeekDaysHeader.jsx";
-import getMonthDays from "../../util/getMonthDays.js";
+import getMonthDays from "../../util/calendar/getMonthDays.js";
 import React, { useEffect, useState } from "react";
 import { MainSection } from "@shared/MainSection/index.jsx";
 import { useLocation } from "react-router-dom";
 import { closeCalendarOptions } from "../../redux/slice/calendar/calendarSlice.js";
+import { mapTodosToDate } from "../../util/calendar/mapTodosToDate.js";
+import { useMonthNavigation } from "../../hooks/useMonthNavigation.js";
+import { splitDaysIntoWeeks } from "../../util/calendar/splitDaysIntoWeeks.js";
 
 export default function CalendarApp() {
   const dispatch = useDispatch();
   const location = useLocation();
-  const today = new Date();
-  const [currentDate, setCurrentDate] = useState(today);
+
+  const {
+    currentDate,
+    nextMonth,
+    prevMonth,
+    nextWeek,
+    prevWeek,
+    currentMonth,
+    currentYear,
+    today,
+  } = useMonthNavigation();
+
+  const monthDays = getMonthDays(currentYear, currentMonth);
+
   const [viewMode, setViewMode] = useState("month");
 
-  const year = currentDate.getFullYear();
-  const month = currentDate.getMonth();
-  const monthDays = getMonthDays(year, month);
-
   const items = useSelector(selectTodosAllItems);
+  const deadlineMap = mapTodosToDate(items);
 
-  const deadlineMap = items.reduce((map, item) => {
-    const dateStr = new Date(item.deadline).toDateString();
-    if (!map[dateStr]) map[dateStr] = [];
-    map[dateStr].push(item.id);
-    return map;
-  }, {});
-
-  const weeks = [];
-  for (let i = 0; i < monthDays.length; i += 7) {
-    weeks.push(monthDays.slice(i, i + 7));
-  }
-
-  const currentWeekIndex = weeks.findIndex((week) =>
-    week.some((day) => day.date.toDateString() === currentDate.toDateString())
-  );
-  const currentWeek = weeks[currentWeekIndex] || [];
+  const { currentWeek } = splitDaysIntoWeeks(monthDays, currentDate);
 
   const visibleDays = viewMode === "month" ? monthDays : currentWeek;
 
   const handlePrev = () => {
-    const newDate = new Date(currentDate);
-    viewMode === "month"
-      ? newDate.setMonth(month - 1)
-      : newDate.setDate(currentDate.getDate() - 7);
-    setCurrentDate(newDate);
+    if (viewMode === "month") {
+      prevMonth();
+    } else {
+      prevWeek();
+    }
   };
-
   const handleNext = () => {
-    const newDate = new Date(currentDate);
-    viewMode === "month"
-      ? newDate.setMonth(month + 1)
-      : newDate.setDate(currentDate.getDate() + 7);
-    setCurrentDate(newDate);
+    if (viewMode === "month") {
+      nextMonth();
+    } else {
+      nextWeek();
+    }
   };
 
   useEffect(() => {
@@ -71,12 +67,13 @@ export default function CalendarApp() {
       dispatch(closeTodoOptions());
     };
   }, [location.pathname]);
+
   return (
     <MainSection>
-      <div className="bg-transparent rounded-lg w-full">
+      <div className='bg-transparent rounded-lg w-full h-full'>
         <CalendarHeader
-          month={month}
-          year={year}
+          month={currentMonth}
+          year={currentYear}
           onPrev={handlePrev}
           onNext={handleNext}
           viewMode={viewMode}

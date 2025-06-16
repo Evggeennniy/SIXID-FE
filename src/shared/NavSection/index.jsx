@@ -22,25 +22,25 @@ export const NavSection = ({ children, className, ...props }) => {
         ref={backdropRef}
         onClick={handleClickOutside}
         className={clsx(
-          "fixed inset-0 z-[999] flex items-center justify-center p-4 transition-opacity duration-300 ease-in-out",
+          "fixed inset-0 z-[999] flex items-center justify-center p-4 transition-opacity duration-300 ease-in-out ",
           isNavOpen
             ? "bg-black/30 backdrop-blur-sm opacity-100 pointer-events-auto"
             : "opacity-0 pointer-events-none"
         )}
       >
         <svg
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
+          xmlns='http://www.w3.org/2000/svg'
+          fill='none'
+          viewBox='0 0 24 24'
           strokeWidth={1.5}
-          stroke="#FFFFFF"
-          className="size-6 absolute -z-1 right-6 top-3 cursor-pointer"
+          stroke='#FFFFFF'
+          className='size-6 absolute -z-1 right-6 top-3 cursor-pointer'
           onClick={toggleNav}
         >
           <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M6 18 18 6M6 6l12 12"
+            strokeLinecap='round'
+            strokeLinejoin='round'
+            d='M6 18 18 6M6 6l12 12'
           />
         </svg>
 
@@ -51,7 +51,7 @@ export const NavSection = ({ children, className, ...props }) => {
             "p-[20px] lg:p-[20px]",
             "absolute top-0 bottom-0 sm:static left-0",
             "rounded-tr-[20px] rounded-br-[20px]  shadow",
-            "overflow-y-auto scrollbar-left",
+            "hide-scrollbar h-screen",
             isNavOpen ? "translate-x-0" : "-translate-x-full",
             className
           )}
@@ -70,7 +70,7 @@ export const NavSection = ({ children, className, ...props }) => {
         "xl:basis-[20%] max-w-[80%] sm:max-w-[15%] w-full z-[999] min-h-[90vh] bg-[#EFF7FF] xl:max-w-[15%] xl:flex-none",
         "p-[10px] lg:p-[20px]",
         "rounded-[20px] shadow-[0_0_10px_0_#dbdaf0]",
-        "overflow-y-auto scrollbar-left",
+        " hide-scrollbar",
         className
       )}
       {...props}

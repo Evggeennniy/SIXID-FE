@@ -50,22 +50,6 @@ export default function OptionsCalendar() {
       highlightDate={deadline}
       highlightColor={color}
       onDateClick={handleDateClick}
-      labelProvider={(date) => {
-        const isToday =
-          date.getFullYear() === today.getFullYear() &&
-          date.getMonth() === today.getMonth() &&
-          date.getDate() === today.getDate();
-
-        const isDeadline =
-          deadline &&
-          date.getFullYear() === deadline.getFullYear() &&
-          date.getMonth() === deadline.getMonth() &&
-          date.getDate() === deadline.getDate();
-
-        return `День ${date.getDate()}${isToday ? " (Сегодня)" : ""}${
-          isDeadline ? " (Срок выполнения)" : ""
-        }`;
-      }}
     />
   );
 }

@@ -1,72 +1,26 @@
 import { useState } from "react";
+import { useMonthNavigation } from "../../hooks/useMonthNavigation";
+import { isSameDay } from "../../util/calendar/dateUtils";
+import getMonthDays from "../../util/calendar/getMonthDays";
 
 const daysOfWeek = ["Пн", "Вт", "Ср", "Чт", "Пт", "Сб", "Вс"];
-
-function getMonthDays(year, month) {
-  const result = [];
-  const date = new Date(year, month, 1);
-  const firstDayIndex = (date.getDay() + 6) % 7; // Monday-start week
-
-  const prevMonthDays = firstDayIndex;
-  const lastDateOfPrevMonth = new Date(year, month, 0).getDate();
-
-  for (let i = prevMonthDays - 1; i >= 0; i--) {
-    const day = lastDateOfPrevMonth - i;
-    const d = new Date(year, month - 1, day);
-    result.push({ dayNumber: d.getDate(), currentMonth: false, date: d });
-  }
-
-  const daysInMonth = new Date(year, month + 1, 0).getDate();
-  for (let i = 1; i <= daysInMonth; i++) {
-    const d = new Date(year, month, i);
-    result.push({ dayNumber: i, currentMonth: true, date: d });
-  }
-
-  const nextDays = 42 - result.length;
-  for (let i = 1; i <= nextDays; i++) {
-    const d = new Date(year, month + 1, i);
-    result.push({ dayNumber: i, currentMonth: false, date: d });
-  }
-
-  return result;
-}
 
 export default function BaseCalendar({
   highlightDate,
   highlightColor = "#FFA500",
   onDateClick,
-  labelProvider = (date) => `День ${date.getDate()}`,
+  // labelProvider = (date) => `День ${date.getDate()}`,
 }) {
-  const today = new Date();
-  const [currentYear, setCurrentYear] = useState(today.getFullYear());
-  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
-
+  const {
+    currentDate,
+    nextMonth,
+    prevMonth,
+    setCurrentDate,
+    currentMonth,
+    currentYear,
+    today,
+  } = useMonthNavigation();
   const days = getMonthDays(currentYear, currentMonth);
-
-  const isSameDay = (d1, d2) =>
-    d1 &&
-    d2 &&
-    d1.getFullYear() === d2.getFullYear() &&
-    d1.getMonth() === d2.getMonth() &&
-    d1.getDate() === d2.getDate();
-
-  const prevMonth = () => {
-    if (currentMonth === 0) {
-      setCurrentYear((prev) => prev - 1);
-      setCurrentMonth(11);
-    } else {
-      setCurrentMonth((prev) => prev - 1);
-    }
-  };
-
-  const nextMonth = () => {
-    if (currentMonth === 11) {
-      setCurrentYear((prev) => prev + 1);
-      setCurrentMonth(0);
-    } else {
-      setCurrentMonth((prev) => prev + 1);
-    }
-  };
 
   return (
     <div
@@ -143,7 +97,6 @@ export default function BaseCalendar({
                 color: isHighlighted ? "#fff" : undefined,
                 fontWeight: isHighlighted ? "bold" : undefined,
               }}
-              aria-label={labelProvider(date)}
               type='button'
             >
               {dayNumber}
