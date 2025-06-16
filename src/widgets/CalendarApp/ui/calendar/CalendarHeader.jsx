@@ -1,5 +1,6 @@
 import LeftIcon from "@assets/svg/left-arrow.svg?react";
 import RightArrowIcon from "@assets/svg/right-arrow.svg?react";
+import clsx from "clsx";
 
 export default function CalendarHeader({
   month,
@@ -26,7 +27,7 @@ export default function CalendarHeader({
 
   return (
     <div className='w-full mb-4 flex flex-col  sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0'>
-      <h2 className='text-lg sm:text-xl font-semibold text-center sm:text-left'>
+      <h2 className='text-lg sm:text-xl text-[#5E5E5E] text-center sm:text-left'>
         Календарь
       </h2>
 
@@ -42,22 +43,24 @@ export default function CalendarHeader({
         </button>
       </div>
 
-      <div className='flex justify-center sm:justify-end gap-2'>
+      <div className='flex justify-center text-[#5E5E5E] sm:justify-end gap-2'>
         <button
           onClick={() => setViewMode("week")}
-          className={`text-sm sm:text-base ${
-            viewMode === "week" ? "font-bold underline" : ""
-          }`}
+          className={"relative text-sm sm:text-base group"}
         >
           Неделя
+          {viewMode === "week" && (
+            <span className='absolute left-1/2 transform -translate-x-1/2  -bottom-1 w-[50%] h-[2px] bg-[#A8A5FF] rounded'></span>
+          )}
         </button>
         <button
           onClick={() => setViewMode("month")}
-          className={`text-sm sm:text-base ${
-            viewMode === "month" ? "font-bold underline" : ""
-          }`}
+          className={"relative text-sm sm:text-base group"}
         >
           Месяц
+          {viewMode === "month" && (
+            <span className='absolute left-1/2 -bottom-0.5 w-[50%] -translate-x-1/2 h-[2px] bg-[#A8A5FF] rounded'></span>
+          )}
         </button>
       </div>
     </div>
