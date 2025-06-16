@@ -39,7 +39,7 @@ export default function CalendarDayCell({ day, isToday, tasks = [] }) {
       onClick={handleOnClick}
       className={`
         p-2 rounded-lg flex flex-col items-start justify-start text-sm overflow-hidden
-        h-[70px] sm:h-[130px] shadow-[0_0_10px_rgba(0,0,0,0.2)] cursor-pointer transition-all duration-200
+        h-[70px] sm:h-[130px] shadow-[0_0_7px_rgba(0,0,0,0.1)] cursor-pointer transition-all duration-200
         ${isActive ? " shadow-[#A8A5FF] " : ""}
         ${
           !day.currentMonth

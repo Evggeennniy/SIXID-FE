@@ -67,7 +67,7 @@ export const NavSection = ({ children, className, ...props }) => {
   return (
     <section
       className={clsx(
-        "xl:basis-[20%] max-w-[80%] sm:max-w-[15%] w-full z-[999] min-h-[90vh] bg-[#EFF7FF] xl:max-w-[15%] xl:flex-none",
+        "xl:basis-[20%] max-w-[80%] sm:max-w-[10%] w-full sm:z-[900] min-h-[90vh] bg-[#EFF7FF] xl:max-w-[15%] xl:flex-none",
         "p-[10px] lg:p-[20px]",
         "rounded-[20px] shadow-[0_0_10px_0_#dbdaf0]",
         " hide-scrollbar",
