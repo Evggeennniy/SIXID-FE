@@ -52,9 +52,42 @@ button {
 /* BLOCKS */
 /* Apply only to elements with class .scrollbar-left */
 .scrollbar-left {
-  direction: rtl; /* Flip horizontal flow */
+  direction: rtl;
+  /* Flip horizontal flow */
 }
 
 .scrollbar-left > * {
   direction: ltr; /* Revert content direction */
+}
+
+.scrollbar-left > * {
+  direction: ltr;
+  /* Revert content direction */
+}
+
+.hide-scrollbar {
+  overflow-y: auto;
+  scrollbar-width: none;
+  /* Firefox */
+  -ms-overflow-style: none;
+  /* IE/Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  display: none;
+  /* Chrome/Safari */
+}
+
+.test-scroll {
+  border: 1px solid red;
+  background: #f0f0f0;
+  max-height: 400px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+
+.test-scroll::-webkit-scrollbar {
+  display: none;
 }/*# sourceMappingURL=App.css.map */
