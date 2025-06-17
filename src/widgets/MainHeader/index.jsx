@@ -14,26 +14,28 @@ export const MainHeader = () => {
 
   return (
     <div className="w-full bg-[#ECF7FF]">
-      <div className="bg-[#ECF7FF] flex content-between items-center gap-[20px] mb-[20px] sm:mb-[30px]">
+      <div className="bg-[#ECF7FF] flex justify-between items-center gap-[20px] mb-[20px] sm:mb-[30px]">
         <Logotype className="w-[30px] h-[30px] block sm:hidden" />
         <form
           onSubmit={onsubmit}
-          className="flex w-full gap-[10%] bg-[#ECF7FF]"
+          className="flex gap-[10%] rounded-[12px] bg-[#ECF7FF] flex-1"
         >
-          <div className="flex content-between items-center pr-3 flex-1 border-[2px] border-[#dad8d8] rounded-[12px]  ">
-            <label className="inline-flex items-center px-2 p-[7px] lg:py-3 gap-2 w-full cursor-pointer">
+          <div className="flex gap-[10px] justify-between items-center max-w-[500px] w-full">
+            <label className="inline-flex items-center p-[10px_15px] gap-2 w-full cursor-pointer rounded-[12px] shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10)]">
               <input
                 type="text"
                 className="focus:outline-none px-1 w-full"
                 placeholder="Поиск..."
               />
             </label>
-            <SearchIcon className="transition duration-100 ease-in-out active:scale-[90%] cursor-pointer w-[25px] h-[25px]" />
-          </div>
-          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-md shadow w-fit">
-            <ProfileButton />
+            <div className="transition duration-100 ease-in-out active:scale-[90%] h-full flex items-center rounded-[12px] shadow-[0px_2px_5px_0px_rgba(0,0,0,0.10)] p-[0_10px]">
+              <SearchIcon className="cursor-pointer w-[25px] h-[25px]" />
+            </div>
           </div>
         </form>
+        <div className="hidden sm:flex items-center gap-2 py-1.5 rounded-md">
+          <ProfileButton />
+        </div>
         <MenuIcon
           className="w-[30px] h-[30px] cursor-pointer block sm:hidden"
           onClick={toggleNav}

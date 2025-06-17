@@ -13,10 +13,15 @@ export const SideNavItem = ({ Icon, label, to, className, ...props }) => {
 
   return (
     <li className="relative">
+      <div
+        className={
+          isActive &&
+          "border-[#A8A5FF] border-r-2 absolute top-0 bottom-0 right-[-20px] left-[-20px] bg-[#E1F5FF]"
+        }
+      ></div>
       <button
         className={clsx(
           "flex items-center p-[5px_0] gap-[10px] w-full transition duration-100 ease-in-out active:scale-[95%] relative z-10",
-          isActive && "border-[#A8A5FF] border-r-2",
           className
         )}
         {...props}

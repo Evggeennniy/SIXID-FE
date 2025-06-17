@@ -15,12 +15,12 @@ function TodosItemStatusOfImportance({ priority }) {
     text = "Обычно";
   }
   return (
-    <div className=' shrink-0 flex gap-2  h-full items-center justify-end px-4  sm:w-full'>
+    <div className="flex gap-2 h-full items-center w-auto sm:w-[135px]">
       <div
         style={{ background: сircleColor }}
-        className={`w-5 flex-shrink-0 h-5 rounded-full`}
+        className={`w-5 h-5 rounded-full`}
       ></div>
-      <p className='capitalize hidden sm:block'> {text}</p>
+      <p className="capitalize hidden sm:flex">{text}</p>
     </div>
   );
 }

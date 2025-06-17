@@ -26,31 +26,29 @@ export default function CalendarHeader({
   ];
 
   return (
-    <div className='w-full mb-4 flex flex-col  sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0'>
-      <h2 className='text-lg sm:text-xl text-[#5E5E5E] text-center sm:text-left'>
+    <div className="w-full mb-4 flex flex-row justify-between sm:items-center gap-2 sm:gap-0">
+      <h2 className="text-lg sm:text-xl text-[#5E5E5E] text-center sm:text-left hidden sm:block">
         Календарь
       </h2>
-
-      <div className='flex justify-center items-center gap-2'>
-        <button className='p-2 px-4' onClick={onPrev}>
+      <div className="flex justify-center items-center gap-2">
+        <button className="p-2 px-4" onClick={onPrev}>
           <LeftIcon />
         </button>
-        <span className='font-medium text-[#5E5E5E]'>
+        <span className="font-medium text-[18px] sm:text-[20px] text-[#5E5E5E]">
           {monthNames[month]} {year}
         </span>
-        <button className='p-2 px-4' onClick={onNext}>
+        <button className="p-2 px-4" onClick={onNext}>
           <RightArrowIcon />
         </button>
       </div>
-
-      <div className='flex justify-center text-[#5E5E5E] sm:justify-end gap-2'>
+      <div className="flex justify-center text-[#5E5E5E] sm:justify-end gap-2">
         <button
           onClick={() => setViewMode("week")}
           className={"relative text-sm sm:text-base group"}
         >
           Неделя
           {viewMode === "week" && (
-            <span className='absolute left-1/2 transform -translate-x-1/2  -bottom-1 w-[50%] h-[2px] bg-[#A8A5FF] rounded'></span>
+            <span className="absolute left-1/2 transform -translate-x-1/2  -bottom-1 w-[50%] h-[2px] bg-[#A8A5FF] rounded"></span>
           )}
         </button>
         <button
@@ -59,7 +57,7 @@ export default function CalendarHeader({
         >
           Месяц
           {viewMode === "month" && (
-            <span className='absolute left-1/2 -bottom-0.5 w-[50%] -translate-x-1/2 h-[2px] bg-[#A8A5FF] rounded'></span>
+            <span className="absolute left-1/2 -bottom-0.5 w-[50%] -translate-x-1/2 h-[2px] bg-[#A8A5FF] rounded"></span>
           )}
         </button>
       </div>

@@ -58,9 +58,9 @@ button {
 /* BLOCKS */
 /* Apply only to elements with class .scrollbar-left */
 .scrollbar-left {
-  direction: rtl;              /* Flip horizontal flow */
+  direction: rtl; /* Flip horizontal flow */
 }
 
 .scrollbar-left > * {
-  direction: ltr;              /* Revert content direction */
+  direction: ltr; /* Revert content direction */
 }
